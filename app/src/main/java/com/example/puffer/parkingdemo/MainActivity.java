@@ -5,8 +5,8 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,17 +16,11 @@ import android.widget.TextView;
 import com.example.puffer.parkingdemo.DataClass.LatLngCoding;
 import com.example.puffer.parkingdemo.DataClass.Taipei_Parking_Info;
 import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
 import java.io.InputStream;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
