@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.puffer.parkingdemo.DataClass.Taipei_Parking_Info;
-
 import java.util.ArrayList;
 
 /**
@@ -50,9 +48,9 @@ public class ParkingListAdapter extends ArrayAdapter<String> {
     }
 
     private void findView(View convertView){
-        holder.name = (TextView) convertView.findViewById(R.id.name);
-        holder.address = (TextView) convertView.findViewById(R.id.address );
-        holder.total = (TextView) convertView.findViewById(R.id.total);
+        holder.name = (TextView) convertView.findViewById(R.id.tv_name);
+        holder.address = (TextView) convertView.findViewById(R.id.tv_address);
+        holder.total = (TextView) convertView.findViewById(R.id.tv_total);
     }
 
     private void setText(int position){

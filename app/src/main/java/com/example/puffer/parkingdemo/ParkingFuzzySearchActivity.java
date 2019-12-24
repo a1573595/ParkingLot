@@ -51,11 +51,11 @@ public class ParkingFuzzySearchActivity extends AppCompatActivity {
     }
 
     private void findView(){
-        search = (EditText) findViewById(R.id.search);
+        search = (EditText) findViewById(R.id.ed_search);
 
         transportation = (RadioGroup) findViewById(R.id.transportation);
 
-        list = (ListView) findViewById(R.id.list);
+        list = (ListView) findViewById(R.id.listView);
     }
 
     private void initList(){
@@ -100,15 +100,15 @@ public class ParkingFuzzySearchActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group,int checkedId) {
                 switch (checkedId){
-                    case R.id.car:
+                    case R.id.tv_car:
                         mode = 0;
                         search();
                         break;
-                    case R.id.moto:
+                    case R.id.tv_moto:
                         mode = 1;
                         search();
                         break;
-                    case R.id.bike:
+                    case R.id.tv_bike:
                         mode = 2;
                         search();
                         break;

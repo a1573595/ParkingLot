@@ -110,7 +110,7 @@ public class ParkingMapActivity extends AppCompatActivity implements
     }
 
     private void findView(){
-        address = (TextView) findViewById(R.id.address);
+        address = (TextView) findViewById(R.id.tv_address);
     }
 
     private void initLocationManager() {
@@ -252,7 +252,7 @@ public class ParkingMapActivity extends AppCompatActivity implements
         choiceDialog.show();
 
         choiceDialog.setContentView(R.layout.choice_dialog_list);
-        TextView titletext = (TextView) choiceDialog.findViewById(R.id.titletext);
+        TextView titletext = (TextView) choiceDialog.findViewById(R.id.tv_title);
         titletext.setText(String.format("包含%d個停車場",cluster.getSize()));
         ListView listView = (ListView) choiceDialog.findViewById(R.id.listView);
         final ArrayList<String> list = new ArrayList<>();
@@ -288,10 +288,10 @@ public class ParkingMapActivity extends AppCompatActivity implements
         dialog.show();
 
         dialog.setContentView(R.layout.parking_info_windows_layout);
-        LinearLayout info_layout = (LinearLayout) dialog.findViewById(R.id.info_layout);
-        TextView name = (TextView) dialog.findViewById(R.id.name);
-        TextView address = (TextView) dialog.findViewById(R.id.address);
-        TextView total= (TextView) dialog.findViewById(R.id.total);
+        LinearLayout info_layout = (LinearLayout) dialog.findViewById(R.id.ll_info);
+        TextView name = (TextView) dialog.findViewById(R.id.tv_name);
+        TextView address = (TextView) dialog.findViewById(R.id.tv_address);
+        TextView total= (TextView) dialog.findViewById(R.id.tv_total);
 
         name.setText(parking.name);
         address.setText(parking.area);

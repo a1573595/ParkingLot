@@ -48,7 +48,7 @@ public class choiceDialogAdapter extends ArrayAdapter<String> {
     }
 
     private void findView(View convertView){
-        holder.text = (TextView) convertView.findViewById(R.id.text);
+        holder.text = (TextView) convertView.findViewById(R.id.tv_item);
     }
 
     private void setText(int position){

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/info_layout"
+    android:id="@+id/ll_info"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/rectangle_gray"
@@ -9,7 +9,7 @@
     android:padding="10dp">
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="停車場名稱"
@@ -18,16 +18,16 @@
         android:textSize="22dp" />
 
     <TextView
-        android:id="@+id/address"
+        android:id="@+id/tv_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_margin="5dp"
         android:text="停車場地址"
         android:textColor="@android:color/white"
         android:textSize="18dp" />
 
     <TextView
-        android:id="@+id/total"
+        android:id="@+id/tv_total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="轎車/機車/自行車"

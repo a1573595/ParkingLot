@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAcS5lLNMPIOzVSy46cDWQQTARlEaPPM9A" />
+            android:value="@string/map_key" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -28,7 +28,7 @@
         <activity android:name=".ParkingMapActivity" />
         <activity android:name=".ParkingListActivity" />
         <activity android:name=".ParkingInfoActivity" />
-        <activity android:name=".ParkingFuzzySearchActivity"></activity>
+        <activity android:name=".ParkingFuzzySearchActivity" />
     </application>
 
 </manifest>

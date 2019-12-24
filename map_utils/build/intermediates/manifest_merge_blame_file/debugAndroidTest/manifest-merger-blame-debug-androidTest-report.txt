@@ -3,24 +3,24 @@
 3    package="com.google.maps.android.test" >
 4
 5    <uses-sdk
-5-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger5963903263045773007.xml:5:5-74
+5-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7364401488273073624.xml:5:5-74
 6        android:minSdkVersion="14"
-6-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger5963903263045773007.xml:5:15-41
+6-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7364401488273073624.xml:5:15-41
 7        android:targetSdkVersion="14" />
-7-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger5963903263045773007.xml:5:42-71
+7-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7364401488273073624.xml:5:42-71
 8
 9    <instrumentation
-9-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger5963903263045773007.xml:11:5-15:78
+9-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7364401488273073624.xml:11:5-15:78
 10        android:name="android.test.InstrumentationTestRunner"
-10-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger5963903263045773007.xml:11:22-75
+10-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7364401488273073624.xml:11:22-75
 11        android:functionalTest="false"
-11-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger5963903263045773007.xml:14:22-52
+11-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7364401488273073624.xml:14:22-52
 12        android:handleProfiling="false"
-12-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger5963903263045773007.xml:13:22-53
+12-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7364401488273073624.xml:13:22-53
 13        android:label="Tests for com.google.maps.android.test"
-13-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger5963903263045773007.xml:15:22-76
+13-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7364401488273073624.xml:15:22-76
 14        android:targetPackage="com.google.maps.android.test" />
-14-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger5963903263045773007.xml:12:22-74
+14-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7364401488273073624.xml:12:22-74
 15    <!-- Include required permissions for Google Maps API to run. -->
 16    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 16-->[com.google.android.gms:play-services-maps:17.0.0] C:\Users\user\.gradle\caches\transforms-2\files-2.1\a3d702a77cbfacefb23de82416a0cb1f\play-services-maps-17.0.0\AndroidManifest.xml:23:5-79
@@ -37,14 +37,14 @@
 21-->[com.google.android.gms:play-services-maps:17.0.0] C:\Users\user\.gradle\caches\transforms-2\files-2.1\a3d702a77cbfacefb23de82416a0cb1f\play-services-maps-17.0.0\AndroidManifest.xml:28:9-32
 22
 23    <application
-23-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger5963903263045773007.xml:7:5-9:19
+23-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7364401488273073624.xml:7:5-9:19
 24        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 24-->[androidx.core:core:1.0.0] C:\Users\user\.gradle\caches\transforms-2\files-2.1\246153fc0686d4ff78c8961ca91329b7\core-1.0.0\AndroidManifest.xml:22:18-86
 25        android:debuggable="true" >
-25-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger5963903263045773007.xml:7:18-43
+25-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7364401488273073624.xml:7:18-43
 26        <uses-library android:name="android.test.runner" />
-26-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger5963903263045773007.xml:8:9-60
-26-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger5963903263045773007.xml:8:23-57
+26-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7364401488273073624.xml:8:9-60
+26-->D:\Android\ParkingDemo\map_utils\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7364401488273073624.xml:8:23-57
 27
 28        <meta-data
 28-->[__tested_artifact__::map_utils] D:\Android\ParkingDemo\map_utils\build\intermediates\library_manifest\debug\AndroidManifest.xml:8:9-10:69

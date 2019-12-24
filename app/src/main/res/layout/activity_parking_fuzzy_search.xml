@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.example.puffer.parkingdemo.ParkingListActivity">
+    android:orientation="vertical">
 
     <EditText
-        android:id="@+id/search"
+        android:id="@+id/ed_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:inputType="textPersonName"
         android:hint="請輸入停車場名稱或地址" />
 
@@ -22,7 +19,7 @@
         android:layout_margin="10dp">
 
         <RadioButton
-            android:id="@+id/car"
+            android:id="@+id/tv_car"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -30,14 +27,14 @@
             android:text="轎車" />
 
         <RadioButton
-            android:id="@+id/moto"
+            android:id="@+id/tv_moto"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="機車" />
 
         <RadioButton
-            android:id="@+id/bike"
+            android:id="@+id/tv_bike"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -45,7 +42,7 @@
     </RadioGroup>
 
     <ListView
-        android:id="@+id/list"
+        android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

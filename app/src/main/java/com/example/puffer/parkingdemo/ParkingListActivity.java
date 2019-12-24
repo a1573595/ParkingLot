@@ -44,7 +44,7 @@ public class ParkingListActivity extends AppCompatActivity {
     }
 
     private void findView(){
-        list = (ListView) findViewById(R.id.list);
+        list = (ListView) findViewById(R.id.listView);
     }
 
     private void initList(){

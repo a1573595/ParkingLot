@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.puffer.parkingdemo.DataClass.LatLngCoding;
@@ -30,15 +29,14 @@ public class MainActivity extends AppCompatActivity {
 
     private SQLiteDatabase draw;
 
-    private LinearLayout parking_btn, list_btn, love_btn, history_btn;
-    private TextView datatext;
+    private TextView tv_dataset, tv_map, tv_list, tv_love, tv_history;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        datatext = (TextView) findViewById(R.id.datatext);
+        tv_dataset = findViewById(R.id.tv_dataset);
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -104,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         mcursor2.close();
 
         if(icount>0) {
-            datatext.setText(String.format("總收錄%d筆資料\n建立於%d/%02d/%02d  %02d:%02d:%02d",icount,
+            tv_dataset.setText(String.format("總收錄%d筆資料\n建立於%d/%02d/%02d  %02d:%02d:%02d",icount,
                     c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DAY_OF_MONTH),
                     c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE),c.get(Calendar.SECOND)));
             return;
@@ -118,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         Log.e("test_jsonObject",object.toString());
 
         Taipei_Parking_Info taipei_parking_info = new Gson().fromJson(object.toString(),Taipei_Parking_Info.class);
-        datatext.setText(String.format("共有%d筆資料",taipei_parking_info.parkings.length));
+        tv_dataset.setText(String.format("共有%d筆資料",taipei_parking_info.parkings.length));
 
         String sql = "INSERT OR REPLACE INTO Parking_point(Latitude, Longitude) VALUES (?, ?)";
         String sql2 = "INSERT OR REPLACE INTO Parking_information(Name, Area, Address, Summary, " +
@@ -165,14 +163,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void findView(){
-        parking_btn = (LinearLayout) findViewById(R.id.parking_btn);
-        list_btn = (LinearLayout) findViewById(R.id.list_btn);
-        love_btn = (LinearLayout) findViewById(R.id.love_btn);
-        history_btn = (LinearLayout) findViewById(R.id.history_btn);
+        tv_map = findViewById(R.id.tv_map);
+        tv_list = findViewById(R.id.tv_list);
+        tv_love = findViewById(R.id.tv_love);
+        tv_history = findViewById(R.id.tv_history);
     }
 
     private void setListen(){
-        parking_btn.setOnClickListener(new View.OnClickListener() {
+        tv_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this,ParkingMapActivity.class);
@@ -180,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        list_btn.setOnClickListener(new View.OnClickListener() {
+        tv_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this,ParkingFuzzySearchActivity.class);
@@ -188,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        love_btn.setOnClickListener(new View.OnClickListener() {
+        tv_love.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this,ParkingListActivity.class);
@@ -197,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        history_btn.setOnClickListener(new View.OnClickListener() {
+        tv_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this,ParkingListActivity.class);

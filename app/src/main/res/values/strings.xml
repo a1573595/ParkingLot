@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">台北市停車場查詢系統</string>
+    <string name="map_key">AIzaSyAcS5lLNMPIOzVSy46cDWQQTARlEaPPM9A</string>
 </resources>

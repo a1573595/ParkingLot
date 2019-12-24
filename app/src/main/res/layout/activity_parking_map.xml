@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.puffer.parkingdemo.ParkingMapActivity">
+    android:layout_height="match_parent">
 
     <fragment
         android:id="@+id/map"
@@ -11,26 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tv_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#bbffffff"
         android:layout_gravity="bottom"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="目前位置 :"
-            android:textSize="14sp"/>
-
-        <TextView
-            android:id="@+id/address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textSize="14sp"
-            android:text="讀取中..."/>
-    </LinearLayout>
+        android:text="目前位置 :\n讀取中..."
+        android:textSize="14sp"
+        android:ellipsize="end"
+        android:maxLines="3"/>
 </FrameLayout>

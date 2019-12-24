@@ -1,165 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.example.puffer.parkingdemo.MainActivity"
-    android:weightSum="7">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3"
+        app:layout_constraintWidth_percent=".6"
+        app:srcCompat="@drawable/park" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="台北市停車場查詢系統"
+        android:textSize="@dimen/text_large"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/tv_dataset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:gravity="center"
-        android:orientation="vertical">
+        android:text="資料處理中..."
+        android:textSize="@dimen/text_small"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            app:srcCompat="@drawable/park" />
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent=".4">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/tv_map"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_margin="10dp"
-            android:text="台北市停車場查詢系統"
-            android:textSize="22dp" />
+            android:layout_weight="1"
+            android:background="@drawable/rectangle_gray"
+            android:drawableStart="@drawable/parking_icon"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="地圖模式"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_large" />
 
         <TextView
-            android:id="@+id/datatext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/tv_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/rectangle_gray"
+            android:drawableStart="@drawable/list_icon"
             android:gravity="center"
-            android:text="資料處理中..."
-            android:textSize="18dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:padding="10dp">
+            android:padding="10dp"
+            android:text="列表模式"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_large" />
 
         <LinearLayout
-            android:id="@+id/parking_btn"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/rectangle_gray"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:weightSum="5">
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="5dp"
-                app:srcCompat="@drawable/parking_icon" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="4"
-                android:text="地圖模式"
-                android:textSize="22dp" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <LinearLayout
-            android:id="@+id/list_btn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/rectangle_gray"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:weightSum="5">
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="5dp"
-                app:srcCompat="@drawable/list_icon" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="4"
-                android:text="列表模式"
-                android:textSize="22dp" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <LinearLayout
-            android:id="@+id/love_btn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="5dp"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
             android:layout_weight="1"
-            android:background="@drawable/rectangle_gray"
-            android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:adjustViewBounds="true"
-                android:padding="5dp"
-                app:srcCompat="@drawable/love" />
-
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:id="@+id/tv_love"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/rectangle_gray"
+                android:drawableStart="@drawable/love"
+                android:gravity="center"
+                android:padding="10dp"
                 android:text="最愛"
-                android:textSize="22dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/history_btn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/rectangle_gray"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:adjustViewBounds="true"
-                android:padding="5dp"
-                app:srcCompat="@drawable/history" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_large" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:id="@+id/tv_history"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/rectangle_gray"
+                android:drawableStart="@drawable/history"
+                android:gravity="center"
+                android:padding="10dp"
                 android:text="歷史"
-                android:textSize="22dp" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_large" />
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

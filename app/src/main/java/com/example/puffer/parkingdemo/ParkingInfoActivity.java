@@ -41,17 +41,17 @@ public class ParkingInfoActivity extends AppCompatActivity {
     }
 
     private void findView(){
-        love_image = (ImageView) findViewById(R.id.love_image);
+        love_image = (ImageView) findViewById(R.id.img_love);
 
-        name = (TextView) findViewById(R.id.name);
-        telephone = (TextView) findViewById(R.id.telephone);
-        area = (TextView) findViewById(R.id.area);
-        address = (TextView) findViewById(R.id.address);
-        payInfo = (TextView) findViewById(R.id.payInfo);
-        summary = (TextView) findViewById(R.id.summary);
-        car = (TextView) findViewById(R.id.car);
-        moto = (TextView) findViewById(R.id.moto);
-        bike = (TextView) findViewById(R.id.bike);
+        name = (TextView) findViewById(R.id.tv_name);
+        telephone = (TextView) findViewById(R.id.tv_phone);
+        area = (TextView) findViewById(R.id.tv_area);
+        address = (TextView) findViewById(R.id.tv_address);
+        payInfo = (TextView) findViewById(R.id.tv_payInfo);
+        summary = (TextView) findViewById(R.id.tv_summary);
+        car = (TextView) findViewById(R.id.tv_car);
+        moto = (TextView) findViewById(R.id.tv_moto);
+        bike = (TextView) findViewById(R.id.tv_bike);
     }
 
     private void setText(){
