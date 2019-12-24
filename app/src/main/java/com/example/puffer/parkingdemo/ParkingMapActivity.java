@@ -18,10 +18,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,7 +29,6 @@ import com.example.puffer.parkingdemo.DataClass.Parking;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -80,37 +77,29 @@ public class ParkingMapActivity extends AppCompatActivity implements
         initLocationManager();
 
         map = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-        map.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-                mMap = googleMap;
+        map.getMapAsync(googleMap -> {
+            mMap = googleMap;
 
-                if (ActivityCompat.checkSelfPermission(ParkingMapActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                        && ActivityCompat.checkSelfPermission(ParkingMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    finish();
-                }
-                mMap.setMyLocationEnabled(true);
-                mMap.getUiSettings().setAllGesturesEnabled(false);
-                initClusterManager();
-
-                if(mLatLng!=null)
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 15));
-                else
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(25.0329694, 121.56541770000001), 15));
-
-                initDataBase();
-                mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-                    @Override
-                    public void onMapLoaded() {
-                        setParkingMark();
-                    }
-                });
+            if (ActivityCompat.checkSelfPermission(ParkingMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(ParkingMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                finish();
             }
+            mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setAllGesturesEnabled(false);
+            initClusterManager();
+
+            if(mLatLng!=null)
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 15));
+            else
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(25.0329694, 121.56541770000001), 15));
+
+            initDataBase();
+            mMap.setOnMapLoadedCallback(() -> setParkingMark());
         });
     }
 
     private void findView(){
-        address = (TextView) findViewById(R.id.tv_address);
+        address = findViewById(R.id.tv_address);
     }
 
     private void initLocationManager() {
@@ -169,11 +158,8 @@ public class ParkingMapActivity extends AppCompatActivity implements
         mMap.setOnCameraIdleListener(mClusterManager);
         mMap.setOnMarkerClickListener(mClusterManager);
         mMap.setOnInfoWindowClickListener(mClusterManager);
-        mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
-            @Override
-            public void onCameraMove() {
-                //closeWindows();
-            }
+        mMap.setOnCameraMoveListener(() -> {
+            //closeWindows();
         });
 
         mClusterManager.setOnClusterClickListener(this);
@@ -252,9 +238,9 @@ public class ParkingMapActivity extends AppCompatActivity implements
         choiceDialog.show();
 
         choiceDialog.setContentView(R.layout.choice_dialog_list);
-        TextView titletext = (TextView) choiceDialog.findViewById(R.id.tv_title);
+        TextView titletext = choiceDialog.findViewById(R.id.tv_title);
         titletext.setText(String.format("包含%d個停車場",cluster.getSize()));
-        ListView listView = (ListView) choiceDialog.findViewById(R.id.listView);
+        ListView listView = choiceDialog.findViewById(R.id.listView);
         final ArrayList<String> list = new ArrayList<>();
         final ArrayList<Parking> station = new ArrayList<>();
         for (Parking item : cluster.getItems()) {
@@ -264,12 +250,9 @@ public class ParkingMapActivity extends AppCompatActivity implements
         choiceDialogAdapter adapter = new choiceDialogAdapter(this,list);
 
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                showDialog(station.get(position));
-                choiceDialog.cancel();
-            }
+        listView.setOnItemClickListener((adapterView, view, position, l) -> {
+            showDialog(station.get(position));
+            choiceDialog.cancel();
         });
     }
 
@@ -288,25 +271,22 @@ public class ParkingMapActivity extends AppCompatActivity implements
         dialog.show();
 
         dialog.setContentView(R.layout.parking_info_windows_layout);
-        LinearLayout info_layout = (LinearLayout) dialog.findViewById(R.id.ll_info);
-        TextView name = (TextView) dialog.findViewById(R.id.tv_name);
-        TextView address = (TextView) dialog.findViewById(R.id.tv_address);
-        TextView total= (TextView) dialog.findViewById(R.id.tv_total);
+        LinearLayout info_layout = dialog.findViewById(R.id.ll_info);
+        TextView name = dialog.findViewById(R.id.tv_name);
+        TextView address = dialog.findViewById(R.id.tv_address);
+        TextView total= dialog.findViewById(R.id.tv_total);
 
         name.setText(parking.name);
         address.setText(parking.area);
         total.setText(String.format("轎車:%d / 機車:%d / 自行車:%d",
                 parking.totalCar,parking.totalMotor,parking.totalBike));
 
-        info_layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mActivity,ParkingInfoActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("name",parking.name);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
+        info_layout.setOnClickListener(v -> {
+            Intent intent = new Intent(mActivity,ParkingInfoActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("name",parking.name);
+            intent.putExtras(bundle);
+            startActivity(intent);
         });
     }
 

@@ -1,11 +1,6 @@
 package com.example.puffer.parkingdemo.DataClass;
 
-/**
- * Created by user on 2017/12/2.
- */
-
 public class LatLngCoding {
-
     private static final double a = 6378137.0;
     private static final  double b = 6356752.314245;
     private static final  double lon0 = 121 * Math.PI / 180;
@@ -76,7 +71,7 @@ public class LatLngCoding {
         double K5 = (k0*nu*(Math.pow(Math.cos(lat),3))/6.0) * (1 - Math.pow(Math.tan(lat),2) + e2*(Math.pow(Math.cos(lat),2)));
         double x = K4 * p + K5 * (Math.pow(p, 3)) + dx;
 
-        TWD97 = String.valueOf(x)+ "," + String.valueOf(y);
+        TWD97 = x + "," + y;
         return TWD97;
     }
 

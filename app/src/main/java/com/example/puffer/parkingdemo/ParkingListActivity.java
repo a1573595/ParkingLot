@@ -14,7 +14,6 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class ParkingListActivity extends AppCompatActivity {
-
     private Activity mActivity;
 
     private SQLiteDatabase draw;
@@ -44,7 +43,7 @@ public class ParkingListActivity extends AppCompatActivity {
     }
 
     private void findView(){
-        list = (ListView) findViewById(R.id.listView);
+        list = findViewById(R.id.listView);
     }
 
     private void initList(){
@@ -73,16 +72,13 @@ public class ParkingListActivity extends AppCompatActivity {
     }
 
     private void setListen(){
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String[] test = parkingList.get(position).split(",");
-                Intent intent = new Intent(mActivity,ParkingInfoActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("name",test[0]);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
+        list.setOnItemClickListener((parent, view, position, id) -> {
+            String[] test = parkingList.get(position).split(",");
+            Intent intent = new Intent(mActivity,ParkingInfoActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("name",test[0]);
+            intent.putExtras(bundle);
+            startActivity(intent);
         });
     }
 

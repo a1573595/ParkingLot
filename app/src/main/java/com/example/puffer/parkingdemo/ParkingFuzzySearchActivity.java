@@ -18,7 +18,6 @@ import android.widget.RadioGroup;
 import java.util.ArrayList;
 
 public class ParkingFuzzySearchActivity extends AppCompatActivity {
-
     private Activity mActivity;
 
     private SQLiteDatabase draw;
@@ -51,11 +50,11 @@ public class ParkingFuzzySearchActivity extends AppCompatActivity {
     }
 
     private void findView(){
-        search = (EditText) findViewById(R.id.ed_search);
+        search = findViewById(R.id.ed_search);
 
-        transportation = (RadioGroup) findViewById(R.id.transportation);
+        transportation = findViewById(R.id.transportation);
 
-        list = (ListView) findViewById(R.id.listView);
+        list = findViewById(R.id.listView);
     }
 
     private void initList(){
@@ -96,36 +95,30 @@ public class ParkingFuzzySearchActivity extends AppCompatActivity {
             }
         });
 
-        transportation.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group,int checkedId) {
-                switch (checkedId){
-                    case R.id.tv_car:
-                        mode = 0;
-                        search();
-                        break;
-                    case R.id.tv_moto:
-                        mode = 1;
-                        search();
-                        break;
-                    case R.id.tv_bike:
-                        mode = 2;
-                        search();
-                        break;
-                }
+        transportation.setOnCheckedChangeListener((group, checkedId) -> {
+            switch (checkedId){
+                case R.id.tv_car:
+                    mode = 0;
+                    search();
+                    break;
+                case R.id.tv_moto:
+                    mode = 1;
+                    search();
+                    break;
+                case R.id.tv_bike:
+                    mode = 2;
+                    search();
+                    break;
             }
         });
 
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String[] test = parkingList.get(position).split(",");
-                Intent intent = new Intent(mActivity,ParkingInfoActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("name",test[0]);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
+        list.setOnItemClickListener((parent, view, position, id) -> {
+            String[] test = parkingList.get(position).split(",");
+            Intent intent = new Intent(mActivity,ParkingInfoActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("name",test[0]);
+            intent.putExtras(bundle);
+            startActivity(intent);
         });
     }
 

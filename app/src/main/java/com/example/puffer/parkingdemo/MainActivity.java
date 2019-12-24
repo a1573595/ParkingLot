@@ -9,7 +9,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import com.example.puffer.parkingdemo.DataClass.LatLngCoding;
@@ -71,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
                     //使用者拒絕權限
                     finish();
                 }
-                return ;
         }
     }
 
@@ -170,38 +168,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setListen(){
-        tv_map.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this,ParkingMapActivity.class);
-                startActivity(i);
-            }
+        tv_map.setOnClickListener(v -> {
+            Intent i = new Intent(MainActivity.this,ParkingMapActivity.class);
+            startActivity(i);
         });
 
-        tv_list.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this,ParkingFuzzySearchActivity.class);
-                startActivity(i);
-            }
+        tv_list.setOnClickListener(v -> {
+            Intent i = new Intent(MainActivity.this,ParkingFuzzySearchActivity.class);
+            startActivity(i);
         });
 
-        tv_love.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this,ParkingListActivity.class);
-                i.putExtra("mode",0);
-                startActivity(i);
-            }
+        tv_love.setOnClickListener(v -> {
+            Intent i = new Intent(MainActivity.this,ParkingListActivity.class);
+            i.putExtra("mode",0);
+            startActivity(i);
         });
 
-        tv_history.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this,ParkingListActivity.class);
-                i.putExtra("mode",1);
-                startActivity(i);
-            }
+        tv_history.setOnClickListener(v -> {
+            Intent i = new Intent(MainActivity.this,ParkingListActivity.class);
+            i.putExtra("mode",1);
+            startActivity(i);
         });
     }
 }

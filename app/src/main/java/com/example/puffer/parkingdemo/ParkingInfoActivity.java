@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ParkingInfoActivity extends AppCompatActivity {
-
     private Activity mActivity;
 
     private SQLiteDatabase draw;
@@ -41,17 +40,17 @@ public class ParkingInfoActivity extends AppCompatActivity {
     }
 
     private void findView(){
-        love_image = (ImageView) findViewById(R.id.img_love);
+        love_image = findViewById(R.id.img_love);
 
-        name = (TextView) findViewById(R.id.tv_name);
-        telephone = (TextView) findViewById(R.id.tv_phone);
-        area = (TextView) findViewById(R.id.tv_area);
-        address = (TextView) findViewById(R.id.tv_address);
-        payInfo = (TextView) findViewById(R.id.tv_payInfo);
-        summary = (TextView) findViewById(R.id.tv_summary);
-        car = (TextView) findViewById(R.id.tv_car);
-        moto = (TextView) findViewById(R.id.tv_moto);
-        bike = (TextView) findViewById(R.id.tv_bike);
+        name = findViewById(R.id.tv_name);
+        telephone = findViewById(R.id.tv_phone);
+        area = findViewById(R.id.tv_area);
+        address = findViewById(R.id.tv_address);
+        payInfo = findViewById(R.id.tv_payInfo);
+        summary = findViewById(R.id.tv_summary);
+        car = findViewById(R.id.tv_car);
+        moto = findViewById(R.id.tv_moto);
+        bike = findViewById(R.id.tv_bike);
     }
 
     private void setText(){
@@ -81,20 +80,17 @@ public class ParkingInfoActivity extends AppCompatActivity {
         if(mcursor.getCount()>0)
             love_image.setImageResource(R.drawable.love);
 
-        love_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String exec_text;
-                if(love_image.getDrawable().getConstantState().equals(
-                        getResources().getDrawable(R.drawable.love).getConstantState())) {
-                    exec_text = "DELETE FROM Parking_love WHERE Info_id LIKE "+_id;
-                    love_image.setImageResource(R.drawable.love2);
-                    draw.execSQL(exec_text);
-                }else{
-                    exec_text = "INSERT OR REPLACE INTO Parking_love(Info_id) VALUES (?)";
-                    love_image.setImageResource(R.drawable.love);
-                    draw.execSQL(exec_text, new Object[]{_id});
-                }
+        love_image.setOnClickListener(view -> {
+            String exec_text;
+            if(love_image.getDrawable().getConstantState().equals(
+                    getResources().getDrawable(R.drawable.love).getConstantState())) {
+                exec_text = "DELETE FROM Parking_love WHERE Info_id LIKE "+_id;
+                love_image.setImageResource(R.drawable.love2);
+                draw.execSQL(exec_text);
+            }else{
+                exec_text = "INSERT OR REPLACE INTO Parking_love(Info_id) VALUES (?)";
+                love_image.setImageResource(R.drawable.love);
+                draw.execSQL(exec_text, new Object[]{_id});
             }
         });
     }

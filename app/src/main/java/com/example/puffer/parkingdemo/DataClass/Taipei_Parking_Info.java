@@ -1,11 +1,6 @@
 package com.example.puffer.parkingdemo.DataClass;
 
-/**
- * Created by user on 2017/11/30.
- */
-
 public class Taipei_Parking_Info {
-
     public Result[] parkings;
 
     public class Result{

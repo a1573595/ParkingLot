@@ -3,10 +3,6 @@ package com.example.puffer.parkingdemo.DataClass;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 
-/**
- * Created by user on 2017/12/2.
- */
-
 public class Parking implements ClusterItem {
     public String name, area;
     public int totalCar, totalMotor, totalBike;
