@@ -7,11 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.puffer.parkingdemo.model.Park;
+
 import java.util.ArrayList;
 
-public class ParkingListAdapter extends ArrayAdapter<String> {
-    private final Context context;
-    private ArrayList<String> parkings;
+public class ParkListAdapter extends ArrayAdapter<Park> {
+    private ArrayList<Park> parkArrayList;
     private ViewHolder holder;
 
     private static class ViewHolder {
@@ -24,19 +25,18 @@ public class ParkingListAdapter extends ArrayAdapter<String> {
         }
     }
 
-    public ParkingListAdapter(Context context, ArrayList<String> parkings) {
-        super(context, R.layout.parking_list,parkings);
-        this.context = context;
-        this.parkings = parkings;
+    public ParkListAdapter(Context context, ArrayList<Park> parkArrayList) {
+        super(context, R.layout.park_list, parkArrayList);
+        this.parkArrayList = parkArrayList;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context
+        LayoutInflater inflater = (LayoutInflater) parent.getContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.parking_list, parent, false);
+            convertView = inflater.inflate(R.layout.park_list, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
@@ -48,10 +48,10 @@ public class ParkingListAdapter extends ArrayAdapter<String> {
     }
 
     private void setText(int position){
-        String[] text = parkings.get(position).split(",");
-        holder.tv_name.setText(text[0]);
-        holder.tv_address.setText(text[1]);
-        holder.tv_total.setText(String.format("轎車:%s / 機車:%s / 自行車:%s",
-                text[2],text[3],text[4]));
+        holder.tv_name.setText(parkArrayList.get(position).name);
+        holder.tv_address.setText(parkArrayList.get(position).address);
+        holder.tv_total.setText(String.format("公車:%s / 轎車:%s / 機車:%s / 自行車:%s",
+                parkArrayList.get(position).totalbus, parkArrayList.get(position).totalcar,
+                parkArrayList.get(position).totalmotor, parkArrayList.get(position).totalbike));
     }
 }

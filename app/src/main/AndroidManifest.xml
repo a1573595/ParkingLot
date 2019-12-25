@@ -26,9 +26,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ParkingMapActivity" />
-        <activity android:name=".ParkingListActivity" />
-        <activity android:name=".ParkingInfoActivity" />
-        <activity android:name=".ParkingFuzzySearchActivity" />
+        <activity android:name=".ParkListActivity" />
+        <activity android:name=".ParkInfoActivity" />
+        <activity android:name=".ParkFuzzySearchActivity" />
     </application>
 
 </manifest>

@@ -25,7 +25,7 @@
         android:id="@+id/tv_total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="轎車 / 機車 / 自行車"
+        android:text="公車 / 轎車 / 機車 / 自行車"
         android:textSize="18dp"
         android:textColor="@android:color/black"/>
 </LinearLayout>

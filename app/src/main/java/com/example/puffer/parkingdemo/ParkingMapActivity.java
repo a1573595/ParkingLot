@@ -1,13 +1,9 @@
 package com.example.puffer.parkingdemo;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ComponentCallbacks2;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -25,7 +21,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.puffer.parkingdemo.DataClass.Parking;
+import com.example.puffer.parkingdemo.DataClass.ParkCluster;
+import com.example.puffer.parkingdemo.model.DataManager;
+import com.example.puffer.parkingdemo.model.Park;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -43,17 +41,12 @@ import java.util.List;
 import java.util.Locale;
 
 public class ParkingMapActivity extends AppCompatActivity implements
-        ClusterManager.OnClusterClickListener<Parking>,
-        ClusterManager.OnClusterItemClickListener<Parking>{
-
-    private Activity mActivity;
-
+        ClusterManager.OnClusterClickListener<ParkCluster>,
+        ClusterManager.OnClusterItemClickListener<ParkCluster>{
     private MapFragment map;
     private GoogleMap mMap;
 
-    private SQLiteDatabase draw;
-
-    private ClusterManager<Parking> mClusterManager;
+    private ClusterManager<ParkCluster> mClusterManager;
     private NonHierarchicalDistanceBasedAlgorithm clusterManagerAlgorithm;
     private LocationManager locationMgr;
     private LatLng mLatLng;
@@ -61,12 +54,11 @@ public class ParkingMapActivity extends AppCompatActivity implements
     private Geocoder geocoder;
     private List<Address> geecodeAddresse;
 
-    private TextView address;
+    private TextView tv_address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mActivity = this;
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -93,20 +85,19 @@ public class ParkingMapActivity extends AppCompatActivity implements
             else
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(25.0329694, 121.56541770000001), 15));
 
-            initDataBase();
             mMap.setOnMapLoadedCallback(() -> setParkingMark());
         });
     }
 
     private void findView(){
-        address = findViewById(R.id.tv_address);
+        tv_address = findViewById(R.id.tv_address);
     }
 
     private void initLocationManager() {
         locationMgr = (LocationManager) getSystemService(this.LOCATION_SERVICE);
         if (!locationMgr.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 || !locationMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            Toast.makeText(mActivity, "請開啟定位服務", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "請開啟定位服務", Toast.LENGTH_LONG).show();
             startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
         }
 
@@ -114,13 +105,13 @@ public class ParkingMapActivity extends AppCompatActivity implements
             finish();
         }
 
-        geocoder = new Geocoder(mActivity, Locale.getDefault());
+        geocoder = new Geocoder(this, Locale.getDefault());
 
         locationMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0,
                 new LocationListener() {
                     @Override
                     public void onLocationChanged(Location location) {
-                        if (mActivity == null || mActivity.isFinishing() || mActivity.isDestroyed())
+                        if (isFinishing() || isDestroyed())
                             locationMgr.removeUpdates(this);
                         else {
                             mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
@@ -128,7 +119,7 @@ public class ParkingMapActivity extends AppCompatActivity implements
 
                         try{
                             geecodeAddresse = geocoder.getFromLocation(mLatLng.latitude, mLatLng.longitude, 1);
-                            address.setText(geecodeAddresse.get(0).getAddressLine(0));
+                            tv_address.setText("目前位置 :\n" + geecodeAddresse.get(0).getAddressLine(0));
                         }catch (Exception e){
                             e.toString();
                         }
@@ -169,35 +160,25 @@ public class ParkingMapActivity extends AppCompatActivity implements
         mClusterManager.setAlgorithm(clusterManagerAlgorithm);
     }
 
-    private void initDataBase(){
-        MyDB mydb=new MyDB(this);
-        draw = mydb.getWritableDatabase();
-    }
-
     private void setParkingMark(){
-        String search_text = "SELECT Name,Area,Latitude,Longitude,TotalCar,TotalMotor,TotalBike FROM Parking_point INNER JOIN Parking_information ON Parking_point.Point_id = Parking_information.Info_id";
-        Cursor mcursor = draw.rawQuery(search_text, null);
-        mcursor.moveToFirst();
-
-        for(int i=0;i<mcursor.getCount();i++){
-            mClusterManager.addItem(new Parking(new LatLng(mcursor.getDouble(2),mcursor.getDouble(3)),
-                    mcursor.getString(0), mcursor.getString(1),
-                    mcursor.getInt(4), mcursor.getInt(5), mcursor.getInt(6)));
-            mcursor.moveToNext();
+        Park[] parks = DataManager.getInstance().getParkDao().getAll();
+        for(Park park: parks) {
+            mClusterManager.addItem(new ParkCluster(new LatLng(park.lat, park.lng), park.id,
+                    park.name, park.area, park.totalcar, park.totalmotor, park.totalbike,
+                    park.totalbus));
         }
 
-        mcursor.close();
         mClusterManager.cluster();
         mMap.getUiSettings().setAllGesturesEnabled(true);
     }
 
-    private class ParkingRender extends DefaultClusterRenderer<Parking> {
+    private class ParkingRender extends DefaultClusterRenderer<ParkCluster> {
         public ParkingRender() {
             super(getApplicationContext(), mMap, mClusterManager);
         }
 
         @Override
-        protected void onBeforeClusterItemRendered(Parking parking, MarkerOptions markerOptions) {
+        protected void onBeforeClusterItemRendered(ParkCluster parkCluster, MarkerOptions markerOptions) {
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.parking_icon2));
         }
 
@@ -208,14 +189,14 @@ public class ParkingMapActivity extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onClusterClick(Cluster<Parking> cluster) {
+    public boolean onClusterClick(Cluster<ParkCluster> cluster) {
         if(mMap.getCameraPosition().zoom==mMap.getMaxZoomLevel()){
             Log.e("test","有兩個點");
             showChoiceDialog(cluster);
         }
 
         LatLngBounds.Builder builder = LatLngBounds.builder();
-        for (Parking item : cluster.getItems()) {
+        for (ParkCluster item : cluster.getItems()) {
             builder.include(item.getPosition());
             Log.e("test",item.name);
         }
@@ -231,7 +212,7 @@ public class ParkingMapActivity extends AppCompatActivity implements
         return true;
     }
 
-    private void showChoiceDialog(Cluster<Parking> cluster){
+    private void showChoiceDialog(Cluster<ParkCluster> cluster){
         final AlertDialog choiceDialog= new AlertDialog.Builder(this).create();
         choiceDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         choiceDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -242,8 +223,8 @@ public class ParkingMapActivity extends AppCompatActivity implements
         titletext.setText(String.format("包含%d個停車場",cluster.getSize()));
         ListView listView = choiceDialog.findViewById(R.id.listView);
         final ArrayList<String> list = new ArrayList<>();
-        final ArrayList<Parking> station = new ArrayList<>();
-        for (Parking item : cluster.getItems()) {
+        final ArrayList<ParkCluster> station = new ArrayList<>();
+        for (ParkCluster item : cluster.getItems()) {
             list.add(item.name);
             station.add(item);
         }
@@ -257,13 +238,13 @@ public class ParkingMapActivity extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onClusterItemClick(Parking item) {
+    public boolean onClusterItemClick(ParkCluster item) {
         showDialog(item);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(item.getPosition()));
         return true;
     }
 
-    private void showDialog(final Parking parking){
+    private void showDialog(final ParkCluster parkCluster){
         final AlertDialog dialog= new AlertDialog.Builder(this).create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         //dialog.getWindow().setDimAmount(0f);
@@ -276,31 +257,17 @@ public class ParkingMapActivity extends AppCompatActivity implements
         TextView address = dialog.findViewById(R.id.tv_address);
         TextView total= dialog.findViewById(R.id.tv_total);
 
-        name.setText(parking.name);
-        address.setText(parking.area);
+        name.setText(parkCluster.name);
+        address.setText(parkCluster.area);
         total.setText(String.format("轎車:%d / 機車:%d / 自行車:%d",
-                parking.totalCar,parking.totalMotor,parking.totalBike));
+                parkCluster.totalCar, parkCluster.totalMotor, parkCluster.totalBike));
 
         info_layout.setOnClickListener(v -> {
-            Intent intent = new Intent(mActivity,ParkingInfoActivity.class);
+            Intent intent = new Intent(this, ParkInfoActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putString("name",parking.name);
+            bundle.putString("id", parkCluster.name);
             intent.putExtras(bundle);
             startActivity(intent);
         });
-    }
-
-    @Override
-    public void onTrimMemory(int level) {
-        super.onTrimMemory(level);
-        if (level >= ComponentCallbacks2.TRIM_MEMORY_MODERATE) {
-            System.gc();
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        draw.close();
     }
 }
