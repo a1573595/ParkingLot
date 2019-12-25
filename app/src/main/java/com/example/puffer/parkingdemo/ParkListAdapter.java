@@ -37,7 +37,7 @@ public class ParkListAdapter extends RecyclerView.Adapter<ParkListAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.park_list, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_park_list, parent, false);
         return new ViewHolder(v);
     }
 

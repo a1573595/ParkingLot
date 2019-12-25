@@ -9,6 +9,8 @@ import androidx.sqlite.db.SimpleSQLiteQuery;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
@@ -52,6 +54,12 @@ public class ParkFuzzySearchActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ParkListAdapter(parkArrayList);
         recyclerView.setAdapter(adapter);
+
+        LayoutAnimationController controller = new LayoutAnimationController(
+                AnimationUtils.loadAnimation(this, R.anim.grow_fade_in_from_bottom));
+        controller.setOrder(LayoutAnimationController.ORDER_NORMAL);
+        controller.setDelay(0.3f);
+        recyclerView.setLayoutAnimation(controller);
     }
 
     private void readDataSet() {
