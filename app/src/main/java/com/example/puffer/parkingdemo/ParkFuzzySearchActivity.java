@@ -2,13 +2,14 @@ package com.example.puffer.parkingdemo;
 
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.RadioGroup;
 
 import com.example.puffer.parkingdemo.model.DataManager;
@@ -21,7 +22,7 @@ import java.util.Collections;
 public class ParkFuzzySearchActivity extends AppCompatActivity {
     private EditText ed_search;
     private RadioGroup transportation;
-    private ListView listView;
+    private RecyclerView recyclerView;
 
     private ArrayList<Park> parkArrayList = new ArrayList<>();
     private ParkListAdapter adapter;
@@ -44,12 +45,13 @@ public class ParkFuzzySearchActivity extends AppCompatActivity {
 
         transportation = findViewById(R.id.transportation);
 
-        listView = findViewById(R.id.listView);
+        recyclerView = findViewById(R.id.recyclerView);
     }
 
     private void initList(){
-        adapter = new ParkListAdapter(this, parkArrayList);
-        listView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new ParkListAdapter(parkArrayList);
+        recyclerView.setAdapter(adapter);
     }
 
     private void readDataSet() {
@@ -115,7 +117,7 @@ public class ParkFuzzySearchActivity extends AppCompatActivity {
             readDataSet();
         });
 
-        listView.setOnItemClickListener((parent, view, position, id) -> {
+        adapter.setOnItemClickListener(position -> {
             Intent intent = new Intent(this, ParkInfoActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("id", parkArrayList.get(position).id);

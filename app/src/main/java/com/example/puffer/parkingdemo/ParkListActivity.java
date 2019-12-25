@@ -1,10 +1,11 @@
 package com.example.puffer.parkingdemo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ListView;
 
 import com.example.puffer.parkingdemo.model.DataManager;
 import com.example.puffer.parkingdemo.model.Park;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class ParkListActivity extends AppCompatActivity {
-    private ListView list;
+    private RecyclerView recyclerView;
 
     private ArrayList<Park> parkArrayList = new ArrayList<>();
     private ParkListAdapter adapter;
@@ -40,12 +41,13 @@ public class ParkListActivity extends AppCompatActivity {
     }
 
     private void findView(){
-        list = findViewById(R.id.listView);
+        recyclerView = findViewById(R.id.recyclerView);
     }
 
     private void initList() {
-        adapter = new ParkListAdapter(this, parkArrayList);
-        list.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new ParkListAdapter(parkArrayList);
+        recyclerView.setAdapter(adapter);
     }
 
     private void readDataSet() {
@@ -62,7 +64,7 @@ public class ParkListActivity extends AppCompatActivity {
     }
 
     private void setListen(){
-        list.setOnItemClickListener((parent, view, position, id) -> {
+        adapter.setOnItemClickListener(position -> {
             Intent intent = new Intent(this, ParkInfoActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("id", parkArrayList.get(position).id);

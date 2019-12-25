@@ -1,31 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:gravity="center"
-    android:padding="5dp">
+    app:cardCornerRadius="10dp"
+    app:cardElevation="4dp"
+    app:contentPadding="4dp"
+    app:cardUseCompatPadding="true">
 
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="市民大道(中林段)"
-        android:textSize="22dp" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="中山北路-林森北路(地下)"
-        android:textSize="14dp" />
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="市民大道(中林段)"
+            android:textSize="22dp"
+            android:gravity="center" />
 
-    <TextView
-        android:id="@+id/tv_total"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="公車 / 轎車 / 機車 / 自行車"
-        android:textSize="18dp"
-        android:textColor="@android:color/black"/>
-</LinearLayout>
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="中山北路-林森北路(地下)"
+            android:textSize="14dp"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/tv_total"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="公車 / 轎車 / 機車 / 自行車"
+            android:textSize="18dp"
+            android:gravity="center"
+            android:textColor="@android:color/black"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

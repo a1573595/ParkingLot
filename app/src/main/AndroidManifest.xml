@@ -25,7 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ParkingMapActivity" />
+        <activity android:name=".ParkingMapActivity"
+            android:launchMode="singleTop"/>
         <activity android:name=".ParkListActivity" />
         <activity android:name=".ParkInfoActivity" />
         <activity android:name=".ParkFuzzySearchActivity" />
