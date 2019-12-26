@@ -10,30 +10,33 @@ import androidx.sqlite.db.SupportSQLiteQuery;
 
 import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.Single;
+
 @Dao
 public interface ParkDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long insert(Park item);
+    Completable insert(Park item);
 
     @Query("SELECT * FROM Table_Parking WHERE id LIKE :id")
-    Park getByID(String id);
+    Single<Park> getByID(String id);
 
     @Query("DELETE FROM Table_Parking WHERE id LIKE :id")
-    int deleteByID(String id);
+    Completable deleteByID(String id);
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Long[] insertAll(List<Park> parks);
+    Single<Long[]> insertAll(List<Park> parks);
 
     @Query("SELECT * FROM Table_Parking")
-    Park[] getAll();
+    Single<Park[]> getAll();
 
     @Query("SELECT * FROM Table_Parking WHERE name LIKE '%' || :name || '%'")
-    Park[] getAllByName(String name);
+    Single<Park[]> getAllByName(String name);
 
     @RawQuery()
-    Park[] getAllByQuery(SupportSQLiteQuery query);
+    Single<Park[]> getAllByQuery(SupportSQLiteQuery query);
 
     @Query("DELETE FROM Table_Parking")
-    void deleteAll();
+    Completable deleteAll();
 }

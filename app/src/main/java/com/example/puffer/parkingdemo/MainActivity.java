@@ -23,6 +23,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -86,15 +90,30 @@ public class MainActivity extends AppCompatActivity {
         if(updateTime < 1) {
             downloadDataSet();
         } else {
-            Park[] parks = DataManager.getInstance().getParkDao().getAll();
-            Calendar c = Calendar.getInstance();
-            c.setTimeInMillis(updateTime);
+            DataManager.getInstance().getParkDao().getAll()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new SingleObserver<Park[]>() {
+                        @Override
+                        public void onSubscribe(Disposable d) { }
 
-            tv_dataset.setText(String.format("總收錄%d筆資料\n建立於%d/%02d/%02d  %02d:%02d:%02d", parks.length,
-                    c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DAY_OF_MONTH),
-                    c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE),c.get(Calendar.SECOND)));
+                        @Override
+                        public void onSuccess(Park[] parks) {
+                            Calendar c = Calendar.getInstance();
+                            c.setTimeInMillis(updateTime);
 
-            setListen();
+                            tv_dataset.setText(String.format("總收錄%d筆資料\n建立於%d/%02d/%02d  %02d:%02d:%02d", parks.length,
+                                    c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DAY_OF_MONTH),
+                                    c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE),c.get(Calendar.SECOND)));
+
+                            setListen();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            tv_dataset.setText(e.toString());
+                        }
+                    });
         }
     }
 
@@ -135,11 +154,26 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     ParkDao dao = DataManager.getInstance().getParkDao();
-                    dao.deleteAll();
-                    dao.insertAll(parkList);
-                    DataManager.getInstance().sp.setUpdateTime(System.currentTimeMillis());
+                    dao.insertAll(parkList)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new SingleObserver<Long[]>() {
+                                @Override
+                                public void onSubscribe(Disposable d) {
+                                    dao.deleteAll();
+                                }
 
-                    readDataSet();
+                                @Override
+                                public void onSuccess(Long[] longs) {
+                                    DataManager.getInstance().sp.setUpdateTime(System.currentTimeMillis());
+                                    readDataSet();
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+                            });
                 }catch (Exception e) {
                     Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
                 }

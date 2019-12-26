@@ -40,6 +40,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 public class ParkingMapActivity extends AppCompatActivity implements
         ClusterManager.OnClusterClickListener<ParkCluster>,
         ClusterManager.OnClusterItemClickListener<ParkCluster>{
@@ -161,15 +166,28 @@ public class ParkingMapActivity extends AppCompatActivity implements
     }
 
     private void setParkingMark(){
-        Park[] parks = DataManager.getInstance().getParkDao().getAll();
-        for(Park park: parks) {
-            mClusterManager.addItem(new ParkCluster(new LatLng(park.lat, park.lng), park.id,
-                    park.name, park.area, park.totalcar, park.totalmotor, park.totalbike,
-                    park.totalbus));
-        }
+        DataManager.getInstance().getParkDao().getAll()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<Park[]>() {
+                    @Override
+                    public void onSubscribe(Disposable d) { }
 
-        mClusterManager.cluster();
-        mMap.getUiSettings().setAllGesturesEnabled(true);
+                    @Override
+                    public void onSuccess(Park[] parks) {
+                        for(Park park: parks) {
+                            mClusterManager.addItem(new ParkCluster(new LatLng(park.lat, park.lng), park.id,
+                                    park.name, park.area, park.totalcar, park.totalmotor, park.totalbike,
+                                    park.totalbus));
+                        }
+
+                        mClusterManager.cluster();
+                        mMap.getUiSettings().setAllGesturesEnabled(true);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { }
+                });
     }
 
     private class ParkingRender extends DefaultClusterRenderer<ParkCluster> {

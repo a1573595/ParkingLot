@@ -16,6 +16,11 @@ import com.example.puffer.parkingdemo.model.Park;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 public class ParkListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
 
@@ -85,27 +90,52 @@ public class ParkListActivity extends AppCompatActivity {
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getAdapterPosition();
 
-            if(mode == 1)
-                DataManager.getInstance().getHistoryDao().deleteByID(parkArrayList.get(position).id);
-            else
-                DataManager.getInstance().getLoveDao().deleteByID(parkArrayList.get(position).id);
-            parkArrayList.remove(position);
+            if(mode == 1) {
+                DataManager.getInstance().getHistoryDao().deleteByID(parkArrayList.get(position).id)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe();
+            }else {
+                DataManager.getInstance().getLoveDao().deleteByID(parkArrayList.get(position).id)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe();
+            }
 
+            parkArrayList.remove(position);
             adapter.notifyItemRemoved(position);
         }
     };
 
     private void readDataSet() {
-        Park[] parks;
+        if(mode == 1) {
+            DataManager.getInstance().getHistoryDao().getHistoryList()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(getObserver());
+        }else {
+            DataManager.getInstance().getLoveDao().getLoveList()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(getObserver());
+        }
+    }
 
-        if(mode == 1)
-            parks = DataManager.getInstance().getHistoryDao().getHistoryList();
-        else
-            parks = DataManager.getInstance().getLoveDao().getLoveList();
+    private SingleObserver getObserver() {
+        return new SingleObserver<Park[]>() {
+            @Override
+            public void onSubscribe(Disposable d) { }
 
-        parkArrayList.clear();
-        Collections.addAll(parkArrayList, parks);
-        adapter.notifyDataSetChanged();
+            @Override
+            public void onSuccess(Park[] parks) {
+                parkArrayList.clear();
+                Collections.addAll(parkArrayList, parks);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(Throwable e) { }
+        };
     }
 
     private void setListen(){

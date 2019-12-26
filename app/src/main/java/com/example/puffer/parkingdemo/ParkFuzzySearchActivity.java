@@ -21,6 +21,11 @@ import com.example.puffer.parkingdemo.model.ParkDao;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 public class ParkFuzzySearchActivity extends AppCompatActivity {
     private EditText ed_search;
     private RadioGroup transportation;
@@ -64,8 +69,6 @@ public class ParkFuzzySearchActivity extends AppCompatActivity {
 
     private void readDataSet() {
         String query = "SELECT * FROM Table_Parking WHERE ";
-        Park[] parks;
-        ParkDao dao = DataManager.getInstance().getParkDao();
 
         switch (mode) {
             case 0 :
@@ -85,11 +88,23 @@ public class ParkFuzzySearchActivity extends AppCompatActivity {
         if(ed_search.getText().length() > 0) {
             query += String.format(" AND name LIKE \'%%%s%%\'", ed_search.getText().toString());
         }
-        parks = dao.getAllByQuery(new SimpleSQLiteQuery(query));
+        DataManager.getInstance().getParkDao().getAllByQuery(new SimpleSQLiteQuery(query))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<Park[]>() {
+                    @Override
+                    public void onSubscribe(Disposable d) { }
 
-        parkArrayList.clear();
-        Collections.addAll(parkArrayList, parks);
-        adapter.notifyDataSetChanged();
+                    @Override
+                    public void onSuccess(Park[] parks) {
+                        parkArrayList.clear();
+                        Collections.addAll(parkArrayList, parks);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { }
+                });
     }
 
     private void setListen(){

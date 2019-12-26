@@ -23,7 +23,7 @@ public class DataManager {
     public void initDatabase(Context context) {
         sp = new sharedPreference(context);
         db = Room.databaseBuilder(context, ParkDatabase.class, DATABASE_NAME)
-                .allowMainThreadQueries()
+                //.allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
                 .build();
     }
