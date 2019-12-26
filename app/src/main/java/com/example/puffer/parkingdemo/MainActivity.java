@@ -5,28 +5,32 @@ import android.content.pm.PackageManager;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.puffer.parkingdemo.DataClass.LatLngCoding;
-import com.example.puffer.parkingdemo.DataClass.Taipei_Parking_Info;
+import com.example.puffer.parkingdemo.model.LatLngCoding;
+import com.example.puffer.parkingdemo.model.TCMSV_ALLDESC;
+import com.example.puffer.parkingdemo.model.ApiService;
 import com.example.puffer.parkingdemo.model.DataManager;
 import com.example.puffer.parkingdemo.model.Park;
 import com.example.puffer.parkingdemo.model.ParkDao;
 import com.google.gson.Gson;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Scanner;
+import java.util.zip.GZIPInputStream;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_LOCATION = 2;
-    private static final String REGEX_INPUT_BOUNDARY_BEGINNING = "\\A";
 
     private TextView tv_dataset, tv_map, tv_list, tv_love, tv_history;
 
@@ -45,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
 
         findView();
         readDataSet();
-        setListen();
     }
 
     @Override
@@ -56,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
                         grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     findView();
                     readDataSet();
-                    setListen();
                 } else {    //使用者拒絕權限
                     finish();
                 }
@@ -82,46 +84,73 @@ public class MainActivity extends AppCompatActivity {
         long updateTime = DataManager.getInstance().sp.readUpdateTime();
         // No dataSet in database
         if(updateTime < 1) {
-            try {
-                InputStream stream_parking = getResources().openRawResource(R.raw.taipei_park_info);
-                String json = new Scanner(stream_parking).useDelimiter(REGEX_INPUT_BOUNDARY_BEGINNING).next();
+            downloadDataSet();
+        } else {
+            Park[] parks = DataManager.getInstance().getParkDao().getAll();
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(updateTime);
 
-                JSONObject jsonObject = new JSONObject(json);
-                Taipei_Parking_Info parking_info = new Gson().fromJson(jsonObject.toString(), Taipei_Parking_Info.class);
-                Taipei_Parking_Info.Data.Result[] parks = parking_info.data.park;
+            tv_dataset.setText(String.format("總收錄%d筆資料\n建立於%d/%02d/%02d  %02d:%02d:%02d", parks.length,
+                    c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DAY_OF_MONTH),
+                    c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE),c.get(Calendar.SECOND)));
 
-//                JSONArray jsonArray = jsonObject.getJSONObject("data").getJSONArray("park");
-//                Type listType = new TypeToken<List<Park>>(){}.getType();
-//                List<Park> parkList = new Gson().fromJson(jsonArray.toString(), listType);
-
-                List<Park> parkList = new ArrayList<>();
-                String[] latlng;
-                for (Taipei_Parking_Info.Data.Result park : parks) {
-                    latlng = LatLngCoding.Cal_TWD97_To_lonlat(park.tw97x, park.tw97y).split(",");
-                    parkList.add(new Park(park.id, park.area, park.name, park.summary,
-                            park.address, park.tel, park.payex, park.totalcar,
-                            park.totalmotor, park.totalbike, park.totalbus,
-                            Double.valueOf(latlng[0]), Double.valueOf(latlng[1])));
-                }
-
-                ParkDao dao = DataManager.getInstance().getParkDao();
-                dao.deleteAll();
-                dao.insertAll(parkList);
-                DataManager.getInstance().sp.setUpdateTime(System.currentTimeMillis());
-            }catch (RuntimeException e){
-                Log.e("test-run", e.toString());
-            }catch (JSONException e){
-                Log.e("test-JSON", e.toString());
-            }
+            setListen();
         }
+    }
 
-        Park[] parks = DataManager.getInstance().getParkDao().getAll();
-        Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(updateTime > 0 ? updateTime : System.currentTimeMillis());
+    private void downloadDataSet() {
+        Retrofit retrofit = new Retrofit.Builder()
+                //.addConverterFactory(GsonConverterFactory.create()) // 使用 Gson 解析
+                .baseUrl("https://tcgbusfs.blob.core.windows.net/blobtcmsv/")
+                .build();
 
-        tv_dataset.setText(String.format("總收錄%d筆資料\n建立於%d/%02d/%02d  %02d:%02d:%02d", parks.length,
-                c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DAY_OF_MONTH),
-                c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE),c.get(Calendar.SECOND)));
+        ApiService apiService = retrofit.create(ApiService.class);
+        Call<ResponseBody> call = apiService.downloadFileWithDynamicUrlSync("TCMSV_alldesc.gz");
+        call.enqueue(new Callback<ResponseBody>(){
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                //成功後，使用 response.body() 得到結果
+                try {
+                    InputStream inputStream = response.body().byteStream();
+                    GZIPInputStream ungzip = new GZIPInputStream(inputStream);
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+                    byte[] buffer = new byte[256];
+                    int n;
+                    while ((n = ungzip.read(buffer)) >= 0) {
+                        out.write(buffer, 0, n);
+                    }
+
+                    TCMSV_ALLDESC parking_info = new Gson().fromJson(out.toString("UTF-8"), TCMSV_ALLDESC.class);
+                    TCMSV_ALLDESC.Data.Result[] parks = parking_info.data.park;
+
+                    List<Park> parkList = new ArrayList<>();
+                    String[] latlng;
+                    for (TCMSV_ALLDESC.Data.Result park : parks) {
+                        latlng = LatLngCoding.Cal_TWD97_To_lonlat(park.tw97x, park.tw97y).split(",");
+                        parkList.add(new Park(park.id, park.area, park.name, park.summary,
+                                park.address, park.tel, park.payex, park.totalcar,
+                                park.totalmotor, park.totalbike, park.totalbus,
+                                Double.valueOf(latlng[0]), Double.valueOf(latlng[1])));
+                    }
+
+                    ParkDao dao = DataManager.getInstance().getParkDao();
+                    dao.deleteAll();
+                    dao.insertAll(parkList);
+                    DataManager.getInstance().sp.setUpdateTime(System.currentTimeMillis());
+
+                    readDataSet();
+                }catch (Exception e) {
+                    Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                // 請求失敗
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setListen(){

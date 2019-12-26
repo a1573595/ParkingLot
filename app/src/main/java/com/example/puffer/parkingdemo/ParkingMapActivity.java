@@ -21,7 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.puffer.parkingdemo.DataClass.ParkCluster;
+import com.example.puffer.parkingdemo.model.ParkCluster;
 import com.example.puffer.parkingdemo.model.DataManager;
 import com.example.puffer.parkingdemo.model.Park;
 import com.google.android.gms.maps.CameraUpdateFactory;

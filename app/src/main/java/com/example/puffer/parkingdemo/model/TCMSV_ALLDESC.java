@@ -1,6 +1,6 @@
-package com.example.puffer.parkingdemo.DataClass;
+package com.example.puffer.parkingdemo.model;
 
-public class Taipei_Parking_Info {
+public class TCMSV_ALLDESC {
     public Data data;
 
     public class Data {

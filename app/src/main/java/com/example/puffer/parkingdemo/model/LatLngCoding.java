@@ -1,4 +1,4 @@
-package com.example.puffer.parkingdemo.DataClass;
+package com.example.puffer.parkingdemo.model;
 
 public class LatLngCoding {
     private static final double a = 6378137.0;

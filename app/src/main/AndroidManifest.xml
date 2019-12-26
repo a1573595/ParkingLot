@@ -29,7 +29,8 @@
             android:launchMode="singleTop"/>
         <activity android:name=".ParkListActivity" />
         <activity android:name=".ParkInfoActivity" />
-        <activity android:name=".ParkFuzzySearchActivity" />
+        <activity android:name=".ParkFuzzySearchActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
     </application>
 
 </manifest>
