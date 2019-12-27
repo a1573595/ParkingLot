@@ -16,7 +16,7 @@ import android.widget.RadioGroup;
 
 import com.example.puffer.parkingdemo.model.DataManager;
 import com.example.puffer.parkingdemo.model.Park;
-import com.example.puffer.parkingdemo.model.ParkDao;
+import com.example.puffer.parkingdemo.parkInfo.ParkInfoActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;

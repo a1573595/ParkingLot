@@ -12,6 +12,7 @@ import android.view.animation.LayoutAnimationController;
 
 import com.example.puffer.parkingdemo.model.DataManager;
 import com.example.puffer.parkingdemo.model.Park;
+import com.example.puffer.parkingdemo.parkInfo.ParkInfoActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;

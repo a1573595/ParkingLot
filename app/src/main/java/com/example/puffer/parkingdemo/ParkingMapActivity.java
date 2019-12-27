@@ -19,11 +19,11 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.puffer.parkingdemo.model.ParkCluster;
 import com.example.puffer.parkingdemo.model.DataManager;
 import com.example.puffer.parkingdemo.model.Park;
+import com.example.puffer.parkingdemo.parkInfo.ParkInfoActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -102,8 +102,16 @@ public class ParkingMapActivity extends AppCompatActivity implements
         locationMgr = (LocationManager) getSystemService(this.LOCATION_SERVICE);
         if (!locationMgr.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 || !locationMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            Toast.makeText(this, "請開啟定位服務", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+
+            new AlertDialog.Builder(this, R.style.DialogTheme)
+                    .setTitle("提示")
+                    .setMessage("請開啟定位服務")
+                    .setCancelable(false)
+                    .setPositiveButton("確定", (dialogInterface, i) ->
+                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)))
+                    .setNegativeButton("取消", (dialogInterface, i) ->
+                            dialogInterface.dismiss())
+                    .show();
         }
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
