@@ -1,4 +1,4 @@
-package com.example.puffer.parkingdemo.ParkFuzzySearch;
+package com.example.puffer.parkingdemo.parkFuzzySearch;
 
 import com.example.puffer.parkingdemo.model.Park;
 

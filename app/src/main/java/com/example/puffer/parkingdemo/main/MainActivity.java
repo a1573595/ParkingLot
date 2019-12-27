@@ -8,10 +8,10 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.puffer.parkingdemo.model.DataManager;
-import com.example.puffer.parkingdemo.ParkingMapActivity;
+import com.example.puffer.parkingdemo.parkMap.ParkingMapActivity;
 import com.example.puffer.parkingdemo.R;
 import com.example.puffer.parkingdemo.model.Park;
-import com.example.puffer.parkingdemo.ParkFuzzySearch.ParkFuzzySearchActivity;
+import com.example.puffer.parkingdemo.parkFuzzySearch.ParkFuzzySearchActivity;
 import com.example.puffer.parkingdemo.parkList.ParkListActivity;
 
 import java.util.Calendar;

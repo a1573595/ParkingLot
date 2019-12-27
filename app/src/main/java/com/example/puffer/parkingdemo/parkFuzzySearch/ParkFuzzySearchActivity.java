@@ -1,4 +1,4 @@
-package com.example.puffer.parkingdemo.ParkFuzzySearch;
+package com.example.puffer.parkingdemo.parkFuzzySearch;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;

@@ -1,4 +1,4 @@
-package com.example.puffer.parkingdemo;
+package com.example.puffer.parkingdemo.parkMap;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -20,8 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.puffer.parkingdemo.R;
 import com.example.puffer.parkingdemo.model.ParkCluster;
-import com.example.puffer.parkingdemo.model.DataManager;
 import com.example.puffer.parkingdemo.model.Park;
 import com.example.puffer.parkingdemo.parkInfo.ParkInfoActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -41,13 +41,13 @@ import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.SingleObserver;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
-public class ParkingMapActivity extends AppCompatActivity implements
+public class ParkingMapActivity extends AppCompatActivity implements ParkMapContract.View,
         ClusterManager.OnClusterClickListener<ParkCluster>,
         ClusterManager.OnClusterItemClickListener<ParkCluster>{
+    private ParkMapPresenter presenter = new ParkMapPresenter(this);
+
     private MapFragment map;
     private GoogleMap mMap;
 
@@ -57,7 +57,7 @@ public class ParkingMapActivity extends AppCompatActivity implements
     private LatLng mLatLng;
 
     private Geocoder geocoder;
-    private List<Address> geecodeAddresse;
+    private List<Address> gecodeAddress;
 
     private TextView tv_address;
 
@@ -90,8 +90,61 @@ public class ParkingMapActivity extends AppCompatActivity implements
             else
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(25.0329694, 121.56541770000001), 15));
 
-            mMap.setOnMapLoadedCallback(() -> setParkingMark());
+            mMap.setOnMapLoadedCallback(() -> presenter.readDataSet());
         });
+    }
+
+    @Override
+    public SingleObserver<Park[]> showParkMark() {
+        return new SingleObserver<Park[]>() {
+            @Override
+            public void onSubscribe(Disposable d) { }
+
+            @Override
+            public void onSuccess(Park[] parks) {
+                for(Park park: parks) {
+                    mClusterManager.addItem(new ParkCluster(new LatLng(park.lat, park.lng), park.id,
+                            park.name, park.area, park.totalcar, park.totalmotor, park.totalbike,
+                            park.totalbus));
+                }
+
+                mClusterManager.cluster();
+                mMap.getUiSettings().setAllGesturesEnabled(true);
+            }
+
+            @Override
+            public void onError(Throwable e) { }
+        };
+    }
+
+    @Override
+    public boolean onClusterClick(Cluster<ParkCluster> cluster) {
+        if(mMap.getCameraPosition().zoom == mMap.getMaxZoomLevel()){
+            showChoiceDialog(cluster);
+        }
+
+        LatLngBounds.Builder builder = LatLngBounds.builder();
+        for (ParkCluster item : cluster.getItems()) {
+            builder.include(item.getPosition());
+            Log.e("test", item.name);
+        }
+        // Get the LatLngBounds
+        final LatLngBounds bounds = builder.build();
+
+        // Animate camera to the bounds
+        try {
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onClusterItemClick(ParkCluster item) {
+        showDialog(item);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(item.getPosition()));
+        return true;
     }
 
     private void findView(){
@@ -131,24 +184,21 @@ public class ParkingMapActivity extends AppCompatActivity implements
                         }
 
                         try{
-                            geecodeAddresse = geocoder.getFromLocation(mLatLng.latitude, mLatLng.longitude, 1);
-                            tv_address.setText("目前位置 :\n" + geecodeAddresse.get(0).getAddressLine(0));
+                            gecodeAddress = geocoder.getFromLocation(mLatLng.latitude, mLatLng.longitude, 1);
+                            tv_address.setText("目前位置 :\n" + gecodeAddress.get(0).getAddressLine(0));
                         }catch (Exception e){
                             e.toString();
                         }
                     }
 
                     @Override
-                    public void onStatusChanged(String provider, int status, Bundle extras) {
-                    }
+                    public void onStatusChanged(String provider, int status, Bundle extras) { }
 
                     @Override
-                    public void onProviderEnabled(String provider) {
-                    }
+                    public void onProviderEnabled(String provider) { }
 
                     @Override
-                    public void onProviderDisabled(String provider) {
-                    }
+                    public void onProviderDisabled(String provider) { }
                 });
 
         Location location = locationMgr.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -173,33 +223,8 @@ public class ParkingMapActivity extends AppCompatActivity implements
         mClusterManager.setAlgorithm(clusterManagerAlgorithm);
     }
 
-    private void setParkingMark(){
-        DataManager.getInstance().getParkDao().getAll()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Park[]>() {
-                    @Override
-                    public void onSubscribe(Disposable d) { }
-
-                    @Override
-                    public void onSuccess(Park[] parks) {
-                        for(Park park: parks) {
-                            mClusterManager.addItem(new ParkCluster(new LatLng(park.lat, park.lng), park.id,
-                                    park.name, park.area, park.totalcar, park.totalmotor, park.totalbike,
-                                    park.totalbus));
-                        }
-
-                        mClusterManager.cluster();
-                        mMap.getUiSettings().setAllGesturesEnabled(true);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) { }
-                });
-    }
-
     private class ParkingRender extends DefaultClusterRenderer<ParkCluster> {
-        public ParkingRender() {
+        ParkingRender() {
             super(getApplicationContext(), mMap, mClusterManager);
         }
 
@@ -214,30 +239,6 @@ public class ParkingMapActivity extends AppCompatActivity implements
         }
     }
 
-    @Override
-    public boolean onClusterClick(Cluster<ParkCluster> cluster) {
-        if(mMap.getCameraPosition().zoom==mMap.getMaxZoomLevel()){
-            Log.e("test","有兩個點");
-            showChoiceDialog(cluster);
-        }
-
-        LatLngBounds.Builder builder = LatLngBounds.builder();
-        for (ParkCluster item : cluster.getItems()) {
-            builder.include(item.getPosition());
-            Log.e("test",item.name);
-        }
-        // Get the LatLngBounds
-        final LatLngBounds bounds = builder.build();
-
-        // Animate camera to the bounds
-        try {
-            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
-
     private void showChoiceDialog(Cluster<ParkCluster> cluster){
         final AlertDialog choiceDialog= new AlertDialog.Builder(this).create();
         choiceDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -245,8 +246,8 @@ public class ParkingMapActivity extends AppCompatActivity implements
         choiceDialog.show();
 
         choiceDialog.setContentView(R.layout.choice_dialog_list);
-        TextView titletext = choiceDialog.findViewById(R.id.tv_title);
-        titletext.setText(String.format("包含%d個停車場",cluster.getSize()));
+        TextView tv_title = choiceDialog.findViewById(R.id.tv_title);
+        tv_title.setText(String.format("包含%d個停車場",cluster.getSize()));
         ListView listView = choiceDialog.findViewById(R.id.listView);
         final ArrayList<String> list = new ArrayList<>();
         final ArrayList<ParkCluster> station = new ArrayList<>();
@@ -261,13 +262,6 @@ public class ParkingMapActivity extends AppCompatActivity implements
             showDialog(station.get(position));
             choiceDialog.cancel();
         });
-    }
-
-    @Override
-    public boolean onClusterItemClick(ParkCluster item) {
-        showDialog(item);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(item.getPosition()));
-        return true;
     }
 
     private void showDialog(final ParkCluster parkCluster){
