@@ -14,6 +14,8 @@ import com.example.puffer.parkingdemo.model.ApiService;
 import com.example.puffer.parkingdemo.model.DataManager;
 import com.example.puffer.parkingdemo.model.Park;
 import com.example.puffer.parkingdemo.model.ParkDao;
+import com.example.puffer.parkingdemo.ParkFuzzySearch.ParkFuzzySearchActivity;
+import com.example.puffer.parkingdemo.parkList.ParkListActivity;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
@@ -202,13 +204,13 @@ public class MainActivity extends AppCompatActivity {
 
         tv_love.setOnClickListener(v -> {
             Intent i = new Intent(MainActivity.this, ParkListActivity.class);
-            i.putExtra("mode",0);
+            i.putExtra("isLove",true);
             startActivity(i);
         });
 
         tv_history.setOnClickListener(v -> {
             Intent i = new Intent(MainActivity.this, ParkListActivity.class);
-            i.putExtra("mode",1);
+            i.putExtra("isLove",false);
             startActivity(i);
         });
     }

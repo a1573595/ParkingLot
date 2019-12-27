@@ -14,25 +14,23 @@ import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
 
 public class ParkInfoActivity extends AppCompatActivity implements ParkInfoContract.View {
-    private ParkInfoPresenter presenter = new ParkInfoPresenter(this);
+    private ParkInfoPresenter presenter;
 
     private ImageView love_image;
     private TextView tv_name, tv_phone, tv_area, tv_address, tv_payInfo, tv_summary;
     private TextView tv_bus, tv_car, tv_moto, tv_bike;
-
-    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_park_info);
 
-        id = getIntent().getExtras().getString("id");
+        presenter = new ParkInfoPresenter(this, getIntent().getExtras().getString("id"));
 
         findView();
 
-        presenter.readParkData(id);
-        presenter.readLoveData(id);
+        presenter.readParkData();
+        presenter.readLoveData();
     }
 
     @Override
@@ -54,7 +52,7 @@ public class ParkInfoActivity extends AppCompatActivity implements ParkInfoContr
                 tv_moto.setText(String.valueOf(park.totalmotor));
                 tv_bike.setText(String.valueOf(park.totalbike));
 
-                presenter.writeHistory(id);
+                presenter.addHistory();
 
                 setListen();
             }
@@ -111,13 +109,13 @@ public class ParkInfoActivity extends AppCompatActivity implements ParkInfoContr
         tv_bike = findViewById(R.id.tv_bike);
     }
 
-    public void setListen(){
+    private void setListen(){
         love_image.setOnClickListener(view -> {
             if(love_image.getDrawable().getConstantState().equals(
                     getResources().getDrawable(R.drawable.love).getConstantState())) {
-                presenter.writeLove(id, false);
+                presenter.writeLove(false);
             }else {
-                presenter.writeLove(id, true);
+                presenter.writeLove(true);
             }
         });
     }

@@ -7,15 +7,17 @@ import com.example.puffer.parkingdemo.model.Love;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class ParkInfoPresenter implements ParkInfoContract.Presenter {
+class ParkInfoPresenter implements ParkInfoContract.Presenter {
     private ParkInfoContract.View view;
+    private String id;
 
-    ParkInfoPresenter(ParkInfoContract.View view) {
+    ParkInfoPresenter(ParkInfoContract.View view, String id) {
         this.view = view;
+        this.id = id;
     }
 
     @Override
-    public void readParkData(String id) {
+    public void readParkData() {
         DataManager.getInstance().getParkDao().getByID(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -23,7 +25,7 @@ public class ParkInfoPresenter implements ParkInfoContract.Presenter {
     }
 
     @Override
-    public void readLoveData(String id) {
+    public void readLoveData() {
         DataManager.getInstance().getLoveDao().getByID(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -31,7 +33,7 @@ public class ParkInfoPresenter implements ParkInfoContract.Presenter {
     }
 
     @Override
-    public void writeHistory(String id) {
+    public void addHistory() {
         DataManager.getInstance().getHistoryDao().insert(new History(id, System.currentTimeMillis()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -39,7 +41,7 @@ public class ParkInfoPresenter implements ParkInfoContract.Presenter {
     }
 
     @Override
-    public void writeLove(String id, boolean isLove) {
+    public void writeLove(boolean isLove) {
         if(isLove) {
             DataManager.getInstance().getLoveDao().insert(new Love(id))
                     .subscribeOn(Schedulers.io())

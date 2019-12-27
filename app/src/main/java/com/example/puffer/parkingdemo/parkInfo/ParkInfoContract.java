@@ -16,12 +16,12 @@ interface ParkInfoContract {
     }
 
     interface Presenter {
-        void readParkData(String id);
+        void readParkData();
 
-        void readLoveData(String id);
+        void readLoveData();
 
-        void writeHistory(String id);
+        void addHistory();
 
-        void writeLove(String id, boolean isLove);
+        void writeLove(boolean isLove);
     }
 }
