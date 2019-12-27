@@ -28,10 +28,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_LOCATION = 2;
@@ -120,71 +118,75 @@ public class MainActivity extends AppCompatActivity {
     private void downloadDataSet() {
         Retrofit retrofit = new Retrofit.Builder()
                 //.addConverterFactory(GsonConverterFactory.create()) // 使用 Gson 解析
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl("https://tcgbusfs.blob.core.windows.net/blobtcmsv/")
                 .build();
 
         ApiService apiService = retrofit.create(ApiService.class);
-        Call<ResponseBody> call = apiService.downloadFileWithDynamicUrlSync("TCMSV_alldesc.gz");
-        call.enqueue(new Callback<ResponseBody>(){
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                //成功後，使用 response.body() 得到結果
-                try {
-                    InputStream inputStream = response.body().byteStream();
-                    GZIPInputStream ungzip = new GZIPInputStream(inputStream);
-                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+        apiService.downloadFileWithDynamicUrlSync("TCMSV_alldesc.gz")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<ResponseBody>() {
+                    @Override
+                    public void onSubscribe(Disposable d) { }
 
-                    byte[] buffer = new byte[256];
-                    int n;
-                    while ((n = ungzip.read(buffer)) >= 0) {
-                        out.write(buffer, 0, n);
+                    @Override
+                    public void onSuccess(ResponseBody responseBody) {
+                        try {
+                            InputStream inputStream = responseBody.byteStream();
+                            GZIPInputStream ungzip = new GZIPInputStream(inputStream);
+                            ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+                            byte[] buffer = new byte[256];
+                            int n;
+                            while ((n = ungzip.read(buffer)) >= 0) {
+                                out.write(buffer, 0, n);
+                            }
+
+                            TCMSV_ALLDESC parking_info = new Gson().fromJson(out.toString("UTF-8"), TCMSV_ALLDESC.class);
+                            TCMSV_ALLDESC.Data.Result[] parks = parking_info.data.park;
+
+                            List<Park> parkList = new ArrayList<>();
+                            String[] latlng;
+                            for (TCMSV_ALLDESC.Data.Result park : parks) {
+                                latlng = LatLngCoding.Cal_TWD97_To_lonlat(park.tw97x, park.tw97y).split(",");
+                                parkList.add(new Park(park.id, park.area, park.name, park.summary,
+                                        park.address, park.tel, park.payex, park.totalcar,
+                                        park.totalmotor, park.totalbike, park.totalbus,
+                                        Double.valueOf(latlng[0]), Double.valueOf(latlng[1])));
+                            }
+
+                            ParkDao dao = DataManager.getInstance().getParkDao();
+                            dao.insertAll(parkList)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new SingleObserver<Long[]>() {
+                                        @Override
+                                        public void onSubscribe(Disposable d) {
+                                            dao.deleteAll();
+                                        }
+
+                                        @Override
+                                        public void onSuccess(Long[] longs) {
+                                            DataManager.getInstance().sp.setUpdateTime(System.currentTimeMillis());
+                                            readDataSet();
+                                        }
+
+                                        @Override
+                                        public void onError(Throwable e) {
+
+                                        }
+                                    });
+                        }catch (Exception e) {
+                            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                        }
                     }
 
-                    TCMSV_ALLDESC parking_info = new Gson().fromJson(out.toString("UTF-8"), TCMSV_ALLDESC.class);
-                    TCMSV_ALLDESC.Data.Result[] parks = parking_info.data.park;
-
-                    List<Park> parkList = new ArrayList<>();
-                    String[] latlng;
-                    for (TCMSV_ALLDESC.Data.Result park : parks) {
-                        latlng = LatLngCoding.Cal_TWD97_To_lonlat(park.tw97x, park.tw97y).split(",");
-                        parkList.add(new Park(park.id, park.area, park.name, park.summary,
-                                park.address, park.tel, park.payex, park.totalcar,
-                                park.totalmotor, park.totalbike, park.totalbus,
-                                Double.valueOf(latlng[0]), Double.valueOf(latlng[1])));
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-
-                    ParkDao dao = DataManager.getInstance().getParkDao();
-                    dao.insertAll(parkList)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new SingleObserver<Long[]>() {
-                                @Override
-                                public void onSubscribe(Disposable d) {
-                                    dao.deleteAll();
-                                }
-
-                                @Override
-                                public void onSuccess(Long[] longs) {
-                                    DataManager.getInstance().sp.setUpdateTime(System.currentTimeMillis());
-                                    readDataSet();
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-
-                                }
-                            });
-                }catch (Exception e) {
-                    Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                // 請求失敗
-                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                });
     }
 
     private void setListen(){
