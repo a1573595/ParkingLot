@@ -1,5 +1,6 @@
 package com.example.puffer.parkingdemo.parkInfo;
 
+import com.example.puffer.parkingdemo.BasePresenter;
 import com.example.puffer.parkingdemo.model.DataManager;
 import com.example.puffer.parkingdemo.model.History;
 import com.example.puffer.parkingdemo.model.Love;
@@ -7,7 +8,7 @@ import com.example.puffer.parkingdemo.model.Love;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-class ParkInfoPresenter implements ParkInfoContract.Presenter {
+class ParkInfoPresenter extends BasePresenter implements ParkInfoContract.Presenter {
     private ParkInfoContract.View view;
     private String id;
 
@@ -18,40 +19,39 @@ class ParkInfoPresenter implements ParkInfoContract.Presenter {
 
     @Override
     public void readParkData() {
-        DataManager.getInstance().getParkDao().getByID(id)
+        addDisposable(DataManager.getInstance().getParkDao().getByID(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(view.showParkInfo());
+                .subscribeWith(view.showParkInfo()));
     }
 
     @Override
     public void readLoveData() {
-        DataManager.getInstance().getLoveDao().getByID(id)
+        addDisposable(DataManager.getInstance().getLoveDao().getByID(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(view.showLove());
+                .subscribeWith(view.showLove()));
     }
 
     @Override
     public void addHistory() {
         DataManager.getInstance().getHistoryDao().insert(new History(id, System.currentTimeMillis()))
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();
     }
 
     @Override
     public void writeLove(boolean isLove) {
         if(isLove) {
-            DataManager.getInstance().getLoveDao().insert(new Love(id))
+            addDisposable(DataManager.getInstance().getLoveDao().insert(new Love(id))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(view.changeLove(true));
+                    .subscribeWith(view.changeLove(true)));
         } else {
-            DataManager.getInstance().getLoveDao().deleteByID(id)
+            addDisposable(DataManager.getInstance().getLoveDao().deleteByID(id)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(view.changeLove(false));
+                    .subscribeWith(view.changeLove(false)));
         }
     }
 }

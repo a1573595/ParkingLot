@@ -2,12 +2,13 @@ package com.example.puffer.parkingdemo.parkFuzzySearch;
 
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
+import com.example.puffer.parkingdemo.BasePresenter;
 import com.example.puffer.parkingdemo.model.DataManager;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class ParkFuzzySearchPresenter implements ParkFuzzySearchContract.Presenter{
+public class ParkFuzzySearchPresenter extends BasePresenter implements ParkFuzzySearchContract.Presenter{
     private ParkFuzzySearchContract.View view;
     private int mode = 1;
 
@@ -37,10 +38,11 @@ public class ParkFuzzySearchPresenter implements ParkFuzzySearchContract.Present
         if(search.length() > 0) {
             query += String.format(" AND name LIKE \'%%%s%%\'", search);
         }
-        DataManager.getInstance().getParkDao().getAllByQuery(new SimpleSQLiteQuery(query))
+
+        addDisposable(DataManager.getInstance().getParkDao().getAllByQuery(new SimpleSQLiteQuery(query))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(view.showParkList());
+                .subscribeWith(view.showParkList()));
     }
 
     @Override

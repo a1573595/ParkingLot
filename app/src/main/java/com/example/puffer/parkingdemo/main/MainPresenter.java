@@ -1,5 +1,6 @@
 package com.example.puffer.parkingdemo.main;
 
+import com.example.puffer.parkingdemo.BasePresenter;
 import com.example.puffer.parkingdemo.model.DataManager;
 import com.example.puffer.parkingdemo.model.ApiService;
 import com.example.puffer.parkingdemo.model.LatLngCoding;
@@ -22,7 +23,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-public class MainPresenter implements MainContract.Presenter {
+public class MainPresenter extends BasePresenter implements MainContract.Presenter {
     private MainContract.View view;
 
     MainPresenter(MainContract.View view) {
@@ -36,10 +37,10 @@ public class MainPresenter implements MainContract.Presenter {
         if(updateTime < 1) {
             downloadDataSet();
         } else {
-            DataManager.getInstance().getParkDao().getAll()
+            addDisposable(DataManager.getInstance().getParkDao().getAll()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(view.showDataSetInfo());
+                    .subscribeWith(view.showDataSetInfo()));
         }
     }
 
@@ -86,15 +87,11 @@ public class MainPresenter implements MainContract.Presenter {
                             }
 
                             writeDataSet(parkList);
-                        }catch (Exception e) {
-                            //Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
-                        }
+                        }catch (Exception ignored) { }
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        //Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+                    public void onError(Throwable e) { }
                 });
     }
 
@@ -116,9 +113,7 @@ public class MainPresenter implements MainContract.Presenter {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-
-                    }
+                    public void onError(Throwable e) { }
                 });
     }
 }

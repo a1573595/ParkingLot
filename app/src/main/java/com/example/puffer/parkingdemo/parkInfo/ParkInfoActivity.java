@@ -9,9 +9,8 @@ import com.example.puffer.parkingdemo.R;
 import com.example.puffer.parkingdemo.model.Love;
 import com.example.puffer.parkingdemo.model.Park;
 
-import io.reactivex.CompletableObserver;
-import io.reactivex.SingleObserver;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableCompletableObserver;
+import io.reactivex.observers.DisposableSingleObserver;
 
 public class ParkInfoActivity extends AppCompatActivity implements ParkInfoContract.View {
     private ParkInfoPresenter presenter;
@@ -24,6 +23,9 @@ public class ParkInfoActivity extends AppCompatActivity implements ParkInfoContr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_park_info);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         presenter = new ParkInfoPresenter(this, getIntent().getExtras().getString("id"));
 
@@ -34,13 +36,20 @@ public class ParkInfoActivity extends AppCompatActivity implements ParkInfoContr
     }
 
     @Override
-    public SingleObserver<Park> showParkInfo() {
-        return new SingleObserver<Park>() {
-            @Override
-            public void onSubscribe(Disposable d) { }
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
 
+    @Override
+    public DisposableSingleObserver<Park> showParkInfo() {
+        return new DisposableSingleObserver<Park>() {
             @Override
             public void onSuccess(Park park) {
+                if(getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(park.name);
+                }
+
                 tv_name.setText(park.name);
                 tv_address.setText(park.address);
                 tv_area.setText(park.area);
@@ -63,11 +72,8 @@ public class ParkInfoActivity extends AppCompatActivity implements ParkInfoContr
     }
 
     @Override
-    public SingleObserver<Love> showLove() {
-        return new SingleObserver<Love>() {
-            @Override
-            public void onSubscribe(Disposable d) { }
-
+    public DisposableSingleObserver<Love> showLove() {
+        return new DisposableSingleObserver<Love>() {
             @Override
             public void onSuccess(Love love) {
                 love_image.setImageResource(R.drawable.love);
@@ -79,11 +85,8 @@ public class ParkInfoActivity extends AppCompatActivity implements ParkInfoContr
     }
 
     @Override
-    public CompletableObserver changeLove(boolean isLove) {
-        return new CompletableObserver() {
-            @Override
-            public void onSubscribe(Disposable d) { }
-
+    public DisposableCompletableObserver changeLove(boolean isLove) {
+        return new DisposableCompletableObserver() {
             @Override
             public void onComplete() {
                 love_image.setImageResource(isLove? R.drawable.love : R.drawable.love2);

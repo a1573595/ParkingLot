@@ -1,14 +1,12 @@
 package com.example.puffer.parkingdemo.main;
 
-import android.content.Context;
-
 import com.example.puffer.parkingdemo.model.Park;
 
-import io.reactivex.SingleObserver;
+import io.reactivex.observers.DisposableSingleObserver;
 
 interface MainContract {
     interface View {
-        SingleObserver<Park[]> showDataSetInfo();
+        DisposableSingleObserver<Park[]> showDataSetInfo();
     }
 
     interface Presenter {

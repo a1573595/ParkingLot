@@ -16,8 +16,7 @@ import com.example.puffer.parkingdemo.parkList.ParkListActivity;
 
 import java.util.Calendar;
 
-import io.reactivex.SingleObserver;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableSingleObserver;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
     private MainPresenter presenter = new MainPresenter(this);
@@ -73,11 +72,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public SingleObserver<Park[]> showDataSetInfo() {
-        return new SingleObserver<Park[]>() {
-            @Override
-            public void onSubscribe(Disposable d) { }
-
+    public DisposableSingleObserver<Park[]> showDataSetInfo() {
+        return new DisposableSingleObserver<Park[]>() {
             @Override
             public void onSuccess(Park[] parks) {
                 Calendar c = Calendar.getInstance();

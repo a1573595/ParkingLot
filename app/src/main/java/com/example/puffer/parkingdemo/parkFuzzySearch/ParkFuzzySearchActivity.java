@@ -20,8 +20,7 @@ import com.example.puffer.parkingdemo.parkList.ParkListAdapter;
 import com.example.puffer.parkingdemo.parkList.ParkListAdapterContract;
 import com.example.puffer.parkingdemo.parkList.ParkListAdapterPresenter;
 
-import io.reactivex.SingleObserver;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableSingleObserver;
 
 public class ParkFuzzySearchActivity extends AppCompatActivity implements ParkFuzzySearchContract.View,
         ParkListAdapterContract.View {
@@ -38,6 +37,10 @@ public class ParkFuzzySearchActivity extends AppCompatActivity implements ParkFu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_park_fuzzy_search);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("停車場列表");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         presenter = new ParkFuzzySearchPresenter(this);
 
@@ -50,11 +53,14 @@ public class ParkFuzzySearchActivity extends AppCompatActivity implements ParkFu
     }
 
     @Override
-    public SingleObserver<Park[]> showParkList() {
-        return new SingleObserver<Park[]>() {
-            @Override
-            public void onSubscribe(Disposable d) { }
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
 
+    @Override
+    public DisposableSingleObserver<Park[]> showParkList() {
+        return new DisposableSingleObserver<Park[]>() {
             @Override
             public void onSuccess(Park[] parks) {
                 adapterPresenter.loadData(parks);

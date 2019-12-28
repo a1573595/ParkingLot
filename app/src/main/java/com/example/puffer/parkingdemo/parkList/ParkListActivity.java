@@ -14,8 +14,7 @@ import com.example.puffer.parkingdemo.R;
 import com.example.puffer.parkingdemo.model.Park;
 import com.example.puffer.parkingdemo.parkInfo.ParkInfoActivity;
 
-import io.reactivex.SingleObserver;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableSingleObserver;
 
 public class ParkListActivity extends AppCompatActivity implements ParkListContract.View,
         ParkListAdapterContract.View {
@@ -30,7 +29,14 @@ public class ParkListActivity extends AppCompatActivity implements ParkListContr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_park_list);
 
-        presenter = new ParkListPresenter(this, getIntent().getBooleanExtra("isLove", false));
+        boolean isLove = getIntent().getBooleanExtra("isLove", false);
+
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(isLove? "最愛列表" : "歷史列表");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        presenter = new ParkListPresenter(this, isLove);
 
         findView();
 
@@ -45,11 +51,14 @@ public class ParkListActivity extends AppCompatActivity implements ParkListContr
     }
 
     @Override
-    public SingleObserver<Park[]> showParkList() {
-        return new SingleObserver<Park[]>() {
-            @Override
-            public void onSubscribe(Disposable d) { }
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
 
+    @Override
+    public DisposableSingleObserver<Park[]> showParkList() {
+        return new DisposableSingleObserver<Park[]>() {
             @Override
             public void onSuccess(Park[] parks) {
                 adapterPresenter.loadData(parks);

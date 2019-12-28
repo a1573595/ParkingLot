@@ -3,16 +3,16 @@ package com.example.puffer.parkingdemo.parkInfo;
 import com.example.puffer.parkingdemo.model.Love;
 import com.example.puffer.parkingdemo.model.Park;
 
-import io.reactivex.CompletableObserver;
-import io.reactivex.SingleObserver;
+import io.reactivex.observers.DisposableCompletableObserver;
+import io.reactivex.observers.DisposableSingleObserver;
 
 interface ParkInfoContract {
     interface View {
-        SingleObserver<Park> showParkInfo();
+        DisposableSingleObserver<Park> showParkInfo();
 
-        SingleObserver<Love> showLove();
+        DisposableSingleObserver<Love> showLove();
 
-        CompletableObserver changeLove(boolean isLove);
+        DisposableCompletableObserver changeLove(boolean isLove);
     }
 
     interface Presenter {

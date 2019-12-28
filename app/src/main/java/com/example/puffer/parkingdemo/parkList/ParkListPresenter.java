@@ -1,11 +1,12 @@
 package com.example.puffer.parkingdemo.parkList;
 
+import com.example.puffer.parkingdemo.BasePresenter;
 import com.example.puffer.parkingdemo.model.DataManager;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-class ParkListPresenter implements ParkListContract.Presenter {
+class ParkListPresenter extends BasePresenter implements ParkListContract.Presenter {
     private ParkListContract.View view;
     private boolean isLove;
 
@@ -17,15 +18,15 @@ class ParkListPresenter implements ParkListContract.Presenter {
     @Override
     public void readParksData() {
         if(isLove) {
-            DataManager.getInstance().getLoveDao().getLoveList()
+            addDisposable(DataManager.getInstance().getLoveDao().getLoveList()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(view.showParkList());
+                    .subscribeWith(view.showParkList()));
         } else {
-            DataManager.getInstance().getHistoryDao().getHistoryList()
+            addDisposable(DataManager.getInstance().getHistoryDao().getHistoryList()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(view.showParkList());
+                    .subscribeWith(view.showParkList()));
         }
     }
 
@@ -34,12 +35,10 @@ class ParkListPresenter implements ParkListContract.Presenter {
         if(isLove) {
             DataManager.getInstance().getLoveDao().deleteByID(id)
                     .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe();
         }else {
             DataManager.getInstance().getHistoryDao().deleteByID(id)
                     .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe();
         }
     }
