@@ -64,12 +64,12 @@ public class MainPresenter extends BasePresenter implements MainContract.Present
                     public void onSuccess(ResponseBody responseBody) {
                         try {
                             InputStream inputStream = responseBody.byteStream();
-                            GZIPInputStream ungzip = new GZIPInputStream(inputStream);
+                            GZIPInputStream unGzip = new GZIPInputStream(inputStream);
                             ByteArrayOutputStream out = new ByteArrayOutputStream();
 
                             byte[] buffer = new byte[256];
                             int n;
-                            while ((n = ungzip.read(buffer)) >= 0) {
+                            while ((n = unGzip.read(buffer)) >= 0) {
                                 out.write(buffer, 0, n);
                             }
 
