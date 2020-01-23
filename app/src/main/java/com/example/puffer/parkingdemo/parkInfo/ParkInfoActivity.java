@@ -2,6 +2,8 @@ package com.example.puffer.parkingdemo.parkInfo;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -90,6 +92,14 @@ public class ParkInfoActivity extends AppCompatActivity implements ParkInfoContr
             @Override
             public void onComplete() {
                 love_image.setImageResource(isLove? R.drawable.love : R.drawable.love2);
+
+                ScaleAnimation scaleAnimation = new ScaleAnimation(
+                        1.0f, 1.2f, 1.0f, 1.2f,
+                        Animation.RELATIVE_TO_SELF, 1f,
+                        Animation.RELATIVE_TO_SELF, 1f);
+                scaleAnimation.setDuration(300);
+
+                love_image.startAnimation(scaleAnimation);
             }
 
             @Override

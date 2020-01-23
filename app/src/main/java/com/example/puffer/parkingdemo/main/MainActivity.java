@@ -21,7 +21,8 @@ import com.example.puffer.parkingdemo.parkFuzzySearch.ParkFuzzySearchActivity;
 import com.example.puffer.parkingdemo.parkList.ParkListActivity;
 import com.example.puffer.parkingdemo.update.UpdateActivity;
 
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import io.reactivex.observers.DisposableSingleObserver;
 
@@ -119,12 +120,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         return new DisposableSingleObserver<Park[]>() {
             @Override
             public void onSuccess(Park[] parks) {
-                Calendar c = Calendar.getInstance();
-                c.setTimeInMillis(DataManager.getInstance().sp.readUpdateTime());
-
-                tv_dataset.setText(String.format("總收錄%d筆資料\n建立於%d/%02d/%02d  %02d:%02d:%02d", parks.length,
-                        c.get(Calendar.YEAR),c.get(Calendar.MONTH)+1,c.get(Calendar.DAY_OF_MONTH),
-                        c.get(Calendar.HOUR_OF_DAY),c.get(Calendar.MINUTE),c.get(Calendar.SECOND)));
+                String date = convertLongToTime(DataManager.getInstance().sp.readUpdateTime());
+                tv_dataset.setText(String.format("總收錄%d筆資料\n建立於%s", parks.length, date));
 
                 setListen();
             }
@@ -134,6 +131,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 tv_dataset.setText(e.toString());
             }
         };
+    }
+
+    private String convertLongToTime(long time) {
+        Date date = new Date(time);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        return format.format(date);
     }
 
     private void setListen(){

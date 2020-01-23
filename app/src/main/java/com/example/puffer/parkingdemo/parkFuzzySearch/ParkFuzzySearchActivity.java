@@ -10,7 +10,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import com.example.puffer.parkingdemo.R;
@@ -20,7 +19,6 @@ import com.example.puffer.parkingdemo.parkList.ParkListAdapter;
 import com.example.puffer.parkingdemo.parkList.ParkListAdapterContract;
 import com.example.puffer.parkingdemo.parkList.ParkListAdapterPresenter;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import io.reactivex.observers.DisposableSingleObserver;
 
