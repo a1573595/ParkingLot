@@ -19,6 +19,8 @@ import com.example.puffer.parkingdemo.parkInfo.ParkInfoActivity;
 import com.example.puffer.parkingdemo.parkList.ParkListAdapter;
 import com.example.puffer.parkingdemo.parkList.ParkListAdapterContract;
 import com.example.puffer.parkingdemo.parkList.ParkListAdapterPresenter;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import io.reactivex.observers.DisposableSingleObserver;
 
@@ -27,7 +29,7 @@ public class ParkFuzzySearchActivity extends AppCompatActivity implements ParkFu
     private ParkFuzzySearchPresenter presenter;
     private ParkListAdapterPresenter adapterPresenter = new ParkListAdapterPresenter(this);
 
-    private EditText ed_search;
+    private TextInputEditText ed_search;
     private RadioGroup transportation;
 
     private RecyclerView recyclerView;
