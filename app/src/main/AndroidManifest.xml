@@ -25,12 +25,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".parkMap.ParkingMapActivity"
-            android:launchMode="singleTop"/>
+        <activity android:name=".update.UpdateActivity"/>
+        <activity
+            android:name=".parkMap.ParkingMapActivity"
+            android:launchMode="singleTop" />
         <activity android:name=".parkList.ParkListActivity" />
         <activity android:name=".parkInfo.ParkInfoActivity" />
-        <activity android:name=".parkFuzzySearch.ParkFuzzySearchActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:name=".parkFuzzySearch.ParkFuzzySearchActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 
 </manifest>

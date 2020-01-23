@@ -6,6 +6,8 @@ import io.reactivex.observers.DisposableSingleObserver;
 
 interface MainContract {
     interface View {
+        void transitionToUpdate();
+
         DisposableSingleObserver<Park[]> showDataSetInfo();
     }
 

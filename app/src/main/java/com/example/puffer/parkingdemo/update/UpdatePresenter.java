@@ -1,8 +1,7 @@
-package com.example.puffer.parkingdemo.main;
+package com.example.puffer.parkingdemo.update;
 
-import com.example.puffer.parkingdemo.BasePresenter;
-import com.example.puffer.parkingdemo.model.DataManager;
 import com.example.puffer.parkingdemo.model.ApiService;
+import com.example.puffer.parkingdemo.model.DataManager;
 import com.example.puffer.parkingdemo.model.LatLngCoding;
 import com.example.puffer.parkingdemo.model.Park;
 import com.example.puffer.parkingdemo.model.ParkDao;
@@ -23,25 +22,11 @@ import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-class MainPresenter extends BasePresenter implements MainContract.Presenter {
-    private MainContract.View view;
+class UpdatePresenter implements UpdateContract.Presenter {
+    private UpdateContract.View view;
 
-    MainPresenter(MainContract.View view) {
+    UpdatePresenter(UpdateContract.View view) {
         this.view = view;
-    }
-
-    @Override
-    public void readDataSet() {
-        long updateTime = DataManager.getInstance().sp.readUpdateTime();
-        // No dataSet in database
-        if(updateTime < 1) {
-            downloadDataSet();
-        } else {
-            addDisposable(DataManager.getInstance().getParkDao().getAll()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(view.showDataSetInfo()));
-        }
     }
 
     @Override
@@ -91,7 +76,9 @@ class MainPresenter extends BasePresenter implements MainContract.Presenter {
                     }
 
                     @Override
-                    public void onError(Throwable e) { }
+                    public void onError(Throwable e) {
+                        view.updateFailed(e.getMessage());
+                    }
                 });
     }
 
@@ -109,11 +96,14 @@ class MainPresenter extends BasePresenter implements MainContract.Presenter {
                     @Override
                     public void onSuccess(Long[] longs) {
                         DataManager.getInstance().sp.setUpdateTime(System.currentTimeMillis());
-                        readDataSet();
+
+                        view.updateFinished();
                     }
 
                     @Override
-                    public void onError(Throwable e) { }
+                    public void onError(Throwable e) {
+                        view.updateFailed(e.getMessage());
+                    }
                 });
     }
 }

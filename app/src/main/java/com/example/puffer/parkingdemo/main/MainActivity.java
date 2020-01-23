@@ -4,7 +4,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
+
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.puffer.parkingdemo.model.DataManager;
@@ -13,6 +19,7 @@ import com.example.puffer.parkingdemo.R;
 import com.example.puffer.parkingdemo.model.Park;
 import com.example.puffer.parkingdemo.parkFuzzySearch.ParkFuzzySearchActivity;
 import com.example.puffer.parkingdemo.parkList.ParkListActivity;
+import com.example.puffer.parkingdemo.update.UpdateActivity;
 
 import java.util.Calendar;
 
@@ -57,6 +64,29 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.btn_update) {
+            transitionToUpdate();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        presenter.readDataSet();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
 
@@ -69,6 +99,19 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         tv_list = findViewById(R.id.tv_list);
         tv_love = findViewById(R.id.tv_love);
         tv_history = findViewById(R.id.tv_history);
+    }
+
+    @Override
+    public void transitionToUpdate() {
+        Pair<View, String> p1 = Pair.create(findViewById(R.id.imageView), "imageView");
+        Pair<View, String> p2 = Pair.create(findViewById(R.id.textView), "textView");
+        Pair<View, String> p3 = Pair.create(tv_dataset, "tv_dataset");
+
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(MainActivity.this, p1, p2, p3);
+
+        Intent intent = new Intent(this, UpdateActivity.class);
+        startActivity(intent, options.toBundle());
     }
 
     @Override
