@@ -1,7 +1,6 @@
 package com.example.puffer.parkingdemo.parkMap;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -10,6 +9,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.provider.Settings;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.algo.NonHierarchicalDistanceBasedAlgorithm;
@@ -156,7 +158,7 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
         if (!locationMgr.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 || !locationMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 
-            new AlertDialog.Builder(this, R.style.DialogTheme)
+            new MaterialAlertDialogBuilder(this, R.style.DialogTheme)
                     .setTitle("提示")
                     .setMessage("請開啟定位服務")
                     .setCancelable(false)
@@ -265,9 +267,8 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
     }
 
     private void showDialog(final ParkCluster parkCluster){
-        final AlertDialog dialog= new AlertDialog.Builder(this).create();
+        final AlertDialog dialog = new MaterialAlertDialogBuilder(this, R.style.DialogTheme).create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //dialog.getWindow().setDimAmount(0f);
         dialog.getWindow().setBackgroundDrawableResource(R.drawable.rectangle_gray);
         dialog.show();
 

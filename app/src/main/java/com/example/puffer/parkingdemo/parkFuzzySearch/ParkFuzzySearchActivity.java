@@ -10,7 +10,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.RadioGroup;
 
 import com.example.puffer.parkingdemo.R;
 import com.example.puffer.parkingdemo.model.Park;
@@ -18,6 +17,7 @@ import com.example.puffer.parkingdemo.parkInfo.ParkInfoActivity;
 import com.example.puffer.parkingdemo.parkList.ParkListAdapter;
 import com.example.puffer.parkingdemo.parkList.ParkListAdapterContract;
 import com.example.puffer.parkingdemo.parkList.ParkListAdapterPresenter;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 
 import io.reactivex.observers.DisposableSingleObserver;
@@ -28,7 +28,7 @@ public class ParkFuzzySearchActivity extends AppCompatActivity implements ParkFu
     private ParkListAdapterPresenter adapterPresenter = new ParkListAdapterPresenter(this);
 
     private TextInputEditText ed_search;
-    private RadioGroup transportation;
+    private ChipGroup group_transportation;
 
     private RecyclerView recyclerView;
     private ParkListAdapter adapter;
@@ -86,9 +86,7 @@ public class ParkFuzzySearchActivity extends AppCompatActivity implements ParkFu
 
     private void findView(){
         ed_search = findViewById(R.id.ed_search);
-
-        transportation = findViewById(R.id.transportation);
-
+        group_transportation = findViewById(R.id.group_transportation);
         recyclerView = findViewById(R.id.recyclerView);
     }
 
@@ -118,18 +116,18 @@ public class ParkFuzzySearchActivity extends AppCompatActivity implements ParkFu
             public void afterTextChanged(Editable s) { }
         });
 
-        transportation.setOnCheckedChangeListener((group, checkedId) -> {
-            switch (checkedId){
-                case R.id.tv_bus:
+        group_transportation.setOnCheckedChangeListener((group, checkedId) -> {
+            switch (checkedId) {
+                case R.id.chip_bus:
                     presenter.setMode(0);
                     break;
-                case R.id.tv_car:
+                case R.id.chip_car:
                     presenter.setMode(1);
                     break;
-                case R.id.tv_moto:
+                case R.id.chip_moto:
                     presenter.setMode(2);
                     break;
-                case R.id.tv_bike:
+                case R.id.chip_bike:
                     presenter.setMode(3);
                     break;
             }
