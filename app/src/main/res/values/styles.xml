@@ -8,6 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="NoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!-- Icon color -->
+        <item name="android:textColorSecondary">@android:color/white</item>
+    </style>
+
     <style name="DialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="android:windowAnimationStyle">@style/DialogStyle</item>
     </style>

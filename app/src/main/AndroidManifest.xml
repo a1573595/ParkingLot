@@ -29,7 +29,8 @@
         <activity
             android:name=".parkMap.ParkingMapActivity"
             android:launchMode="singleTop" />
-        <activity android:name=".parkList.ParkListActivity" />
+        <activity android:name=".parkList.ParkListActivity"
+            android:theme="@style/NoActionBar"/>
         <activity android:name=".parkInfo.ParkInfoActivity" />
         <activity
             android:name=".parkFuzzySearch.ParkFuzzySearchActivity"

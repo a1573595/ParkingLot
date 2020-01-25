@@ -31,7 +31,11 @@ public class ParkListActivity extends AppCompatActivity implements ParkListContr
 
         boolean isLove = getIntent().getBooleanExtra("isLove", false);
 
+        setSupportActionBar(findViewById(R.id.toolbar));
         if(getSupportActionBar() != null) {
+//            CollapsingToolbarLayout collapsing = findViewById(R.id.collapsing);
+//            collapsing.setTitleEnabled(false);
+
             getSupportActionBar().setTitle(isLove? "最愛列表" : "歷史列表");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
