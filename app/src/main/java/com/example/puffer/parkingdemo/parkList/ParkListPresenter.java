@@ -2,6 +2,8 @@ package com.example.puffer.parkingdemo.parkList;
 
 import com.example.puffer.parkingdemo.BasePresenter;
 import com.example.puffer.parkingdemo.model.DataManager;
+import com.example.puffer.parkingdemo.model.History;
+import com.example.puffer.parkingdemo.model.Love;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -36,8 +38,21 @@ class ParkListPresenter extends BasePresenter implements ParkListContract.Presen
             DataManager.getInstance().getLoveDao().deleteByID(id)
                     .subscribeOn(Schedulers.io())
                     .subscribe();
-        }else {
+        } else {
             DataManager.getInstance().getHistoryDao().deleteByID(id)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe();
+        }
+    }
+
+    @Override
+    public void insertParkData(String id) {
+        if(isLove) {
+            DataManager.getInstance().getLoveDao().insert(new Love(id))
+                    .subscribeOn(Schedulers.io())
+                    .subscribe();
+        } else {
+            DataManager.getInstance().getHistoryDao().insert(new History(id))
                     .subscribeOn(Schedulers.io())
                     .subscribe();
         }

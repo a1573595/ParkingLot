@@ -82,7 +82,10 @@ public class ParkFuzzySearchActivity extends AppCompatActivity implements ParkFu
     }
 
     @Override
-    public void notifyItemRemoved(String id) { }
+    public void itemRemoved(String id) { }
+
+    @Override
+    public void itemInsert(String id) { }
 
     private void findView(){
         ed_search = findViewById(R.id.ed_search);

@@ -6,7 +6,9 @@ public interface ParkListAdapterContract {
     interface View {
         void onItemClick(String id);
 
-        void notifyItemRemoved(String id);
+        void itemRemoved(String id);
+
+        void itemInsert(String id);
     }
 
     interface Presenter {
@@ -17,5 +19,7 @@ public interface ParkListAdapterContract {
         void onBindViewHolder(ParkListAdapter.ViewHolder holder, int position);
 
         void removeItem(int position);
+
+        void undoDelete();
     }
 }

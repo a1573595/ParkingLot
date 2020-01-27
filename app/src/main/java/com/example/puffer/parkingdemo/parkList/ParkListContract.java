@@ -13,5 +13,7 @@ interface ParkListContract {
         void readParksData();
 
         void removeParkData(String id);
+
+        void insertParkData(String id);
     }
 }

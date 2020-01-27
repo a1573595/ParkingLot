@@ -9,10 +9,9 @@ public class History {
     @PrimaryKey
     @NonNull
     String id;
-    long hashTag;
+    long hashTag = System.currentTimeMillis();
 
-    public History(String id, long hashTag) {
+    public History(String id) {
         this.id = id;
-        this.hashTag = hashTag;
     }
 }

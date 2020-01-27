@@ -35,7 +35,7 @@ class ParkInfoPresenter extends BasePresenter implements ParkInfoContract.Presen
 
     @Override
     public void addHistory() {
-        DataManager.getInstance().getHistoryDao().insert(new History(id, System.currentTimeMillis()))
+        DataManager.getInstance().getHistoryDao().insert(new History(id))
                 .subscribeOn(Schedulers.io())
                 .subscribe();
     }

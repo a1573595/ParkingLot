@@ -1,18 +1,24 @@
 package com.example.puffer.parkingdemo.parkList;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
 import com.example.puffer.parkingdemo.R;
 import com.example.puffer.parkingdemo.model.Park;
 import com.example.puffer.parkingdemo.parkInfo.ParkInfoActivity;
+import com.google.android.material.snackbar.Snackbar;
 
 import io.reactivex.observers.DisposableSingleObserver;
 
@@ -84,8 +90,13 @@ public class ParkListActivity extends AppCompatActivity implements ParkListContr
     }
 
     @Override
-    public void notifyItemRemoved(String id) {
+    public void itemRemoved(String id) {
         presenter.removeParkData(id);
+    }
+
+    @Override
+    public void itemInsert(String id) {
+        presenter.insertParkData(id);
     }
 
     private void findView(){
@@ -107,7 +118,7 @@ public class ParkListActivity extends AppCompatActivity implements ParkListContr
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    ItemTouchHelper.Callback callback = new ItemTouchHelper.SimpleCallback(
+    private ItemTouchHelper.Callback callback = new ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP | ItemTouchHelper.DOWN,
             ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
         @Override
@@ -116,6 +127,39 @@ public class ParkListActivity extends AppCompatActivity implements ParkListContr
             int swipeFlags = ItemTouchHelper.LEFT;
 
             return makeMovementFlags(dragFlags, swipeFlags);
+        }
+
+        @Override
+        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+
+            Drawable icon  = getDrawable(android.R.drawable.ic_menu_close_clear_cancel);
+            Drawable background = new ColorDrawable(getResources().getColor(android.R.color.holo_red_light));
+
+            View itemView = viewHolder.itemView;
+
+            int iconMargin = (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
+            int iconTop = itemView.getTop() + iconMargin;
+            int iconBottom = iconTop + icon.getIntrinsicHeight();
+
+            if(dX > 0) {    // right
+                int iconLeft = itemView.getLeft() + iconMargin;
+                int iconRight = itemView.getLabelFor() + iconMargin + icon.getIntrinsicWidth();
+                icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+
+                background.setBounds(itemView.getLeft(), itemView.getTop(),
+                        itemView.getLeft() + (int)dX, itemView.getBottom());
+            } else {    // left
+                int iconLeft = itemView.getRight() - iconMargin - icon.getIntrinsicWidth();
+                int iconRight = itemView.getRight() - iconMargin;
+                icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+
+                background.setBounds(itemView.getRight() + (int)dX, itemView.getTop(),
+                        itemView.getRight(), itemView.getBottom());
+            }
+
+            background.draw(c);
+            icon.draw(c);
         }
 
         @Override
@@ -130,6 +174,14 @@ public class ParkListActivity extends AppCompatActivity implements ParkListContr
 
             adapterPresenter.removeItem(position);
             adapter.notifyItemRemoved(position);
+
+            Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "刪除", Snackbar.LENGTH_LONG);
+
+            snackbar.setAction("還原", view -> {
+                adapterPresenter.undoDelete();
+                adapter.notifyItemInserted(position);
+            });
+            snackbar.show();
         }
     };
 }

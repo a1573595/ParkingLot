@@ -87,7 +87,7 @@ class MainPresenter extends BasePresenter implements MainContract.Presenter {
                             }
 
                             writeDataSet(parkList);
-                        }catch (Exception ignored) { }
+                        } catch (Exception ignored) { }
                     }
 
                     @Override

@@ -10,6 +10,9 @@ public class ParkListAdapterPresenter implements ParkListAdapterContract.Present
     private ParkListAdapterContract.View view;
     private List<Park> parkList = new ArrayList<>();
 
+    private Park lastDeleteItem;
+    private int lastDeletePosition;
+
     public ParkListAdapterPresenter(ParkListAdapterContract.View view) {
         this.view = view;
     }
@@ -40,7 +43,16 @@ public class ParkListAdapterPresenter implements ParkListAdapterContract.Present
 
     @Override
     public void removeItem(int position) {
-        view.notifyItemRemoved(parkList.get(position).id);
+        lastDeleteItem = parkList.get(position);
+        lastDeletePosition = position;
+
         parkList.remove(position);
+        view.itemRemoved(lastDeleteItem.id);
+    }
+
+    @Override
+    public void undoDelete() {
+        parkList.add(lastDeletePosition, lastDeleteItem);
+        view.itemInsert(lastDeleteItem.id);
     }
 }
