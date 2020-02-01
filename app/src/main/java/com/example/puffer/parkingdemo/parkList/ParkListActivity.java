@@ -8,9 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
@@ -39,9 +42,6 @@ public class ParkListActivity extends AppCompatActivity implements ParkListContr
 
         setSupportActionBar(findViewById(R.id.toolbar));
         if(getSupportActionBar() != null) {
-//            CollapsingToolbarLayout collapsing = findViewById(R.id.collapsing);
-//            collapsing.setTitleEnabled(false);
-
             getSupportActionBar().setTitle(isLove? "最愛列表" : "歷史列表");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -133,27 +133,29 @@ public class ParkListActivity extends AppCompatActivity implements ParkListContr
         public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
 
-            Drawable icon  = getDrawable(android.R.drawable.ic_menu_close_clear_cancel);
+            Drawable icon = getDrawable(R.drawable.delete);
+            icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
             Drawable background = new ColorDrawable(getResources().getColor(android.R.color.holo_red_light));
 
             View itemView = viewHolder.itemView;
+            float multiple = 1.5f;
 
-            int iconMargin = (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
-            int iconTop = itemView.getTop() + iconMargin;
-            int iconBottom = iconTop + icon.getIntrinsicHeight();
+            int iconMargin = ((itemView.getHeight() - icon.getIntrinsicHeight()) / 2);
+            int iconTop = itemView.getTop() + (int)(iconMargin * multiple);
+            int iconBottom = iconTop + (int)(icon.getIntrinsicHeight() / multiple);
 
-            if(dX > 0) {    // right
+            if(dX > 0) {    // left
                 int iconLeft = itemView.getLeft() + iconMargin;
-                int iconRight = itemView.getLabelFor() + iconMargin + icon.getIntrinsicWidth();
-                icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+                int iconRight = iconLeft + (int)(icon.getIntrinsicWidth() / multiple);
 
+                icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
                 background.setBounds(itemView.getLeft(), itemView.getTop(),
                         itemView.getLeft() + (int)dX, itemView.getBottom());
-            } else {    // left
-                int iconLeft = itemView.getRight() - iconMargin - icon.getIntrinsicWidth();
+            } else {    // right
                 int iconRight = itemView.getRight() - iconMargin;
-                icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+                int iconLeft = iconRight - (int)(icon.getIntrinsicWidth() / multiple);
 
+                icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
                 background.setBounds(itemView.getRight() + (int)dX, itemView.getTop(),
                         itemView.getRight(), itemView.getBottom());
             }
