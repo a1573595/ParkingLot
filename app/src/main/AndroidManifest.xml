@@ -18,23 +18,29 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key" />
 
-        <activity android:name=".main.MainActivity">
+        <activity android:name=".main.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".update.UpdateActivity"/>
+        <activity android:name=".update.UpdateActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".parkMap.ParkingMapActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
         <activity android:name=".parkList.ParkListActivity"
-            android:theme="@style/NoActionBar"/>
-        <activity android:name=".parkInfo.ParkInfoActivity" />
+            android:theme="@style/NoActionBar"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".parkInfo.ParkInfoActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".parkFuzzySearch.ParkFuzzySearchActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
