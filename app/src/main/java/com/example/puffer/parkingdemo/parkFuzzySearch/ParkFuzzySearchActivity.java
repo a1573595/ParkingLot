@@ -65,6 +65,7 @@ public class ParkFuzzySearchActivity extends AppCompatActivity implements ParkFu
             public void onSuccess(Park[] parks) {
                 adapterPresenter.loadData(parks);
                 adapter.notifyDataSetChanged();
+                recyclerView.scheduleLayoutAnimation();
             }
 
             @Override
