@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transportation">公車：%d\t\t轎車：%d\t\t機車：%d\t\t自行車：%d</string>
+    <string name="contains_several_parking">包含%d個停車場</string>
+    <string name="Current_location">目前位置：\n%s</string>
+    <string name="cancel">取消</string>
+    <string name="agree">確定</string>
+    <string name="please_open_gps">請開啟定位服務</string>
+    <string name="note">提示</string>
+    <string name="favorite_list">最愛列表</string>
+    <string name="history_list">歷史列表</string>
+    <string name="recover">還原</string>
+    <string name="delete">刪除</string>
+    <string name="downloading">資料下載中\u002e\u002e\u002e</string>
+    <string name="processing">資料處理中\u002e\u002e\u002e</string>
+    <string name="map_mode">地圖模式</string>
+    <string name="list_mode">列表模式</string>
+    <string name="favorite">最愛</string>
+    <string name="history">歷史</string>
+    <string name="bus">公車</string>
+    <string name="car">轎車</string>
+    <string name="moto">機車</string>
+    <string name="bike">自行車</string>
+    <string name="park_name_or_address">停車場名稱或地址</string>
+    <string name="phone">●電話：</string>
+    <string name="address">●地址：</string>
+    <string name="pay_info">●收費資訊：</string>
+    <string name="other">●其他：</string>
+    <string name="current_location_loading">目前位置 :\n讀取中\u002e\u002e\u002e</string>
+    <string name="park_list">停車場列表</string>
+    <string name="total_data_set_created_from">總收錄%d筆資料\n建立於%s</string>
+</resources>

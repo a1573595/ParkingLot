@@ -12,7 +12,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="停車場名稱或地址">
+        android:hint="@string/park_name_or_address">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ed_search"
@@ -37,14 +37,14 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="公車"/>
+            android:text="@string/bus"/>
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_car"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="轎車"
+            android:text="@string/car"
             android:checked="true"/>
 
         <com.google.android.material.chip.Chip
@@ -52,14 +52,14 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="機車"/>
+            android:text="@string/moto"/>
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_bike"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="自行車"/>
+            android:text="@string/bike"/>
     </com.google.android.material.chip.ChipGroup>
 
     <androidx.recyclerview.widget.RecyclerView

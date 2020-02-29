@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tool="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="10dp"
     android:background="@android:color/black">
@@ -20,8 +21,8 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:text="TextView"
-            android:textSize="22dp"
+            tool:text="Title"
+            android:textSize="@dimen/text_large"
             android:textColor="@android:color/white" />
     </LinearLayout>
 

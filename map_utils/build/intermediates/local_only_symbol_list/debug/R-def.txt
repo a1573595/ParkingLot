@@ -1,0 +1,33 @@
+R_DEF: Internal format may change without notice
+local
+drawable amu_bubble_mask
+drawable amu_bubble_shadow
+id amu_text
+id webview
+id window
+layout amu_info_window
+layout amu_text_bubble
+layout amu_webview
+raw amu_ballon_gx_prefix
+raw amu_basic_folder
+raw amu_basic_placemark
+raw amu_cdata
+raw amu_default_balloon
+raw amu_document_nest
+raw amu_draw_order_ground_overlay
+raw amu_extended_data
+raw amu_ground_overlay
+raw amu_ground_overlay_color
+raw amu_inline_style
+raw amu_multigeometry_placemarks
+raw amu_multiple_placemarks
+raw amu_nested_folders
+raw amu_nested_multigeometry
+raw amu_poly_style_boolean_alpha
+raw amu_poly_style_boolean_numeric
+raw amu_unknwown_folder
+raw amu_unsupported
+raw amu_visibility_ground_overlay
+style amu_Bubble.TextAppearance.Dark
+style amu_Bubble.TextAppearance.Light
+style amu_ClusterIcon.TextAppearance

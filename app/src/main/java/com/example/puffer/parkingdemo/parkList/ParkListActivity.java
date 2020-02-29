@@ -41,7 +41,8 @@ public class ParkListActivity extends AppCompatActivity implements ParkListContr
 
         setSupportActionBar(findViewById(R.id.toolbar));
         if(getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(isLove? "最愛列表" : "歷史列表");
+            getSupportActionBar().setTitle(
+                    isLove? getString(R.string.favorite_list) : getString(R.string.history_list));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
@@ -176,9 +177,9 @@ public class ParkListActivity extends AppCompatActivity implements ParkListContr
             adapterPresenter.removeItem(position);
             adapter.notifyItemRemoved(position);
 
-            Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "刪除", Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), R.string.delete, Snackbar.LENGTH_LONG);
 
-            snackbar.setAction("還原", view -> {
+            snackbar.setAction(R.string.recover, view -> {
                 adapterPresenter.undoDelete();
                 adapter.notifyItemInserted(position);
             });

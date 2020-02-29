@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_margin="8dp">
 
     <LinearLayout
@@ -22,7 +22,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:adjustViewBounds="true"
-                app:srcCompat="@drawable/love2"
+                app:srcCompat="@drawable/unlove"
                 android:layout_margin="10dp"/>
 
             <TextView
@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="市民大道(中林段)"
+                tool:text="市民大道(中林段)"
                 android:textSize="22sp"
                 android:textColor="@android:color/holo_blue_dark"/>
         </LinearLayout>
@@ -44,14 +44,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="●電話 : "
+                android:text="@string/phone"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2395-5514"
+                tool:text="2395-5514"
                 android:textSize="18sp"
                 android:textColor="@android:color/holo_blue_dark"/>
         </LinearLayout>
@@ -65,14 +65,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="●位置 : "
+                android:text="@string/address"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="中山區"
+                tool:text="中山區"
                 android:textSize="18sp"
                 android:textColor="@android:color/holo_blue_dark"/>
         </LinearLayout>
@@ -88,7 +88,7 @@
                 android:id="@+id/tv_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="中山北路-林森北路(地下)"
+                tool:text="中山北路-林森北路(地下)"
                 android:textSize="18sp"
                 android:textColor="@android:color/holo_blue_dark"/>
         </LinearLayout>
@@ -115,17 +115,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="公車"
+                    android:text="@string/bus"
                     android:textColor="@android:color/holo_red_dark"
-                    android:textSize="22dp"/>
+                    android:textSize="@dimen/text_large"/>
 
                 <TextView
                     android:id="@+id/tv_bus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    tool:text="0"
                     android:textColor="@android:color/black"
-                    android:textSize="22dp"/>
+                    android:textSize="@dimen/text_large"/>
             </LinearLayout>
 
             <LinearLayout
@@ -138,17 +138,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="轎車"
+                    android:text="@string/car"
                     android:textColor="@android:color/holo_blue_dark"
-                    android:textSize="22dp"/>
+                    android:textSize="@dimen/text_large"/>
 
                 <TextView
                     android:id="@+id/tv_car"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    tool:text="0"
                     android:textColor="@android:color/black"
-                    android:textSize="22dp"/>
+                    android:textSize="@dimen/text_large"/>
             </LinearLayout>
 
             <LinearLayout
@@ -161,17 +161,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="機車"
+                    android:text="@string/moto"
                     android:textColor="@android:color/holo_green_dark"
-                    android:textSize="22dp"/>
+                    android:textSize="@dimen/text_large"/>
 
                 <TextView
                     android:id="@+id/tv_moto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="65"
+                    tool:text="65"
                     android:textColor="@android:color/black"
-                    android:textSize="22dp"/>
+                    android:textSize="@dimen/text_large"/>
             </LinearLayout>
 
             <LinearLayout
@@ -184,17 +184,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="自行車"
+                    android:text="@string/bike"
                     android:textColor="@android:color/holo_orange_dark"
-                    android:textSize="22dp"/>
+                    android:textSize="@dimen/text_large"/>
 
                 <TextView
                     android:id="@+id/tv_bike"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12"
+                    tool:text="12"
                     android:textColor="@android:color/black"
-                    android:textSize="22dp"/>
+                    android:textSize="@dimen/text_large"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -209,7 +209,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="●收費資訊 : "
+            android:text="@string/pay_info"
             android:textSize="18sp"
             android:textColor="@android:color/holo_red_light"/>
 
@@ -218,7 +218,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="計時：20元\/時(8-18)，10元\/時(18-8)。每日(20-8)最高收費50元，全程以半小時計費。月租：全日3,600元，日間2,400元(7-19)，夜間1,200元(限週一至週五19-8，及星期六、日與行政機關放假之紀念日、民俗"
+            tool:text="計時：20元\/時(8-18)，10元\/時(18-8)。每日(20-8)最高收費50元，全程以半小時計費。月租：全日3,600元，日間2,400元(7-19)，夜間1,200元(限週一至週五19-8，及星期六、日與行政機關放假之紀念日、民俗"
             android:textSize="18sp"
             android:textColor="@android:color/holo_blue_dark"/>
 
@@ -226,7 +226,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="●其他 : "
+            android:text="@string/other"
             android:textSize="18sp" />
 
         <TextView
@@ -234,7 +234,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="立體式小型車496格(含身心障礙停車位10格)。"
+            tool:text="立體式小型車496格(含身心障礙停車位10格)。"
             android:textSize="18sp"
             android:textColor="@android:color/holo_blue_dark"/>
     </LinearLayout>

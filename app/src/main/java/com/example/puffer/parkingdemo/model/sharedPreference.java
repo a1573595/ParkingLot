@@ -3,13 +3,12 @@ package com.example.puffer.parkingdemo.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class sharedPreference {
+public class SharedPreference {
     private SharedPreferences sp;
 
     private static final String updateTime = "updateTime";
-    private static final String dataSetCount = "dataSetCount";
 
-    sharedPreference(Context context) {
+    SharedPreference(Context context) {
         sp = context.getSharedPreferences("UserInfo", 0);
     }
 
@@ -23,13 +22,5 @@ public class sharedPreference {
 
     public long readUpdateTime() {
         return sp.getLong(updateTime, -1);
-    }
-
-    public void setDatasetCount(int number) {
-        sp.edit().putInt(dataSetCount, number).apply();
-    }
-
-    public int readDatasetCount() {
-        return sp.getInt(dataSetCount, -1);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.puffer.parkingdemo.parkList;
 
+import com.example.puffer.parkingdemo.R;
 import com.example.puffer.parkingdemo.model.Park;
 
 import java.util.ArrayList;
@@ -32,7 +33,8 @@ public class ParkListAdapterPresenter implements ParkListAdapterContract.Present
     public void onBindViewHolder(ParkListAdapter.ViewHolder holder, int position) {
         holder.tv_name.setText(parkList.get(position).name);
         holder.tv_address.setText(parkList.get(position).address);
-        holder.tv_total.setText(String.format("公車:%s / 轎車:%s / 機車:%s / 自行車:%s",
+
+        holder.tv_total.setText(holder.tv_total.getContext().getString(R.string.transportation,
                 parkList.get(position).totalbus, parkList.get(position).totalcar,
                 parkList.get(position).totalmotor, parkList.get(position).totalbike));
 

@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ParkingDemo.iml" filepath="$PROJECT_DIR$/ParkingDemo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/map_utils/map_utils.iml" filepath="$PROJECT_DIR$/map_utils/map_utils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ParkingDemo.iml" filepath="$PROJECT_DIR$/ParkingDemo.iml" group="ParkingDemo" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="ParkingDemo/app" />
     </modules>
   </component>
 </project>

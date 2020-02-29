@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             @Override
             public void onSuccess(Park[] parks) {
                 String date = convertLongToTime(DataManager.getInstance().sp.readUpdateTime());
-                tv_dataset.setText(String.format("總收錄%d筆資料\n建立於%s", parks.length, date));
+                tv_dataset.setText(String.format(getString(R.string.total_data_set_created_from), parks.length, date));
 
                 setListen();
             }

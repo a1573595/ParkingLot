@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="台北市停車場查詢系統"
+        android:text="@string/app_name"
         android:textSize="@dimen/text_large"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/imageView"
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="資料處理中..."
+        android:text="@string/processing"
         android:textSize="@dimen/text_small"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/imageView"
@@ -61,11 +61,11 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@drawable/ripple_green"
-            android:drawableStart="@drawable/parking_icon"
+            android:drawableStart="@drawable/map"
             android:gravity="center"
             android:elevation="4dp"
             android:padding="10dp"
-            android:text="地圖模式"
+            android:text="@string/map_mode"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_large" />
 
@@ -77,10 +77,10 @@
             android:layout_weight="1"
             android:elevation="4dp"
             android:background="@drawable/ripple_red"
-            android:drawableStart="@drawable/list_icon"
+            android:drawableStart="@drawable/list"
             android:gravity="center"
             android:padding="10dp"
-            android:text="列表模式"
+            android:text="@string/list_mode"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_large" />
 
@@ -104,7 +104,7 @@
                 android:drawableStart="@drawable/love"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="最愛"
+                android:text="@string/favorite"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_large" />
 
@@ -122,7 +122,7 @@
                 android:drawableStart="@drawable/history"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="歷史"
+                android:text="@string/history"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_large" />
         </LinearLayout>

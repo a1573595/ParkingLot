@@ -24,7 +24,7 @@ public class choiceDialogAdapter extends ArrayAdapter<String> {
         }
     }
 
-    public choiceDialogAdapter(Context context, ArrayList<String> string) {
+    choiceDialogAdapter(Context context, ArrayList<String> string) {
         super(context, R.layout.dialog_center_layout, string);
         this.context = context;
         this.string = string;

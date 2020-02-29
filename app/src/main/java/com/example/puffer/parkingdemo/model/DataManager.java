@@ -9,7 +9,7 @@ import static com.example.puffer.parkingdemo.model.DatabaseInfo.DATABASE_NAME;
 public class DataManager {
     private static DataManager instance = null;
 
-    public sharedPreference sp;
+    public SharedPreference sp;
     private ParkDatabase db;
 
     private DataManager(){ }
@@ -23,7 +23,7 @@ public class DataManager {
     }
 
     public void initDatabase(Context context) {
-        sp = new sharedPreference(context);
+        sp = new SharedPreference(context);
         db = Room.databaseBuilder(context, ParkDatabase.class, DATABASE_NAME)
                 //.allowMainThreadQueries()
                 .fallbackToDestructiveMigration()

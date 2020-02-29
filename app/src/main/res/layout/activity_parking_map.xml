@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:background="#bbffffff"
         android:layout_gravity="bottom"
-        android:text="目前位置 :\n讀取中..."
+        android:text="@string/current_location_loading"
         android:textSize="14sp"
         android:ellipsize="end"
         android:maxLines="3"/>

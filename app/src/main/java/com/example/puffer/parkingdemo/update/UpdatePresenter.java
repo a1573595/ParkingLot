@@ -68,7 +68,7 @@ class UpdatePresenter implements UpdateContract.Presenter {
                                 parkList.add(new Park(park.id, park.area, park.name, park.summary,
                                         park.address, park.tel, park.payex, park.totalcar,
                                         park.totalmotor, park.totalbike, park.totalbus,
-                                        Double.valueOf(latlng[0]), Double.valueOf(latlng[1])));
+                                        Double.parseDouble(latlng[0]), Double.parseDouble(latlng[1])));
                             }
 
                             writeDataSet(parkList);

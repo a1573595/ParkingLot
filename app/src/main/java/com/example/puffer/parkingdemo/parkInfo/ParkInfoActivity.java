@@ -91,7 +91,7 @@ public class ParkInfoActivity extends AppCompatActivity implements ParkInfoContr
         return new DisposableCompletableObserver() {
             @Override
             public void onComplete() {
-                love_image.setImageResource(isLove? R.drawable.love : R.drawable.love2);
+                love_image.setImageResource(isLove? R.drawable.love : R.drawable.unlove);
 
                 ScaleAnimation scaleAnimation = new ScaleAnimation(
                         1.0f, 1.2f, 1.0f, 1.2f,

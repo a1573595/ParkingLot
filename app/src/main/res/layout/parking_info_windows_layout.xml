@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
     android:id="@+id/ll_info"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/rectangle_gray"
+    android:background="@drawable/rectangle_black"
     android:orientation="vertical"
     android:gravity="center"
     android:padding="10dp">
@@ -12,25 +13,25 @@
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="停車場名稱"
+        tool:text="停車場名稱"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:textSize="22dp" />
+        android:textSize="@dimen/text_large" />
 
     <TextView
         android:id="@+id/tv_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:text="停車場地址"
+        tool:text="停車場地址"
         android:textColor="@android:color/white"
-        android:textSize="18dp" />
+        android:textSize="@dimen/text_medium" />
 
     <TextView
         android:id="@+id/tv_total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="轎車/機車/自行車"
+        tool:text="公車：0 轎車：0 機車：0 自行車：0 "
         android:textColor="@android:color/white"
-        android:textSize="18dp" />
+        android:textSize="@dimen/text_small" />
 </LinearLayout>

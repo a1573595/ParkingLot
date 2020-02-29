@@ -38,7 +38,7 @@ public class ParkFuzzySearchActivity extends AppCompatActivity implements ParkFu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_park_fuzzy_search);
         if(getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("停車場列表");
+            getSupportActionBar().setTitle(R.string.park_list);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 

@@ -14,7 +14,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -50,11 +49,8 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
         ClusterManager.OnClusterItemClickListener<ParkCluster>{
     private ParkMapPresenter presenter = new ParkMapPresenter(this);
 
-    private MapFragment map;
     private GoogleMap mMap;
-
     private ClusterManager<ParkCluster> mClusterManager;
-    private NonHierarchicalDistanceBasedAlgorithm clusterManagerAlgorithm;
     private LocationManager locationMgr;
     private LatLng mLatLng;
 
@@ -75,7 +71,7 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
         findView();
         initLocationManager();
 
-        map = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        MapFragment map = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         map.getMapAsync(googleMap -> {
             mMap = googleMap;
 
@@ -128,7 +124,6 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
         LatLngBounds.Builder builder = LatLngBounds.builder();
         for (ParkCluster item : cluster.getItems()) {
             builder.include(item.getPosition());
-            Log.e("test", item.name);
         }
         // Get the LatLngBounds
         final LatLngBounds bounds = builder.build();
@@ -154,17 +149,17 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
     }
 
     private void initLocationManager() {
-        locationMgr = (LocationManager) getSystemService(this.LOCATION_SERVICE);
+        locationMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (!locationMgr.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 || !locationMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 
             new MaterialAlertDialogBuilder(this, R.style.DialogTheme)
-                    .setTitle("提示")
-                    .setMessage("請開啟定位服務")
+                    .setTitle(R.string.note)
+                    .setMessage(R.string.please_open_gps)
                     .setCancelable(false)
-                    .setPositiveButton("確定", (dialogInterface, i) ->
+                    .setPositiveButton(R.string.agree, (dialogInterface, i) ->
                             startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)))
-                    .setNegativeButton("取消", (dialogInterface, i) ->
+                    .setNegativeButton(R.string.cancel, (dialogInterface, i) ->
                             dialogInterface.dismiss())
                     .show();
         }
@@ -179,15 +174,15 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
                 new LocationListener() {
                     @Override
                     public void onLocationChanged(Location location) {
-                        if (isFinishing() || isDestroyed())
+                        if (isFinishing() || isDestroyed()) {
                             locationMgr.removeUpdates(this);
-                        else {
+                        } else {
                             mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
                         }
 
                         try{
                             gecodeAddress = geocoder.getFromLocation(mLatLng.latitude, mLatLng.longitude, 1);
-                            tv_address.setText("目前位置 :\n" + gecodeAddress.get(0).getAddressLine(0));
+                            tv_address.setText(getString(R.string.Current_location, gecodeAddress.get(0).getAddressLine(0)));
                         }catch (Exception e){
                             e.toString();
                         }
@@ -221,8 +216,8 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
         mClusterManager.setOnClusterClickListener(this);
         mClusterManager.setOnClusterItemClickListener(this);
 
-        clusterManagerAlgorithm = new NonHierarchicalDistanceBasedAlgorithm();
-        mClusterManager.setAlgorithm(clusterManagerAlgorithm);
+        NonHierarchicalDistanceBasedAlgorithm algorithm = new NonHierarchicalDistanceBasedAlgorithm();
+        mClusterManager.setAlgorithm(algorithm);
     }
 
     private class ParkingRender extends DefaultClusterRenderer<ParkCluster> {
@@ -232,7 +227,7 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
 
         @Override
         protected void onBeforeClusterItemRendered(ParkCluster parkCluster, MarkerOptions markerOptions) {
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.parking_icon2));
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
         }
 
         @Override
@@ -249,7 +244,7 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
 
         choiceDialog.setContentView(R.layout.choice_dialog_list);
         TextView tv_title = choiceDialog.findViewById(R.id.tv_title);
-        tv_title.setText(String.format("包含%d個停車場",cluster.getSize()));
+        tv_title.setText(String.format(getString(R.string.contains_several_parking),cluster.getSize()));
         ListView listView = choiceDialog.findViewById(R.id.listView);
         final ArrayList<String> list = new ArrayList<>();
         final ArrayList<ParkCluster> station = new ArrayList<>();
@@ -269,7 +264,7 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
     private void showDialog(final ParkCluster parkCluster){
         final AlertDialog dialog = new MaterialAlertDialogBuilder(this, R.style.DialogTheme).create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawableResource(R.drawable.rectangle_gray);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.show();
 
         dialog.setContentView(R.layout.parking_info_windows_layout);
@@ -280,13 +275,13 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
 
         name.setText(parkCluster.name);
         address.setText(parkCluster.area);
-        total.setText(String.format("轎車:%d / 機車:%d / 自行車:%d",
-                parkCluster.totalCar, parkCluster.totalMotor, parkCluster.totalBike));
+        total.setText(getString(R.string.transportation, parkCluster.totalBus, parkCluster.totalCar,
+                parkCluster.totalMotor, parkCluster.totalBike));
 
         info_layout.setOnClickListener(v -> {
             Intent intent = new Intent(this, ParkInfoActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putString("id", parkCluster.name);
+            bundle.putString("id", parkCluster.id);
             intent.putExtras(bundle);
             startActivity(intent);
         });

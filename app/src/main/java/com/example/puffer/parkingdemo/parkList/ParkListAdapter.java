@@ -9,9 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.puffer.parkingdemo.R;
-import com.example.puffer.parkingdemo.model.Park;
-
-import java.util.ArrayList;
 
 public class ParkListAdapter extends RecyclerView.Adapter<ParkListAdapter.ViewHolder> {
     private ParkListAdapterPresenter presenter;
