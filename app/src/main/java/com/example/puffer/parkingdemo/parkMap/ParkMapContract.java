@@ -1,6 +1,6 @@
 package com.example.puffer.parkingdemo.parkMap;
 
-import com.example.puffer.parkingdemo.model.Park;
+import com.example.puffer.parkingdemo.model.data.Park;
 
 import io.reactivex.SingleObserver;
 

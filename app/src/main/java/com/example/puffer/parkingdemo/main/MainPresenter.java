@@ -4,9 +4,9 @@ import com.example.puffer.parkingdemo.BasePresenter;
 import com.example.puffer.parkingdemo.model.DataManager;
 import com.example.puffer.parkingdemo.model.ApiService;
 import com.example.puffer.parkingdemo.model.LatLngCoding;
-import com.example.puffer.parkingdemo.model.Park;
-import com.example.puffer.parkingdemo.model.ParkDao;
-import com.example.puffer.parkingdemo.model.TCMSV_ALLDESC;
+import com.example.puffer.parkingdemo.model.data.Park;
+import com.example.puffer.parkingdemo.model.repository.ParkDao;
+import com.example.puffer.parkingdemo.model.data.TCMSV_ALLDESC;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;

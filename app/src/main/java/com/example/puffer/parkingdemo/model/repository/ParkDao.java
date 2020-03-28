@@ -1,4 +1,4 @@
-package com.example.puffer.parkingdemo.model;
+package com.example.puffer.parkingdemo.model.repository;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -7,6 +7,8 @@ import androidx.room.Query;
 import androidx.room.RawQuery;
 import androidx.room.Transaction;
 import androidx.sqlite.db.SupportSQLiteQuery;
+
+import com.example.puffer.parkingdemo.model.data.Park;
 
 import java.util.List;
 

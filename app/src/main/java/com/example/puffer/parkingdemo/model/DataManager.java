@@ -4,7 +4,13 @@ import android.content.Context;
 
 import androidx.room.Room;
 
-import static com.example.puffer.parkingdemo.model.DatabaseInfo.DATABASE_NAME;
+import com.example.puffer.parkingdemo.model.repository.HistoryDao;
+import com.example.puffer.parkingdemo.model.repository.LoveDao;
+import com.example.puffer.parkingdemo.model.repository.ParkDao;
+import com.example.puffer.parkingdemo.model.repository.ParkDatabase;
+import com.example.puffer.parkingdemo.model.repository.SharedPreference;
+
+import static com.example.puffer.parkingdemo.model.repository.DatabaseInfo.DATABASE_NAME;
 
 public class DataManager {
     private static DataManager instance = null;

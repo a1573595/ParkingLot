@@ -12,7 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
 import com.example.puffer.parkingdemo.R;
-import com.example.puffer.parkingdemo.model.Park;
+import com.example.puffer.parkingdemo.model.data.Park;
 import com.example.puffer.parkingdemo.parkInfo.ParkInfoActivity;
 import com.example.puffer.parkingdemo.parkList.ParkListAdapter;
 import com.example.puffer.parkingdemo.parkList.ParkListAdapterContract;

@@ -2,8 +2,8 @@ package com.example.puffer.parkingdemo.parkInfo;
 
 import com.example.puffer.parkingdemo.BasePresenter;
 import com.example.puffer.parkingdemo.model.DataManager;
-import com.example.puffer.parkingdemo.model.History;
-import com.example.puffer.parkingdemo.model.Love;
+import com.example.puffer.parkingdemo.model.data.History;
+import com.example.puffer.parkingdemo.model.data.Love;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;

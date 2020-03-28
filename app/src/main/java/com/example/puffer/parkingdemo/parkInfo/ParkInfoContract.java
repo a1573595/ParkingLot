@@ -1,7 +1,7 @@
 package com.example.puffer.parkingdemo.parkInfo;
 
-import com.example.puffer.parkingdemo.model.Love;
-import com.example.puffer.parkingdemo.model.Park;
+import com.example.puffer.parkingdemo.model.data.Love;
+import com.example.puffer.parkingdemo.model.data.Park;
 
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;

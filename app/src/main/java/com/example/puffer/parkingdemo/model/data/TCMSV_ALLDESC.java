@@ -1,4 +1,4 @@
-package com.example.puffer.parkingdemo.model;
+package com.example.puffer.parkingdemo.model.data;
 
 public class TCMSV_ALLDESC {
     public Data data;

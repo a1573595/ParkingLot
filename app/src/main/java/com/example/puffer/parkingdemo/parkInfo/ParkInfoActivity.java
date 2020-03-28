@@ -8,8 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.puffer.parkingdemo.R;
-import com.example.puffer.parkingdemo.model.Love;
-import com.example.puffer.parkingdemo.model.Park;
+import com.example.puffer.parkingdemo.model.data.Love;
+import com.example.puffer.parkingdemo.model.data.Park;
 
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;

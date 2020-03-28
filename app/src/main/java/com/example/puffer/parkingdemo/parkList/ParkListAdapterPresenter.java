@@ -1,7 +1,7 @@
 package com.example.puffer.parkingdemo.parkList;
 
 import com.example.puffer.parkingdemo.R;
-import com.example.puffer.parkingdemo.model.Park;
+import com.example.puffer.parkingdemo.model.data.Park;
 
 import java.util.ArrayList;
 import java.util.Collections;

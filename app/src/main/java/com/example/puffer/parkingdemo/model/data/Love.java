@@ -1,14 +1,16 @@
-package com.example.puffer.parkingdemo.model;
+package com.example.puffer.parkingdemo.model.data;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.puffer.parkingdemo.model.repository.DatabaseInfo;
+
 @Entity(tableName = DatabaseInfo.Table_LOVE)
 public class Love {
     @PrimaryKey
     @NonNull
-    String id;
+    public String id;
 
     public Love(String id){
         this.id = id;

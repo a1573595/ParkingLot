@@ -1,4 +1,4 @@
-package com.example.puffer.parkingdemo.model;
+package com.example.puffer.parkingdemo.model.repository;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,7 +8,7 @@ public class SharedPreference {
 
     private static final String updateTime = "updateTime";
 
-    SharedPreference(Context context) {
+    public SharedPreference(Context context) {
         sp = context.getSharedPreferences("UserInfo", 0);
     }
 

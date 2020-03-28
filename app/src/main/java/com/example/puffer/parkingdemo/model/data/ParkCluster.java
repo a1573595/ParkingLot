@@ -1,4 +1,4 @@
-package com.example.puffer.parkingdemo.model;
+package com.example.puffer.parkingdemo.model.data;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
