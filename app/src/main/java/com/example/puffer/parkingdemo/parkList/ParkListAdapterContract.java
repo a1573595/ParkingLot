@@ -16,6 +16,8 @@ public interface ParkListAdapterContract {
 
         int getItemCount();
 
+        void onClick(ParkListAdapter.ViewHolder holder);
+
         void onBindViewHolder(ParkListAdapter.ViewHolder holder, int position);
 
         void removeItem(int position);

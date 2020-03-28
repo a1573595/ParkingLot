@@ -13,16 +13,19 @@ import com.example.puffer.parkingdemo.R;
 public class ParkListAdapter extends RecyclerView.Adapter<ParkListAdapter.ViewHolder> {
     private ParkListAdapterPresenter presenter;
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         View root;
         TextView tv_name, tv_address, tv_total;
 
-        ViewHolder(View v) {
+        ViewHolder(View v, ParkListAdapterPresenter presenter) {
             super(v);
+
             root = v.findViewById(R.id.root);
             tv_name = v.findViewById(R.id.tv_name);
             tv_address = v.findViewById(R.id.tv_address);
             tv_total = v.findViewById(R.id.tv_total);
+
+            presenter.onClick(this);
         }
     }
 
@@ -34,7 +37,7 @@ public class ParkListAdapter extends RecyclerView.Adapter<ParkListAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_park_list, parent, false);
-        return new ViewHolder(v);
+        return new ViewHolder(v, presenter);
     }
 
     @Override

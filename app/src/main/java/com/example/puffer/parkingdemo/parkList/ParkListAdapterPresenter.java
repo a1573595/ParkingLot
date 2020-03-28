@@ -30,6 +30,15 @@ public class ParkListAdapterPresenter implements ParkListAdapterContract.Present
     }
 
     @Override
+    public void onClick(ParkListAdapter.ViewHolder holder) {
+        holder.root.setOnClickListener(v -> {
+            final int position = holder.getAdapterPosition();
+
+            view.onItemClick(parkList.get(position).id);
+        });
+    }
+
+    @Override
     public void onBindViewHolder(ParkListAdapter.ViewHolder holder, int position) {
         holder.tv_name.setText(parkList.get(position).name);
         holder.tv_address.setText(parkList.get(position).address);
@@ -37,10 +46,6 @@ public class ParkListAdapterPresenter implements ParkListAdapterContract.Present
         holder.tv_total.setText(holder.tv_total.getContext().getString(R.string.transportation,
                 parkList.get(position).totalbus, parkList.get(position).totalcar,
                 parkList.get(position).totalmotor, parkList.get(position).totalbike));
-
-        holder.root.setTag(position);
-        holder.root.setOnClickListener(view ->
-                ParkListAdapterPresenter.this.view.onItemClick(parkList.get(position).id));
     }
 
     @Override
