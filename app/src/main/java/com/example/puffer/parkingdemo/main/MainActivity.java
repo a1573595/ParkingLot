@@ -11,8 +11,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
+import com.example.puffer.parkingdemo.databinding.ActivityMainBinding;
 import com.example.puffer.parkingdemo.model.DataManager;
 import com.example.puffer.parkingdemo.parkMap.ParkingMapActivity;
 import com.example.puffer.parkingdemo.R;
@@ -31,12 +31,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private static final int REQUEST_LOCATION = 2;
 
-    private TextView tv_dataset, tv_map, tv_list, tv_love, tv_history;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         DataManager.getInstance().initDatabase(this);
 
@@ -46,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             return;
         }
 
-        findView();
         presenter.readDataSet();
     }
 
@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             case REQUEST_LOCATION:
                 if (grantResults.length > 0 &&
                         grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    findView();
                     presenter.readDataSet();
                 } else {    //使用者拒絕權限
                     finish();
@@ -94,19 +93,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         DataManager.getInstance().closeDatabase();
     }
 
-    private void findView(){
-        tv_dataset = findViewById(R.id.tv_dataset);
-        tv_map = findViewById(R.id.tv_map);
-        tv_list = findViewById(R.id.tv_list);
-        tv_love = findViewById(R.id.tv_love);
-        tv_history = findViewById(R.id.tv_history);
-    }
-
     @Override
     public void transitionToUpdate() {
-        Pair<View, String> p1 = Pair.create(findViewById(R.id.imageView), "imageView");
-        Pair<View, String> p2 = Pair.create(findViewById(R.id.textView), "textView");
-        Pair<View, String> p3 = Pair.create(tv_dataset, "tv_dataset");
+        Pair<View, String> p1 = Pair.create(binding.imageView, "imageView");
+        Pair<View, String> p2 = Pair.create(binding.textView, "textView");
+        Pair<View, String> p3 = Pair.create(binding.tvDataset, "tv_dataset");
 
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation(MainActivity.this, p1, p2, p3);
@@ -121,14 +112,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             @Override
             public void onSuccess(Park[] parks) {
                 String date = convertLongToTime(DataManager.getInstance().sp.readUpdateTime());
-                tv_dataset.setText(String.format(getString(R.string.total_data_set_created_from), parks.length, date));
+                binding.tvDataset.setText(String.format(getString(R.string.total_data_set_created_from), parks.length, date));
 
                 setListen();
             }
 
             @Override
             public void onError(Throwable e) {
-                tv_dataset.setText(e.toString());
+                binding.tvDataset.setText(e.toString());
             }
         };
     }
@@ -140,23 +131,23 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     private void setListen(){
-        tv_map.setOnClickListener(v -> {
+        binding.tvMap.setOnClickListener(v -> {
             Intent i = new Intent(MainActivity.this, ParkingMapActivity.class);
             startActivity(i);
         });
 
-        tv_list.setOnClickListener(v -> {
+        binding.tvList.setOnClickListener(v -> {
             Intent i = new Intent(MainActivity.this, ParkFuzzySearchActivity.class);
             startActivity(i);
         });
 
-        tv_love.setOnClickListener(v -> {
+        binding.tvLove.setOnClickListener(v -> {
             Intent i = new Intent(MainActivity.this, ParkListActivity.class);
             i.putExtra("isLove",true);
             startActivity(i);
         });
 
-        tv_history.setOnClickListener(v -> {
+        binding.tvHistory.setOnClickListener(v -> {
             Intent i = new Intent(MainActivity.this, ParkListActivity.class);
             i.putExtra("isLove",false);
             startActivity(i);

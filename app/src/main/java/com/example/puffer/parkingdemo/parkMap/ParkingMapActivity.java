@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.puffer.parkingdemo.R;
+import com.example.puffer.parkingdemo.databinding.ActivityParkMapBinding;
 import com.example.puffer.parkingdemo.model.data.ParkCluster;
 import com.example.puffer.parkingdemo.model.data.Park;
 import com.example.puffer.parkingdemo.parkInfo.ParkInfoActivity;
@@ -57,7 +58,7 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
     private Geocoder geocoder;
     private List<Address> gecodeAddress;
 
-    private TextView tv_address;
+    private ActivityParkMapBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +67,10 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
         getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_parking_map);
 
-        findView();
+        binding = ActivityParkMapBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         initLocationManager();
 
         MapFragment map = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
@@ -144,10 +146,6 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
         return true;
     }
 
-    private void findView(){
-        tv_address = findViewById(R.id.tv_address);
-    }
-
     private void initLocationManager() {
         locationMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (!locationMgr.isProviderEnabled(LocationManager.GPS_PROVIDER)
@@ -182,8 +180,8 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
 
                         try{
                             gecodeAddress = geocoder.getFromLocation(mLatLng.latitude, mLatLng.longitude, 1);
-                            tv_address.setText(getString(R.string.Current_location, gecodeAddress.get(0).getAddressLine(0)));
-                        }catch (Exception e){
+                            binding.tvAddress.setText(getString(R.string.Current_location, gecodeAddress.get(0).getAddressLine(0)));
+                        } catch (Exception e){
                             e.toString();
                         }
                     }
@@ -200,7 +198,7 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
 
         Location location = locationMgr.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         if(location != null)
-        mLatLng = new LatLng(location.getLatitude(),location.getLongitude());
+            mLatLng = new LatLng(location.getLatitude(),location.getLongitude());
     }
 
     private void initClusterManager(){

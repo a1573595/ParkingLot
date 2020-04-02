@@ -4,10 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.puffer.parkingdemo.R;
+import com.example.puffer.parkingdemo.databinding.ActivityParkInfoBinding;
 import com.example.puffer.parkingdemo.model.data.Love;
 import com.example.puffer.parkingdemo.model.data.Park;
 
@@ -17,21 +16,19 @@ import io.reactivex.observers.DisposableSingleObserver;
 public class ParkInfoActivity extends AppCompatActivity implements ParkInfoContract.View {
     private ParkInfoPresenter presenter;
 
-    private ImageView love_image;
-    private TextView tv_name, tv_phone, tv_area, tv_address, tv_payInfo, tv_summary;
-    private TextView tv_bus, tv_car, tv_moto, tv_bike;
+    private ActivityParkInfoBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_park_info);
+        binding = ActivityParkInfoBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         presenter = new ParkInfoPresenter(this, getIntent().getExtras().getString("id"));
-
-        findView();
 
         presenter.readParkData();
         presenter.readLoveData();
@@ -52,16 +49,16 @@ public class ParkInfoActivity extends AppCompatActivity implements ParkInfoContr
                     getSupportActionBar().setTitle(park.name);
                 }
 
-                tv_name.setText(park.name);
-                tv_address.setText(park.address);
-                tv_area.setText(park.area);
-                tv_phone.setText(park.tel);
-                tv_summary.setText(park.summary);
-                tv_payInfo.setText(park.payex);
-                tv_bus.setText(String.valueOf(park.totalbus));
-                tv_car.setText(String.valueOf(park.totalcar));
-                tv_moto.setText(String.valueOf(park.totalmotor));
-                tv_bike.setText(String.valueOf(park.totalbike));
+                binding.tvName.setText(park.name);
+                binding.tvAddress.setText(park.address);
+                binding.tvArea.setText(park.area);
+                binding.tvPhone.setText(park.tel);
+                binding.tvSummary.setText(park.summary);
+                binding.tvPayInfo.setText(park.payex);
+                binding.tvBus.setText(String.valueOf(park.totalbus));
+                binding.tvCar.setText(String.valueOf(park.totalcar));
+                binding.tvMoto.setText(String.valueOf(park.totalmotor));
+                binding.tvBike.setText(String.valueOf(park.totalbike));
 
                 presenter.addHistory();
 
@@ -78,7 +75,7 @@ public class ParkInfoActivity extends AppCompatActivity implements ParkInfoContr
         return new DisposableSingleObserver<Love>() {
             @Override
             public void onSuccess(Love love) {
-                love_image.setImageResource(R.drawable.love);
+                binding.imgLove.setImageResource(R.drawable.love);
             }
 
             @Override
@@ -91,7 +88,7 @@ public class ParkInfoActivity extends AppCompatActivity implements ParkInfoContr
         return new DisposableCompletableObserver() {
             @Override
             public void onComplete() {
-                love_image.setImageResource(isLove? R.drawable.love : R.drawable.unlove);
+                binding.imgLove.setImageResource(isLove? R.drawable.love : R.drawable.unlove);
 
                 ScaleAnimation scaleAnimation = new ScaleAnimation(
                         1.0f, 1.2f, 1.0f, 1.2f,
@@ -99,7 +96,7 @@ public class ParkInfoActivity extends AppCompatActivity implements ParkInfoContr
                         Animation.RELATIVE_TO_SELF, 1f);
                 scaleAnimation.setDuration(300);
 
-                love_image.startAnimation(scaleAnimation);
+                binding.imgLove.startAnimation(scaleAnimation);
             }
 
             @Override
@@ -107,24 +104,9 @@ public class ParkInfoActivity extends AppCompatActivity implements ParkInfoContr
         };
     }
 
-    private void findView(){
-        love_image = findViewById(R.id.img_love);
-
-        tv_name = findViewById(R.id.tv_name);
-        tv_phone = findViewById(R.id.tv_phone);
-        tv_area = findViewById(R.id.tv_area);
-        tv_address = findViewById(R.id.tv_address);
-        tv_payInfo = findViewById(R.id.tv_payInfo);
-        tv_summary = findViewById(R.id.tv_summary);
-        tv_bus = findViewById(R.id.tv_bus);
-        tv_car = findViewById(R.id.tv_car);
-        tv_moto = findViewById(R.id.tv_moto);
-        tv_bike = findViewById(R.id.tv_bike);
-    }
-
     private void setListen(){
-        love_image.setOnClickListener(view -> {
-            if(love_image.getDrawable().getConstantState().equals(
+        binding.imgLove.setOnClickListener(view -> {
+            if(binding.imgLove.getDrawable().getConstantState().equals(
                     getResources().getDrawable(R.drawable.love).getConstantState())) {
                 presenter.writeLove(false);
             }else {

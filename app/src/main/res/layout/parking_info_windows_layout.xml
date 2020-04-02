@@ -7,7 +7,7 @@
     android:background="@drawable/rectangle_black"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="10dp">
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/tv_name"

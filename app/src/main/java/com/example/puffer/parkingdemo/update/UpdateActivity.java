@@ -5,23 +5,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.transition.ChangeBounds;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.TextView;
 
-import com.example.puffer.parkingdemo.R;
+import com.example.puffer.parkingdemo.databinding.ActivityUpdateBinding;
 
 public class UpdateActivity extends AppCompatActivity implements UpdateContract.View{
     private UpdatePresenter presenter = new UpdatePresenter(this);
 
-    private TextView tv_dataset;
+    private ActivityUpdateBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update);
+        binding = ActivityUpdateBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         setupWindowAnimations();
-
-        tv_dataset = findViewById(R.id.tv_dataset);
 
         presenter.downloadDataSet();
     }
@@ -40,6 +38,6 @@ public class UpdateActivity extends AppCompatActivity implements UpdateContract.
 
     @Override
     public void updateFailed(String msg) {
-        tv_dataset.setText(msg);
+        binding.tvDataset.setText(msg);
     }
 }

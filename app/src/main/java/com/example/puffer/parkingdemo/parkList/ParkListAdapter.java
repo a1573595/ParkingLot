@@ -1,29 +1,23 @@
 package com.example.puffer.parkingdemo.parkList;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.puffer.parkingdemo.R;
+import com.example.puffer.parkingdemo.databinding.AdapterParkListBinding;
 
 public class ParkListAdapter extends RecyclerView.Adapter<ParkListAdapter.ViewHolder> {
     private ParkListAdapterPresenter presenter;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        View root;
-        TextView tv_name, tv_address, tv_total;
+        AdapterParkListBinding binding;
 
-        ViewHolder(View v, ParkListAdapterPresenter presenter) {
-            super(v);
+        ViewHolder(AdapterParkListBinding binding, ParkListAdapterPresenter presenter) {
+            super(binding.getRoot());
 
-            root = v.findViewById(R.id.root);
-            tv_name = v.findViewById(R.id.tv_name);
-            tv_address = v.findViewById(R.id.tv_address);
-            tv_total = v.findViewById(R.id.tv_total);
+            this.binding = binding;
 
             presenter.onClick(this);
         }
@@ -36,13 +30,13 @@ public class ParkListAdapter extends RecyclerView.Adapter<ParkListAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_park_list, parent, false);
-        return new ViewHolder(v, presenter);
+        AdapterParkListBinding binding = AdapterParkListBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new ViewHolder(binding, presenter);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        presenter.onBindViewHolder(holder, position);
+        presenter.onBindViewHolder(holder.binding, position);
     }
 
     @Override

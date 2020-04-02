@@ -1,6 +1,7 @@
 package com.example.puffer.parkingdemo.parkList;
 
 import com.example.puffer.parkingdemo.R;
+import com.example.puffer.parkingdemo.databinding.AdapterParkListBinding;
 import com.example.puffer.parkingdemo.model.data.Park;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class ParkListAdapterPresenter implements ParkListAdapterContract.Present
 
     @Override
     public void onClick(ParkListAdapter.ViewHolder holder) {
-        holder.root.setOnClickListener(v -> {
+        holder.binding.root.setOnClickListener(v -> {
             final int position = holder.getAdapterPosition();
 
             view.onItemClick(parkList.get(position).id);
@@ -39,11 +40,11 @@ public class ParkListAdapterPresenter implements ParkListAdapterContract.Present
     }
 
     @Override
-    public void onBindViewHolder(ParkListAdapter.ViewHolder holder, int position) {
-        holder.tv_name.setText(parkList.get(position).name);
-        holder.tv_address.setText(parkList.get(position).address);
+    public void onBindViewHolder(AdapterParkListBinding binding, int position) {
+        binding.tvName.setText(parkList.get(position).name);
+        binding.tvAddress.setText(parkList.get(position).address);
 
-        holder.tv_total.setText(holder.tv_total.getContext().getString(R.string.transportation,
+        binding.tvTotal.setText(binding.tvTotal.getContext().getString(R.string.transportation,
                 parkList.get(position).totalbus, parkList.get(position).totalcar,
                 parkList.get(position).totalmotor, parkList.get(position).totalbike));
     }

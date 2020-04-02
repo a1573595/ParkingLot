@@ -2,7 +2,6 @@ package com.example.puffer.parkingdemo.parkFuzzySearch;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,13 +11,12 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
 import com.example.puffer.parkingdemo.R;
+import com.example.puffer.parkingdemo.databinding.ActivityParkFuzzySearchBinding;
 import com.example.puffer.parkingdemo.model.data.Park;
 import com.example.puffer.parkingdemo.parkInfo.ParkInfoActivity;
 import com.example.puffer.parkingdemo.parkList.ParkListAdapter;
 import com.example.puffer.parkingdemo.parkList.ParkListAdapterContract;
 import com.example.puffer.parkingdemo.parkList.ParkListAdapterPresenter;
-import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.textfield.TextInputEditText;
 
 import io.reactivex.observers.DisposableSingleObserver;
 
@@ -27,16 +25,16 @@ public class ParkFuzzySearchActivity extends AppCompatActivity implements ParkFu
     private ParkFuzzySearchPresenter presenter;
     private ParkListAdapterPresenter adapterPresenter = new ParkListAdapterPresenter(this);
 
-    private TextInputEditText ed_search;
-    private ChipGroup group_transportation;
-
-    private RecyclerView recyclerView;
     private ParkListAdapter adapter;
+
+    private ActivityParkFuzzySearchBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_park_fuzzy_search);
+        binding = ActivityParkFuzzySearchBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         if(getSupportActionBar() != null) {
             getSupportActionBar().setTitle(R.string.park_list);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -44,10 +42,9 @@ public class ParkFuzzySearchActivity extends AppCompatActivity implements ParkFu
 
         presenter = new ParkFuzzySearchPresenter(this);
 
-        findView();
         initList();
 
-        presenter.readParksData(ed_search.getText().toString());
+        presenter.readParksData(binding.edSearch.getText().toString());
 
         setListen();
     }
@@ -65,7 +62,7 @@ public class ParkFuzzySearchActivity extends AppCompatActivity implements ParkFu
             public void onSuccess(Park[] parks) {
                 adapterPresenter.loadData(parks);
                 adapter.notifyDataSetChanged();
-                recyclerView.scheduleLayoutAnimation();
+                binding.recyclerView.scheduleLayoutAnimation();
             }
 
             @Override
@@ -88,39 +85,33 @@ public class ParkFuzzySearchActivity extends AppCompatActivity implements ParkFu
     @Override
     public void itemInsert(String id) { }
 
-    private void findView(){
-        ed_search = findViewById(R.id.ed_search);
-        group_transportation = findViewById(R.id.group_transportation);
-        recyclerView = findViewById(R.id.recyclerView);
-    }
-
     private void initList(){
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ParkListAdapter(adapterPresenter);
-        recyclerView.setAdapter(adapter);
+        binding.recyclerView.setAdapter(adapter);
 
         LayoutAnimationController controller = new LayoutAnimationController(
                 AnimationUtils.loadAnimation(this, R.anim.grow_fade_in_from_bottom));
         controller.setOrder(LayoutAnimationController.ORDER_NORMAL);
         controller.setDelay(0.3f);
-        recyclerView.setLayoutAnimation(controller);
+        binding.recyclerView.setLayoutAnimation(controller);
     }
 
     private void setListen(){
-        ed_search.addTextChangedListener(new TextWatcher() {
+        binding.edSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                presenter.readParksData(ed_search.getText().toString());
+                presenter.readParksData(binding.edSearch.getText().toString());
             }
 
             @Override
             public void afterTextChanged(Editable s) { }
         });
 
-        group_transportation.setOnCheckedChangeListener((group, checkedId) -> {
+        binding.groupTransportation.setOnCheckedChangeListener((group, checkedId) -> {
             switch (checkedId) {
                 case R.id.chip_bus:
                     presenter.setMode(0);
@@ -136,7 +127,7 @@ public class ParkFuzzySearchActivity extends AppCompatActivity implements ParkFu
                     break;
             }
 
-            presenter.readParksData(ed_search.getText().toString());
+            presenter.readParksData(binding.edSearch.getText().toString());
         });
     }
 }

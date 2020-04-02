@@ -1,5 +1,6 @@
 package com.example.puffer.parkingdemo.parkList;
 
+import com.example.puffer.parkingdemo.databinding.AdapterParkListBinding;
 import com.example.puffer.parkingdemo.model.data.Park;
 
 public interface ParkListAdapterContract {
@@ -18,7 +19,7 @@ public interface ParkListAdapterContract {
 
         void onClick(ParkListAdapter.ViewHolder holder);
 
-        void onBindViewHolder(ParkListAdapter.ViewHolder holder, int position);
+        void onBindViewHolder(AdapterParkListBinding binding, int position);
 
         void removeItem(int position);
 

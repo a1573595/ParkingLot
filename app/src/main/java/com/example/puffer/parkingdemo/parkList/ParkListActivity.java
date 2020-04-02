@@ -18,6 +18,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
 import com.example.puffer.parkingdemo.R;
+import com.example.puffer.parkingdemo.databinding.ActivityParkListBinding;
 import com.example.puffer.parkingdemo.model.data.Park;
 import com.example.puffer.parkingdemo.parkInfo.ParkInfoActivity;
 import com.google.android.material.snackbar.Snackbar;
@@ -29,13 +30,15 @@ public class ParkListActivity extends AppCompatActivity implements ParkListContr
     private ParkListPresenter presenter;
     private ParkListAdapterPresenter adapterPresenter = new ParkListAdapterPresenter(this);
 
-    private RecyclerView recyclerView;
     private ParkListAdapter adapter;
+
+    private ActivityParkListBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_park_list);
+        binding = ActivityParkListBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         boolean isLove = getIntent().getBooleanExtra("isLove", false);
 
@@ -47,8 +50,6 @@ public class ParkListActivity extends AppCompatActivity implements ParkListContr
         }
 
         presenter = new ParkListPresenter(this, isLove);
-
-        findView();
 
         initList();
     }
@@ -99,23 +100,19 @@ public class ParkListActivity extends AppCompatActivity implements ParkListContr
         presenter.insertParkData(id);
     }
 
-    private void findView(){
-        recyclerView = findViewById(R.id.recyclerView);
-    }
-
     private void initList() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ParkListAdapter(adapterPresenter);
-        recyclerView.setAdapter(adapter);
+        binding.recyclerView.setAdapter(adapter);
 
         LayoutAnimationController controller = new LayoutAnimationController(
                 AnimationUtils.loadAnimation(this, R.anim.grow_fade_in_from_bottom));
         controller.setOrder(LayoutAnimationController.ORDER_NORMAL);
         controller.setDelay(0.3f);
-        recyclerView.setLayoutAnimation(controller);
+        binding.recyclerView.setLayoutAnimation(controller);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        itemTouchHelper.attachToRecyclerView(binding.recyclerView);
     }
 
     private ItemTouchHelper.Callback callback = new ItemTouchHelper.SimpleCallback(
