@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="8dp"
     android:paddingStart="8dp"
+    android:paddingTop="8dp"
     android:paddingEnd="8dp">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -16,9 +16,9 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ed_search"
-            android:inputType="text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.chip.ChipGroup
@@ -28,38 +28,38 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:chipSpacing="10dp"
-        app:singleSelection="true"
         app:itemSpacing="15dp"
-        app:singleLine="true">
+        app:singleLine="true"
+        app:singleSelection="true">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_bus"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bus"/>
+            android:text="@string/bus" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_car"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/car"
-            android:checked="true"/>
+            android:checked="true"
+            android:text="@string/car" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_moto"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/moto"/>
+            android:text="@string/moto" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_bike"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bike"/>
+            android:text="@string/bike" />
     </com.google.android.material.chip.ChipGroup>
 
     <androidx.recyclerview.widget.RecyclerView

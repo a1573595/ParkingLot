@@ -1,0 +1,60 @@
+package com.a1573595.parkingdemo.parkList;
+
+import com.a1573595.parkingdemo.BasePresenter;
+import com.a1573595.parkingdemo.model.DataManager;
+import com.a1573595.parkingdemo.model.data.History;
+import com.a1573595.parkingdemo.model.data.Love;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
+class ParkListPresenter extends BasePresenter implements ParkListContract.Presenter {
+    private ParkListContract.View view;
+    private boolean isLove;
+
+    ParkListPresenter(ParkListContract.View view, boolean isLove) {
+        this.view = view;
+        this.isLove = isLove;
+    }
+
+    @Override
+    public void readParksData() {
+        if (isLove) {
+            addDisposable(DataManager.getInstance().getLoveDao().getLoveList()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(view.showParkList()));
+        } else {
+            addDisposable(DataManager.getInstance().getHistoryDao().getHistoryList()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(view.showParkList()));
+        }
+    }
+
+    @Override
+    public void removeParkData(String id) {
+        if (isLove) {
+            DataManager.getInstance().getLoveDao().deleteByID(id)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe();
+        } else {
+            DataManager.getInstance().getHistoryDao().deleteByID(id)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe();
+        }
+    }
+
+    @Override
+    public void insertParkData(String id) {
+        if (isLove) {
+            DataManager.getInstance().getLoveDao().insert(new Love(id))
+                    .subscribeOn(Schedulers.io())
+                    .subscribe();
+        } else {
+            DataManager.getInstance().getHistoryDao().insert(new History(id))
+                    .subscribeOn(Schedulers.io())
+                    .subscribe();
+        }
+    }
+}

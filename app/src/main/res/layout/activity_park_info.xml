@@ -9,30 +9,30 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/img_love"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
+                android:layout_margin="10dp"
                 android:adjustViewBounds="true"
-                app:srcCompat="@drawable/unlove"
-                android:layout_margin="10dp"/>
+                app:srcCompat="@drawable/unlove" />
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                tool:text="市民大道(中林段)"
+                android:textColor="@android:color/holo_blue_dark"
                 android:textSize="22sp"
-                android:textColor="@android:color/holo_blue_dark"/>
+                tool:text="市民大道(中林段)" />
         </LinearLayout>
 
         <LinearLayout
@@ -51,9 +51,9 @@
                 android:id="@+id/tv_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tool:text="2395-5514"
+                android:textColor="@android:color/holo_blue_dark"
                 android:textSize="18sp"
-                android:textColor="@android:color/holo_blue_dark"/>
+                tool:text="2395-5514" />
         </LinearLayout>
 
         <LinearLayout
@@ -72,9 +72,9 @@
                 android:id="@+id/tv_area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tool:text="中山區"
+                android:textColor="@android:color/holo_blue_dark"
                 android:textSize="18sp"
-                android:textColor="@android:color/holo_blue_dark"/>
+                tool:text="中山區" />
         </LinearLayout>
 
         <LinearLayout
@@ -88,17 +88,16 @@
                 android:id="@+id/tv_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tool:text="中山北路-林森北路(地下)"
+                android:textColor="@android:color/holo_blue_dark"
                 android:textSize="18sp"
-                android:textColor="@android:color/holo_blue_dark"/>
+                tool:text="中山北路-林森北路(地下)" />
         </LinearLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/black"
-            android:layout_margin="5dp">
-        </FrameLayout>
+            android:layout_margin="5dp"
+            android:background="@android:color/black"></FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -108,119 +107,118 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:layout_weight="1"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/bus"
                     android:textColor="@android:color/holo_red_dark"
-                    android:textSize="@dimen/text_large"/>
+                    android:textSize="@dimen/text_large" />
 
                 <TextView
                     android:id="@+id/tv_bus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tool:text="0"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_large"/>
+                    android:textSize="@dimen/text_large"
+                    tool:text="0" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:layout_weight="1"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/car"
                     android:textColor="@android:color/holo_blue_dark"
-                    android:textSize="@dimen/text_large"/>
+                    android:textSize="@dimen/text_large" />
 
                 <TextView
                     android:id="@+id/tv_car"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tool:text="0"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_large"/>
+                    android:textSize="@dimen/text_large"
+                    tool:text="0" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:layout_weight="1"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/moto"
                     android:textColor="@android:color/holo_green_dark"
-                    android:textSize="@dimen/text_large"/>
+                    android:textSize="@dimen/text_large" />
 
                 <TextView
                     android:id="@+id/tv_moto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tool:text="65"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_large"/>
+                    android:textSize="@dimen/text_large"
+                    tool:text="65" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:layout_weight="1"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/bike"
                     android:textColor="@android:color/holo_orange_dark"
-                    android:textSize="@dimen/text_large"/>
+                    android:textSize="@dimen/text_large" />
 
                 <TextView
                     android:id="@+id/tv_bike"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tool:text="12"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_large"/>
+                    android:textSize="@dimen/text_large"
+                    tool:text="12" />
             </LinearLayout>
         </LinearLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/black"
-            android:layout_margin="5dp">
-        </FrameLayout>
+            android:layout_margin="5dp"
+            android:background="@android:color/black"></FrameLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/pay_info"
-            android:textSize="18sp"
-            android:textColor="@android:color/holo_red_light"/>
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_payInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            tool:text="計時：20元\/時(8-18)，10元\/時(18-8)。每日(20-8)最高收費50元，全程以半小時計費。月租：全日3,600元，日間2,400元(7-19)，夜間1,200元(限週一至週五19-8，及星期六、日與行政機關放假之紀念日、民俗"
+            android:textColor="@android:color/holo_blue_dark"
             android:textSize="18sp"
-            android:textColor="@android:color/holo_blue_dark"/>
+            tool:text="計時：20元\/時(8-18)，10元\/時(18-8)。每日(20-8)最高收費50元，全程以半小時計費。月租：全日3,600元，日間2,400元(7-19)，夜間1,200元(限週一至週五19-8，及星期六、日與行政機關放假之紀念日、民俗" />
 
         <TextView
             android:layout_width="match_parent"
@@ -234,8 +232,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            tool:text="立體式小型車496格(含身心障礙停車位10格)。"
+            android:textColor="@android:color/holo_blue_dark"
             android:textSize="18sp"
-            android:textColor="@android:color/holo_blue_dark"/>
+            tool:text="立體式小型車496格(含身心障礙停車位10格)。" />
     </LinearLayout>
 </ScrollView>

@@ -5,33 +5,33 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/rectangle_black"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     android:padding="8dp">
 
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tool:text="停車場名稱"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/text_large" />
+        android:textSize="@dimen/text_large"
+        tool:text="停車場名稱" />
 
     <TextView
         android:id="@+id/tv_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        tool:text="停車場地址"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/text_medium" />
+        android:textSize="@dimen/text_medium"
+        tool:text="停車場地址" />
 
     <TextView
         android:id="@+id/tv_total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tool:text="公車：0 轎車：0 機車：0 自行車：0 "
         android:textColor="@android:color/white"
-        android:textSize="@dimen/text_small" />
+        android:textSize="@dimen/text_small"
+        tool:text="公車：0 轎車：0 機車：0 自行車：0 " />
 </LinearLayout>

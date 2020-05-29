@@ -13,10 +13,10 @@
         android:id="@+id/tv_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#bbffffff"
         android:layout_gravity="bottom"
-        android:text="@string/current_location_loading"
-        android:textSize="14sp"
+        android:background="#bbffffff"
         android:ellipsize="end"
-        android:maxLines="3"/>
+        android:maxLines="3"
+        android:text="@string/current_location_loading"
+        android:textSize="14sp" />
 </FrameLayout>

@@ -9,8 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@drawable/rectangle_blue_top_half">
+        android:background="@drawable/rectangle_blue_top_half"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_title"
@@ -20,9 +20,9 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            tool:text="Title"
+            android:textColor="@android:color/white"
             android:textSize="@dimen/text_large"
-            android:textColor="@android:color/white" />
+            tool:text="Title" />
     </LinearLayout>
 
     <ListView

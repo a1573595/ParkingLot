@@ -8,8 +8,8 @@
     android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="10dp"
     app:cardElevation="4dp"
-    app:contentPadding="4dp"
-    app:cardUseCompatPadding="true">
+    app:cardUseCompatPadding="true"
+    app:contentPadding="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,26 +20,26 @@
             android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tool:text="市民大道(中林段)"
+            android:gravity="center"
             android:textSize="@dimen/text_large"
-            android:gravity="center" />
+            tool:text="市民大道(中林段)" />
 
         <TextView
             android:id="@+id/tv_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            tool:text="中山北路-林森北路(地下)"
+            android:gravity="center"
             android:textSize="@dimen/text_small"
-            android:gravity="center"/>
+            tool:text="中山北路-林森北路(地下)" />
 
         <TextView
             android:id="@+id/tv_total"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tool:text="公車：0 轎車：0 機車：0 自行車：0 "
-            android:textSize="@dimen/text_small"
             android:gravity="center"
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_small"
+            tool:text="公車：0 轎車：0 機車：0 自行車：0 " />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
