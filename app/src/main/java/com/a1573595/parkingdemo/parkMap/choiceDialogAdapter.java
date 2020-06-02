@@ -1,19 +1,14 @@
 package com.a1573595.parkingdemo.parkMap;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 
-import com.a1573595.parkingdemo.R;
 import com.a1573595.parkingdemo.databinding.DialogCenterLayoutBinding;
 
-import java.util.ArrayList;
-
-public class choiceDialogAdapter extends ArrayAdapter<String> {
-    private ArrayList<String> string;
-    private ViewHolder holder;
+public class choiceDialogAdapter extends BaseAdapter {
+    private ParkMapPresenter presenter;
 
     private static class ViewHolder {
         private DialogCenterLayoutBinding binding;
@@ -23,13 +18,30 @@ public class choiceDialogAdapter extends ArrayAdapter<String> {
         }
     }
 
-    choiceDialogAdapter(Context context, ArrayList<String> string) {
-        super(context, R.layout.dialog_center_layout, string);
-        this.string = string;
+    choiceDialogAdapter(ParkMapPresenter presenter) {
+        super();
+        this.presenter = presenter;
+    }
+
+    @Override
+    public int getCount() {
+        return presenter.getCount();
+    }
+
+    @Override
+    public String getItem(int position) {
+        return presenter.getItem(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+
         if (convertView == null) {
             DialogCenterLayoutBinding binding = DialogCenterLayoutBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             convertView = binding.getRoot();
@@ -40,12 +52,8 @@ public class choiceDialogAdapter extends ArrayAdapter<String> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        setText(position);
+        holder.binding.tvItem.setText(getItem(position));
 
         return convertView;
-    }
-
-    private void setText(int position) {
-        holder.binding.tvItem.setText(string.get(position));
     }
 }

@@ -19,18 +19,11 @@ import android.view.animation.LayoutAnimationController;
 
 import com.a1573595.parkingdemo.R;
 import com.a1573595.parkingdemo.databinding.ActivityParkListBinding;
-import com.a1573595.parkingdemo.model.data.Park;
 import com.a1573595.parkingdemo.parkInfo.ParkInfoActivity;
 import com.google.android.material.snackbar.Snackbar;
 
-import io.reactivex.observers.DisposableSingleObserver;
-
-public class ParkListActivity extends AppCompatActivity implements ParkListContract.View,
-        ParkListAdapterContract.View {
+public class ParkListActivity extends AppCompatActivity implements ParkListContract.View {
     private ParkListPresenter presenter;
-    private ParkListAdapterPresenter adapterPresenter = new ParkListAdapterPresenter(this);
-
-    private ParkListAdapter adapter;
 
     private ActivityParkListBinding binding;
 
@@ -68,21 +61,6 @@ public class ParkListActivity extends AppCompatActivity implements ParkListContr
     }
 
     @Override
-    public DisposableSingleObserver<Park[]> showParkList() {
-        return new DisposableSingleObserver<Park[]>() {
-            @Override
-            public void onSuccess(Park[] parks) {
-                adapterPresenter.loadData(parks);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-            }
-        };
-    }
-
-    @Override
     public void onItemClick(String id) {
         Intent intent = new Intent(this, ParkInfoActivity.class);
         Bundle bundle = new Bundle();
@@ -91,19 +69,10 @@ public class ParkListActivity extends AppCompatActivity implements ParkListContr
         startActivity(intent);
     }
 
-    @Override
-    public void itemRemoved(String id) {
-        presenter.removeParkData(id);
-    }
-
-    @Override
-    public void itemInsert(String id) {
-        presenter.insertParkData(id);
-    }
-
     private void initList() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ParkListAdapter(adapterPresenter);
+        ParkListAdapter adapter = new ParkListAdapter(presenter);
+        presenter.setAdapter(adapter);
         binding.recyclerView.setAdapter(adapter);
 
         LayoutAnimationController controller = new LayoutAnimationController(
@@ -172,14 +141,12 @@ public class ParkListActivity extends AppCompatActivity implements ParkListContr
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getAdapterPosition();
 
-            adapterPresenter.removeItem(position);
-            adapter.notifyItemRemoved(position);
+            presenter.removeItem(position);
 
             Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), R.string.delete, Snackbar.LENGTH_LONG);
 
             snackbar.setAction(R.string.recover, view -> {
-                adapterPresenter.undoDelete();
-                adapter.notifyItemInserted(position);
+                presenter.undoDelete();
             });
             snackbar.show();
         }

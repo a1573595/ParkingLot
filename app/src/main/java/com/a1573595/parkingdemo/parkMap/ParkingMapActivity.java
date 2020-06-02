@@ -57,7 +57,7 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
     private LatLng mLatLng;
 
     private Geocoder geocoder;
-    private List<Address> gecodeAddress;
+    private List<Address> geocodeAddress;
 
     private ActivityParkMapBinding binding;
 
@@ -182,8 +182,8 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
                         }
 
                         try {
-                            gecodeAddress = geocoder.getFromLocation(mLatLng.latitude, mLatLng.longitude, 1);
-                            binding.tvAddress.setText(getString(R.string.Current_location, gecodeAddress.get(0).getAddressLine(0)));
+                            geocodeAddress = geocoder.getFromLocation(mLatLng.latitude, mLatLng.longitude, 1);
+                            binding.tvAddress.setText(getString(R.string.Current_location, geocodeAddress.get(0).getAddressLine(0)));
                         } catch (Exception e) {
                             e.toString();
                         }
@@ -256,12 +256,14 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
             list.add(item.name);
             station.add(item);
         }
-        choiceDialogAdapter adapter = new choiceDialogAdapter(this, list);
+        presenter.putItems(list);
+        choiceDialogAdapter adapter = new choiceDialogAdapter(presenter);
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener((adapterView, view, position, l) -> {
+            choiceDialog.dismiss();
+
             showDialog(station.get(position));
-            choiceDialog.cancel();
         });
     }
 

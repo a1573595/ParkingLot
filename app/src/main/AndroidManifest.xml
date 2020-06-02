@@ -18,7 +18,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key" />
 
-        <activity android:name="com.a1573595.parkingdemo.main.MainActivity"
+        <activity android:name=".main.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,19 +26,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.a1573595.parkingdemo.update.UpdateActivity"
+        <activity android:name=".update.UpdateActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.a1573595.parkingdemo.parkMap.ParkingMapActivity"
+            android:name=".parkMap.ParkingMapActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
-        <activity android:name="com.a1573595.parkingdemo.parkList.ParkListActivity"
+        <activity android:name=".parkList.ParkListActivity"
             android:theme="@style/NoActionBar"
             android:screenOrientation="portrait"/>
-        <activity android:name="com.a1573595.parkingdemo.parkInfo.ParkInfoActivity"
+        <activity android:name=".parkInfo.ParkInfoActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.a1573595.parkingdemo.parkFuzzySearch.ParkFuzzySearchActivity"
+            android:name=".parkFuzzySearch.ParkFuzzySearchActivity"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:screenOrientation="portrait"/>
     </application>

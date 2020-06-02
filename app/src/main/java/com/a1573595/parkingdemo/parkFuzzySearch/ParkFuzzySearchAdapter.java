@@ -1,4 +1,4 @@
-package com.a1573595.parkingdemo.parkList;
+package com.a1573595.parkingdemo.parkFuzzySearch;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -10,13 +10,13 @@ import com.a1573595.parkingdemo.R;
 import com.a1573595.parkingdemo.databinding.AdapterParkListBinding;
 import com.a1573595.parkingdemo.model.data.Park;
 
-public class ParkListAdapter extends RecyclerView.Adapter<ParkListAdapter.ViewHolder> {
-    private ParkListPresenter presenter;
+public class ParkFuzzySearchAdapter extends RecyclerView.Adapter<ParkFuzzySearchAdapter.ViewHolder> {
+    private ParkFuzzySearchPresenter presenter;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         AdapterParkListBinding binding;
 
-        ViewHolder(AdapterParkListBinding binding, ParkListPresenter presenter) {
+        ViewHolder(AdapterParkListBinding binding, ParkFuzzySearchPresenter presenter) {
             super(binding.getRoot());
 
             this.binding = binding;
@@ -29,19 +29,19 @@ public class ParkListAdapter extends RecyclerView.Adapter<ParkListAdapter.ViewHo
         }
     }
 
-    public ParkListAdapter(ParkListPresenter presenter) {
+    public ParkFuzzySearchAdapter(ParkFuzzySearchPresenter presenter) {
         this.presenter = presenter;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ParkFuzzySearchAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         AdapterParkListBinding binding = AdapterParkListBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new ViewHolder(binding, presenter);
+        return new ParkFuzzySearchAdapter.ViewHolder(binding, presenter);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ParkFuzzySearchAdapter.ViewHolder holder, int position) {
         Park park = presenter.getItem(position);
 
         holder.binding.tvName.setText(park.name);

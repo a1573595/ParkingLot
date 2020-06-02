@@ -12,20 +12,10 @@ import android.view.animation.LayoutAnimationController;
 
 import com.a1573595.parkingdemo.R;
 import com.a1573595.parkingdemo.databinding.ActivityParkFuzzySearchBinding;
-import com.a1573595.parkingdemo.model.data.Park;
 import com.a1573595.parkingdemo.parkInfo.ParkInfoActivity;
-import com.a1573595.parkingdemo.parkList.ParkListAdapter;
-import com.a1573595.parkingdemo.parkList.ParkListAdapterContract;
-import com.a1573595.parkingdemo.parkList.ParkListAdapterPresenter;
 
-import io.reactivex.observers.DisposableSingleObserver;
-
-public class ParkFuzzySearchActivity extends AppCompatActivity implements ParkFuzzySearchContract.View,
-        ParkListAdapterContract.View {
+public class ParkFuzzySearchActivity extends AppCompatActivity implements ParkFuzzySearchContract.View {
     private ParkFuzzySearchPresenter presenter;
-    private ParkListAdapterPresenter adapterPresenter = new ParkListAdapterPresenter(this);
-
-    private ParkListAdapter adapter;
 
     private ActivityParkFuzzySearchBinding binding;
 
@@ -56,19 +46,8 @@ public class ParkFuzzySearchActivity extends AppCompatActivity implements ParkFu
     }
 
     @Override
-    public DisposableSingleObserver<Park[]> showParkList() {
-        return new DisposableSingleObserver<Park[]>() {
-            @Override
-            public void onSuccess(Park[] parks) {
-                adapterPresenter.loadData(parks);
-                adapter.notifyDataSetChanged();
-                binding.recyclerView.scheduleLayoutAnimation();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-            }
-        };
+    public void showLayoutAnimation() {
+        binding.recyclerView.scheduleLayoutAnimation();
     }
 
     @Override
@@ -80,17 +59,10 @@ public class ParkFuzzySearchActivity extends AppCompatActivity implements ParkFu
         startActivity(intent);
     }
 
-    @Override
-    public void itemRemoved(String id) {
-    }
-
-    @Override
-    public void itemInsert(String id) {
-    }
-
     private void initList() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ParkListAdapter(adapterPresenter);
+        ParkFuzzySearchAdapter adapter = new ParkFuzzySearchAdapter(presenter);
+        presenter.setAdapter(adapter);
         binding.recyclerView.setAdapter(adapter);
 
         LayoutAnimationController controller = new LayoutAnimationController(
