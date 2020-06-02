@@ -151,19 +151,19 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
 
     private void initLocationManager() {
         locationMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (!locationMgr.isProviderEnabled(LocationManager.GPS_PROVIDER)
-                || !locationMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-
-            new MaterialAlertDialogBuilder(this, R.style.DialogTheme)
-                    .setTitle(R.string.note)
-                    .setMessage(R.string.please_open_gps)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.agree, (dialogInterface, i) ->
-                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)))
-                    .setNegativeButton(R.string.cancel, (dialogInterface, i) ->
-                            dialogInterface.dismiss())
-                    .show();
-        }
+//        if (!locationMgr.isProviderEnabled(LocationManager.GPS_PROVIDER)
+//                || !locationMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+//
+//            new MaterialAlertDialogBuilder(this, R.style.DialogTheme)
+//                    .setTitle(R.string.note)
+//                    .setMessage(R.string.please_open_gps)
+//                    .setCancelable(false)
+//                    .setPositiveButton(R.string.agree, (dialogInterface, i) ->
+//                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)))
+//                    .setNegativeButton(R.string.cancel, (dialogInterface, i) ->
+//                            dialogInterface.dismiss())
+//                    .show();
+//        }
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             finish();
