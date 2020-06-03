@@ -50,7 +50,7 @@ public class ParkFuzzySearchPresenter extends BasePresenter implements ParkFuzzy
         }
 
         if (search.length() > 0) {
-            query += String.format(" AND name LIKE \'%%%s%%\'", search);
+            query += String.format(" AND (name LIKE \'%%%s%%\' OR address LIKE \'%%%s%%\')", search, search);
         }
 
         addDisposable(DataManager.getInstance().getParkDao().getAllByQuery(new SimpleSQLiteQuery(query))

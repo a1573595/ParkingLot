@@ -12,6 +12,10 @@ public abstract class BasePresenter extends ViewModel {
         disposable.add(d);
     }
 
+    protected void deleteDisposable(Disposable d) {
+        disposable.delete(d);
+    }
+
     @Override
     protected void onCleared() {
         disposable.clear();
