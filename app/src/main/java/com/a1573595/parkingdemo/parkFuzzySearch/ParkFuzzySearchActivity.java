@@ -1,6 +1,6 @@
 package com.a1573595.parkingdemo.parkFuzzySearch;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
@@ -10,11 +10,12 @@ import android.text.TextWatcher;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
+import com.a1573595.parkingdemo.BaseActivity;
 import com.a1573595.parkingdemo.R;
 import com.a1573595.parkingdemo.databinding.ActivityParkFuzzySearchBinding;
 import com.a1573595.parkingdemo.parkInfo.ParkInfoActivity;
 
-public class ParkFuzzySearchActivity extends AppCompatActivity implements ParkFuzzySearchContract.View {
+public class ParkFuzzySearchActivity extends BaseActivity implements ParkFuzzySearchContract.View {
     private ParkFuzzySearchPresenter presenter;
 
     private ActivityParkFuzzySearchBinding binding;
@@ -30,13 +31,17 @@ public class ParkFuzzySearchActivity extends AppCompatActivity implements ParkFu
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        presenter = new ParkFuzzySearchPresenter(this);
-
         initList();
 
         presenter.readParksData(binding.edSearch.getText().toString());
 
         setListen();
+    }
+
+    @Override
+    protected void createPresenter() {
+        presenter = ViewModelProviders.of(this).get(ParkFuzzySearchPresenter.class);
+        presenter.setView(this);
     }
 
     @Override

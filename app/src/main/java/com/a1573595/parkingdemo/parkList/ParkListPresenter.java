@@ -14,7 +14,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-class ParkListPresenter extends BasePresenter implements ParkListContract.Presenter {
+public class ParkListPresenter extends BasePresenter implements ParkListContract.Presenter {
     private ParkListContract.View view;
     private boolean isLove;
 
@@ -23,8 +23,11 @@ class ParkListPresenter extends BasePresenter implements ParkListContract.Presen
     private Park lastDeleteItem;
     private int lastDeletePosition;
 
-    ParkListPresenter(ParkListContract.View view, boolean isLove) {
+    void setView(ParkListContract.View view) {
         this.view = view;
+    }
+
+    public void setLove(boolean isLove) {
         this.isLove = isLove;
     }
 
@@ -66,7 +69,7 @@ class ParkListPresenter extends BasePresenter implements ParkListContract.Presen
     @Override
     public void removeItem(int position) {
         lastDeleteItem = parkList.get(position);
-        if(isLove) {
+        if (isLove) {
             lastDeletePosition = position;
         } else {
             lastDeletePosition = 0;
@@ -103,25 +106,25 @@ class ParkListPresenter extends BasePresenter implements ParkListContract.Presen
 
     private void removeParkData(String id) {
         if (isLove) {
-            DataManager.getInstance().getLoveDao().deleteByID(id)
+            addDisposable(DataManager.getInstance().getLoveDao().deleteByID(id)
                     .subscribeOn(Schedulers.io())
-                    .subscribe();
+                    .subscribe());
         } else {
-            DataManager.getInstance().getHistoryDao().deleteByID(id)
+            addDisposable(DataManager.getInstance().getHistoryDao().deleteByID(id)
                     .subscribeOn(Schedulers.io())
-                    .subscribe();
+                    .subscribe());
         }
     }
 
     private void insertParkData(String id) {
         if (isLove) {
-            DataManager.getInstance().getLoveDao().insert(new Love(id))
+            addDisposable(DataManager.getInstance().getLoveDao().insert(new Love(id))
                     .subscribeOn(Schedulers.io())
-                    .subscribe();
+                    .subscribe());
         } else {
-            DataManager.getInstance().getHistoryDao().insert(new History(id))
+            addDisposable(DataManager.getInstance().getHistoryDao().insert(new History(id))
                     .subscribeOn(Schedulers.io())
-                    .subscribe();
+                    .subscribe());
         }
     }
 }

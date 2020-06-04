@@ -1,7 +1,7 @@
 package com.a1573595.parkingdemo.parkList;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,12 +17,13 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
+import com.a1573595.parkingdemo.BaseActivity;
 import com.a1573595.parkingdemo.R;
 import com.a1573595.parkingdemo.databinding.ActivityParkListBinding;
 import com.a1573595.parkingdemo.parkInfo.ParkInfoActivity;
 import com.google.android.material.snackbar.Snackbar;
 
-public class ParkListActivity extends AppCompatActivity implements ParkListContract.View {
+public class ParkListActivity extends BaseActivity implements ParkListContract.View {
     private ParkListPresenter presenter;
 
     private ActivityParkListBinding binding;
@@ -33,16 +34,13 @@ public class ParkListActivity extends AppCompatActivity implements ParkListContr
         binding = ActivityParkListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        boolean isLove = getIntent().getBooleanExtra("isLove", false);
-
         setSupportActionBar(findViewById(R.id.toolbar));
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(
-                    isLove ? getString(R.string.favorite_list) : getString(R.string.history_list));
+                    getIntent().getBooleanExtra("isLove", false) ?
+                            getString(R.string.favorite_list) : getString(R.string.history_list));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
-        presenter = new ParkListPresenter(this, isLove);
 
         initList();
     }
@@ -58,6 +56,13 @@ public class ParkListActivity extends AppCompatActivity implements ParkListContr
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void createPresenter() {
+        presenter = ViewModelProviders.of(this).get(ParkListPresenter.class);
+        presenter.setView(this);
+        presenter.setLove(getIntent().getBooleanExtra("isLove", false));
     }
 
     @Override

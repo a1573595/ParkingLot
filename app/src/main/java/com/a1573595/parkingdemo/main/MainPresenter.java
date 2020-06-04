@@ -15,18 +15,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 
-import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableCompletableObserver;
+import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-class MainPresenter extends BasePresenter implements MainContract.Presenter {
+public class MainPresenter extends BasePresenter implements MainContract.Presenter {
     private MainContract.View view;
 
-    MainPresenter(MainContract.View view) {
+    void setView(MainContract.View view) {
         this.view = view;
     }
 
@@ -53,14 +53,10 @@ class MainPresenter extends BasePresenter implements MainContract.Presenter {
                 .build();
 
         ApiService apiService = retrofit.create(ApiService.class);
-        apiService.downloadFileWithDynamicUrlSync("TCMSV_alldesc.gz")
+        addDisposable(apiService.downloadFileWithDynamicUrlSync("TCMSV_alldesc.gz")
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .subscribe(new SingleObserver<ResponseBody>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
-
+                .subscribeWith(new DisposableSingleObserver<ResponseBody>() {
                     @Override
                     public void onSuccess(ResponseBody responseBody) {
                         try {
@@ -84,10 +80,10 @@ class MainPresenter extends BasePresenter implements MainContract.Presenter {
                                 parkList.add(new Park(park.id, park.area, park.name, park.summary,
                                         park.address, park.tel, park.payex, park.totalcar,
                                         park.totalmotor, park.totalbike, park.totalbus,
-                                        Double.valueOf(latlng[0]), Double.valueOf(latlng[1])));
+                                        Double.parseDouble(latlng[0]), Double.parseDouble(latlng[1])));
                             }
 
-                            writeDataSet(parkList);
+                            deleteDataSet(parkList);
                         } catch (Exception ignored) {
                         }
                     }
@@ -95,20 +91,34 @@ class MainPresenter extends BasePresenter implements MainContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                     }
-                });
+                }));
+    }
+
+    private void deleteDataSet(List<Park> parkList) {
+        ParkDao dao = DataManager.getInstance().getParkDao();
+
+        addDisposable(dao.deleteAll()
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribeWith(new DisposableCompletableObserver() {
+                    @Override
+                    public void onComplete() {
+                        writeDataSet(parkList);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+                }));
     }
 
     private void writeDataSet(List<Park> parkList) {
         ParkDao dao = DataManager.getInstance().getParkDao();
-        dao.insertAll(parkList)
+
+        addDisposable(dao.insertAll(parkList)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Long[]>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        dao.deleteAll();
-                    }
-
+                .subscribeWith(new DisposableSingleObserver<Long[]>() {
                     @Override
                     public void onSuccess(Long[] longs) {
                         DataManager.getInstance().sp.setUpdateTime(System.currentTimeMillis());
@@ -118,6 +128,6 @@ class MainPresenter extends BasePresenter implements MainContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                     }
-                });
+                }));
     }
 }

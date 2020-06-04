@@ -1,15 +1,17 @@
 package com.a1573595.parkingdemo.update;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.transition.ChangeBounds;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Toast;
 
+import androidx.lifecycle.ViewModelProviders;
+
+import com.a1573595.parkingdemo.BaseActivity;
 import com.a1573595.parkingdemo.databinding.ActivityUpdateBinding;
 
-public class UpdateActivity extends AppCompatActivity implements UpdateContract.View {
-    private UpdatePresenter presenter = new UpdatePresenter(this);
+public class UpdateActivity extends BaseActivity implements UpdateContract.View {
+    private UpdatePresenter presenter;
 
     private ActivityUpdateBinding binding;
 
@@ -22,6 +24,12 @@ public class UpdateActivity extends AppCompatActivity implements UpdateContract.
         setupWindowAnimations();
 
         presenter.downloadDataSet();
+    }
+
+    @Override
+    protected void createPresenter() {
+        presenter = ViewModelProviders.of(this).get(UpdatePresenter.class);
+        presenter.setView(this);
     }
 
     private void setupWindowAnimations() {
@@ -38,6 +46,6 @@ public class UpdateActivity extends AppCompatActivity implements UpdateContract.
 
     @Override
     public void updateFailed(String msg) {
-        binding.tvDataset.setText(msg);
+        runOnUiThread(() -> Toast.makeText(this, msg, Toast.LENGTH_SHORT).show());
     }
 }

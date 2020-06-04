@@ -4,15 +4,16 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 
 import androidx.core.app.ActivityCompat;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.a1573595.parkingdemo.BaseActivity;
 import com.a1573595.parkingdemo.databinding.ActivityMainBinding;
 import com.a1573595.parkingdemo.model.DataManager;
 import com.a1573595.parkingdemo.parkMap.ParkingMapActivity;
@@ -27,8 +28,8 @@ import java.util.Date;
 
 import io.reactivex.observers.DisposableSingleObserver;
 
-public class MainActivity extends AppCompatActivity implements MainContract.View {
-    private MainPresenter presenter = new MainPresenter(this);
+public class MainActivity extends BaseActivity implements MainContract.View {
+    private MainPresenter presenter;
 
     private static final int REQUEST_LOCATION = 2;
 
@@ -92,6 +93,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         super.onDestroy();
 
         DataManager.getInstance().closeDatabase();
+    }
+
+    @Override
+    protected void createPresenter() {
+        presenter = ViewModelProviders.of(this).get(MainPresenter.class);
+        presenter.setView(this);
     }
 
     @Override

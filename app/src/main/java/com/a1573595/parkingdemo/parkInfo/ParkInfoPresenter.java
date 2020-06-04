@@ -8,12 +8,15 @@ import com.a1573595.parkingdemo.model.data.Love;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-class ParkInfoPresenter extends BasePresenter implements ParkInfoContract.Presenter {
+public class ParkInfoPresenter extends BasePresenter implements ParkInfoContract.Presenter {
     private ParkInfoContract.View view;
     private String id;
 
-    ParkInfoPresenter(ParkInfoContract.View view, String id) {
+    void setView(ParkInfoContract.View view) {
         this.view = view;
+    }
+
+    void setID(String id) {
         this.id = id;
     }
 
@@ -35,9 +38,9 @@ class ParkInfoPresenter extends BasePresenter implements ParkInfoContract.Presen
 
     @Override
     public void addHistory() {
-        DataManager.getInstance().getHistoryDao().insert(new History(id))
+        addDisposable(DataManager.getInstance().getHistoryDao().insert(new History(id))
                 .subscribeOn(Schedulers.io())
-                .subscribe();
+                .subscribe());
     }
 
     @Override

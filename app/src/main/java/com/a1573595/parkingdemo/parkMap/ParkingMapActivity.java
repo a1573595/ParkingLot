@@ -12,7 +12,7 @@ import android.provider.Settings;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 import android.view.Window;
@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.a1573595.parkingdemo.BaseActivity;
 import com.a1573595.parkingdemo.R;
 import com.a1573595.parkingdemo.databinding.ActivityParkMapBinding;
 import com.a1573595.parkingdemo.model.data.ParkCluster;
@@ -45,11 +46,12 @@ import java.util.Locale;
 
 import io.reactivex.SingleObserver;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableSingleObserver;
 
-public class ParkingMapActivity extends AppCompatActivity implements ParkMapContract.View,
+public class ParkingMapActivity extends BaseActivity implements ParkMapContract.View,
         ClusterManager.OnClusterClickListener<ParkCluster>,
         ClusterManager.OnClusterItemClickListener<ParkCluster> {
-    private ParkMapPresenter presenter = new ParkMapPresenter(this);
+    private ParkMapPresenter presenter;
 
     private GoogleMap mMap;
     private ClusterManager<ParkCluster> mClusterManager;
@@ -96,12 +98,14 @@ public class ParkingMapActivity extends AppCompatActivity implements ParkMapCont
     }
 
     @Override
-    public SingleObserver<Park[]> showParkMark() {
-        return new SingleObserver<Park[]>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-            }
+    protected void createPresenter() {
+        presenter = ViewModelProviders.of(this).get(ParkMapPresenter.class);
+        presenter.setView(this);
+    }
 
+    @Override
+    public DisposableSingleObserver<Park[]> showParkMark() {
+        return new DisposableSingleObserver<Park[]>() {
             @Override
             public void onSuccess(Park[] parks) {
                 for (Park park : parks) {

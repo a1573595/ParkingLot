@@ -1,11 +1,12 @@
 package com.a1573595.parkingdemo.parkInfo;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 
+import androidx.lifecycle.ViewModelProviders;
+
+import com.a1573595.parkingdemo.BaseActivity;
 import com.a1573595.parkingdemo.R;
 import com.a1573595.parkingdemo.databinding.ActivityParkInfoBinding;
 import com.a1573595.parkingdemo.model.data.Love;
@@ -14,7 +15,7 @@ import com.a1573595.parkingdemo.model.data.Park;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 
-public class ParkInfoActivity extends AppCompatActivity implements ParkInfoContract.View {
+public class ParkInfoActivity extends BaseActivity implements ParkInfoContract.View {
     private ParkInfoPresenter presenter;
 
     private ActivityParkInfoBinding binding;
@@ -29,8 +30,6 @@ public class ParkInfoActivity extends AppCompatActivity implements ParkInfoContr
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        presenter = new ParkInfoPresenter(this, getIntent().getExtras().getString("id"));
-
         presenter.readParkData();
         presenter.readLoveData();
     }
@@ -39,6 +38,13 @@ public class ParkInfoActivity extends AppCompatActivity implements ParkInfoContr
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void createPresenter() {
+        presenter = ViewModelProviders.of(this).get(ParkInfoPresenter.class);
+        presenter.setView(this);
+        presenter.setID(getIntent().getExtras().getString("id"));
     }
 
     @Override

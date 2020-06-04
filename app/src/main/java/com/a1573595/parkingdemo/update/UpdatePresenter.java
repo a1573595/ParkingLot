@@ -1,5 +1,6 @@
 package com.a1573595.parkingdemo.update;
 
+import com.a1573595.parkingdemo.BasePresenter;
 import com.a1573595.parkingdemo.model.ApiService;
 import com.a1573595.parkingdemo.model.DataManager;
 import com.a1573595.parkingdemo.model.LatLngCoding;
@@ -14,18 +15,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 
-import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableCompletableObserver;
+import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-class UpdatePresenter implements UpdateContract.Presenter {
+public class UpdatePresenter extends BasePresenter implements UpdateContract.Presenter {
     private UpdateContract.View view;
 
-    UpdatePresenter(UpdateContract.View view) {
+    void setView(UpdateContract.View view) {
         this.view = view;
     }
 
@@ -38,14 +39,10 @@ class UpdatePresenter implements UpdateContract.Presenter {
                 .build();
 
         ApiService apiService = retrofit.create(ApiService.class);
-        apiService.downloadFileWithDynamicUrlSync("TCMSV_alldesc.gz")
+        addDisposable(apiService.downloadFileWithDynamicUrlSync("TCMSV_alldesc.gz")
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .subscribe(new SingleObserver<ResponseBody>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
-
+                .subscribeWith(new DisposableSingleObserver<ResponseBody>() {
                     @Override
                     public void onSuccess(ResponseBody responseBody) {
                         try {
@@ -72,7 +69,7 @@ class UpdatePresenter implements UpdateContract.Presenter {
                                         Double.parseDouble(latlng[0]), Double.parseDouble(latlng[1])));
                             }
 
-                            writeDataSet(parkList);
+                            deleteDataSet(parkList);
                         } catch (Exception ignored) {
                         }
                     }
@@ -81,20 +78,33 @@ class UpdatePresenter implements UpdateContract.Presenter {
                     public void onError(Throwable e) {
                         view.updateFailed(e.getMessage());
                     }
-                });
+                }));
+    }
+
+    private void deleteDataSet(List<Park> parkList) {
+        ParkDao dao = DataManager.getInstance().getParkDao();
+
+        addDisposable(dao.deleteAll()
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribeWith(new DisposableCompletableObserver() {
+                    @Override
+                    public void onComplete() {
+                        writeDataSet(parkList);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+                }));
     }
 
     private void writeDataSet(List<Park> parkList) {
         ParkDao dao = DataManager.getInstance().getParkDao();
-        dao.insertAll(parkList)
+        addDisposable(dao.insertAll(parkList)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Long[]>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        dao.deleteAll();
-                    }
-
+                .subscribeWith(new DisposableSingleObserver<Long[]>() {
                     @Override
                     public void onSuccess(Long[] longs) {
                         DataManager.getInstance().sp.setUpdateTime(System.currentTimeMillis());
@@ -106,6 +116,6 @@ class UpdatePresenter implements UpdateContract.Presenter {
                     public void onError(Throwable e) {
                         view.updateFailed(e.getMessage());
                     }
-                });
+                }));
     }
 }

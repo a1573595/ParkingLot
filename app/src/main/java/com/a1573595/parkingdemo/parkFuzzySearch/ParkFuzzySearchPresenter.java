@@ -21,7 +21,7 @@ public class ParkFuzzySearchPresenter extends BasePresenter implements ParkFuzzy
     private ParkFuzzySearchAdapter adapter;
     private List<Park> parkList = new ArrayList<>();
 
-    ParkFuzzySearchPresenter(ParkFuzzySearchContract.View view) {
+    void setView(ParkFuzzySearchContract.View view) {
         this.view = view;
     }
 
