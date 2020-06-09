@@ -88,9 +88,9 @@ public class ParkingMapActivity extends BaseActivity implements ParkMapContract.
             mMap.getUiSettings().setAllGesturesEnabled(false);
             initClusterManager();
 
-            if (mLatLng != null)
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 15));
-            else
+//            if (mLatLng != null)
+//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 15));
+//            else
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(25.0329694, 121.56541770000001), 15));
 
             mMap.setOnMapLoadedCallback(() -> presenter.readDataSet());
