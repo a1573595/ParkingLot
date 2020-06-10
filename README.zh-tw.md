@@ -18,8 +18,9 @@
 
 ### 使用函示庫
 1. [Material](https://material.io/)
-2. [RxJava2](https://github.com/ReactiveX/RxJava)
-3. [Retrofit2](https://github.com/square/retrofit)
-4. [Gson](https://github.com/google/gson)
-5. [Room](https://developer.android.com/topic/libraries/architecture/room)
-6. [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle)
+2. [Maps-utils](https://github.com/googlemaps/android-maps-utils)
+3. [RxJava2](https://github.com/ReactiveX/RxJava)
+4. [Retrofit2](https://github.com/square/retrofit)
+5. [Gson](https://github.com/google/gson)
+6. [Room](https://developer.android.com/topic/libraries/architecture/room)
+7. [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle)
