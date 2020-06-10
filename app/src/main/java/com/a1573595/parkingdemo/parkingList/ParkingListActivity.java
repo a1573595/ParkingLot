@@ -1,4 +1,4 @@
-package com.a1573595.parkingdemo.parkList;
+package com.a1573595.parkingdemo.parkingList;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
@@ -19,19 +19,19 @@ import android.view.animation.LayoutAnimationController;
 
 import com.a1573595.parkingdemo.BaseActivity;
 import com.a1573595.parkingdemo.R;
-import com.a1573595.parkingdemo.databinding.ActivityParkListBinding;
-import com.a1573595.parkingdemo.parkInfo.ParkInfoActivity;
+import com.a1573595.parkingdemo.databinding.ActivityParkingListBinding;
+import com.a1573595.parkingdemo.parkingInfo.ParkingInfoActivity;
 import com.google.android.material.snackbar.Snackbar;
 
-public class ParkListActivity extends BaseActivity implements ParkListContract.View {
-    private ParkListPresenter presenter;
+public class ParkingListActivity extends BaseActivity implements ParkingListContract.View {
+    private ParkingListPresenter presenter;
 
-    private ActivityParkListBinding binding;
+    private ActivityParkingListBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityParkListBinding.inflate(getLayoutInflater());
+        binding = ActivityParkingListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(findViewById(R.id.toolbar));
@@ -60,14 +60,14 @@ public class ParkListActivity extends BaseActivity implements ParkListContract.V
 
     @Override
     protected void createPresenter() {
-        presenter = ViewModelProviders.of(this).get(ParkListPresenter.class);
+        presenter = ViewModelProviders.of(this).get(ParkingListPresenter.class);
         presenter.setView(this);
         presenter.setLove(getIntent().getBooleanExtra("isLove", false));
     }
 
     @Override
     public void onItemClick(String id) {
-        Intent intent = new Intent(this, ParkInfoActivity.class);
+        Intent intent = new Intent(this, ParkingInfoActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("id", id);
         intent.putExtras(bundle);
@@ -76,7 +76,7 @@ public class ParkListActivity extends BaseActivity implements ParkListContract.V
 
     private void initList() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ParkListAdapter adapter = new ParkListAdapter(presenter);
+        ParkingListAdapter adapter = new ParkingListAdapter(presenter);
         presenter.setAdapter(adapter);
         binding.recyclerView.setAdapter(adapter);
 

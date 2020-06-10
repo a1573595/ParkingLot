@@ -4,7 +4,7 @@ import com.a1573595.parkingdemo.BasePresenter;
 import com.a1573595.parkingdemo.model.DataManager;
 import com.a1573595.parkingdemo.model.ApiService;
 import com.a1573595.parkingdemo.model.LatLngCoding;
-import com.a1573595.parkingdemo.model.data.Park;
+import com.a1573595.parkingdemo.model.data.Parking;
 import com.a1573595.parkingdemo.model.repository.ParkDao;
 import com.a1573595.parkingdemo.model.data.TCMSV_ALLDESC;
 import com.google.gson.Gson;
@@ -73,17 +73,17 @@ public class MainPresenter extends BasePresenter implements MainContract.Present
                             TCMSV_ALLDESC parking_info = new Gson().fromJson(out.toString("UTF-8"), TCMSV_ALLDESC.class);
                             TCMSV_ALLDESC.Data.Result[] parks = parking_info.data.park;
 
-                            List<Park> parkList = new ArrayList<>();
+                            List<Parking> parkingList = new ArrayList<>();
                             String[] latlng;
                             for (TCMSV_ALLDESC.Data.Result park : parks) {
                                 latlng = LatLngCoding.Cal_TWD97_To_lonlat(park.tw97x, park.tw97y).split(",");
-                                parkList.add(new Park(park.id, park.area, park.name, park.summary,
+                                parkingList.add(new Parking(park.id, park.area, park.name, park.summary,
                                         park.address, park.tel, park.payex, park.totalcar,
                                         park.totalmotor, park.totalbike, park.totalbus,
                                         Double.parseDouble(latlng[0]), Double.parseDouble(latlng[1])));
                             }
 
-                            deleteDataSet(parkList);
+                            deleteDataSet(parkingList);
                         } catch (Exception ignored) {
                         }
                     }
@@ -94,7 +94,7 @@ public class MainPresenter extends BasePresenter implements MainContract.Present
                 }));
     }
 
-    private void deleteDataSet(List<Park> parkList) {
+    private void deleteDataSet(List<Parking> parkingList) {
         ParkDao dao = DataManager.getInstance().getParkDao();
 
         addDisposable(dao.deleteAll()
@@ -103,7 +103,7 @@ public class MainPresenter extends BasePresenter implements MainContract.Present
                 .subscribeWith(new DisposableCompletableObserver() {
                     @Override
                     public void onComplete() {
-                        writeDataSet(parkList);
+                        writeDataSet(parkingList);
                     }
 
                     @Override
@@ -112,10 +112,10 @@ public class MainPresenter extends BasePresenter implements MainContract.Present
                 }));
     }
 
-    private void writeDataSet(List<Park> parkList) {
+    private void writeDataSet(List<Parking> parkingList) {
         ParkDao dao = DataManager.getInstance().getParkDao();
 
-        addDisposable(dao.insertAll(parkList)
+        addDisposable(dao.insertAll(parkingList)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<Long[]>() {

@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 import com.a1573595.parkingdemo.model.repository.DatabaseInfo;
 
 @Entity(tableName = DatabaseInfo.Table_PARKING)
-public class Park {
+public class Parking {
     @PrimaryKey
     @NonNull
     public String id;
@@ -28,9 +28,9 @@ public class Park {
     public double lat;
     public double lng;
 
-    public Park(String id, String area, String name, String summary, String address, String tel,
-                String payex, int totalcar, int totalmotor, int totalbike, int totalbus, double lat,
-                double lng) {
+    public Parking(String id, String area, String name, String summary, String address, String tel,
+                   String payex, int totalcar, int totalmotor, int totalbike, int totalbus, double lat,
+                   double lng) {
         this.id = id;
         this.area = area;
         this.name = name;

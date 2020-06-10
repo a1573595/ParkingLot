@@ -1,4 +1,4 @@
-package com.a1573595.parkingdemo.parkFuzzySearch;
+package com.a1573595.parkingdemo.parkingFuzzySearch;
 
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,22 +12,22 @@ import android.view.animation.LayoutAnimationController;
 
 import com.a1573595.parkingdemo.BaseActivity;
 import com.a1573595.parkingdemo.R;
-import com.a1573595.parkingdemo.databinding.ActivityParkFuzzySearchBinding;
-import com.a1573595.parkingdemo.parkInfo.ParkInfoActivity;
+import com.a1573595.parkingdemo.databinding.ActivityParkingFuzzySearchBinding;
+import com.a1573595.parkingdemo.parkingInfo.ParkingInfoActivity;
 
-public class ParkFuzzySearchActivity extends BaseActivity implements ParkFuzzySearchContract.View {
-    private ParkFuzzySearchPresenter presenter;
+public class ParkingFuzzySearchActivity extends BaseActivity implements ParkingFuzzySearchContract.View {
+    private ParkingFuzzySearchPresenter presenter;
 
-    private ActivityParkFuzzySearchBinding binding;
+    private ActivityParkingFuzzySearchBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityParkFuzzySearchBinding.inflate(getLayoutInflater());
+        binding = ActivityParkingFuzzySearchBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(R.string.park_list);
+            getSupportActionBar().setTitle(R.string.parking_list);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
@@ -40,7 +40,7 @@ public class ParkFuzzySearchActivity extends BaseActivity implements ParkFuzzySe
 
     @Override
     protected void createPresenter() {
-        presenter = ViewModelProviders.of(this).get(ParkFuzzySearchPresenter.class);
+        presenter = ViewModelProviders.of(this).get(ParkingFuzzySearchPresenter.class);
         presenter.setView(this);
     }
 
@@ -57,7 +57,7 @@ public class ParkFuzzySearchActivity extends BaseActivity implements ParkFuzzySe
 
     @Override
     public void onItemClick(String id) {
-        Intent intent = new Intent(this, ParkInfoActivity.class);
+        Intent intent = new Intent(this, ParkingInfoActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("id", id);
         intent.putExtras(bundle);
@@ -66,7 +66,7 @@ public class ParkFuzzySearchActivity extends BaseActivity implements ParkFuzzySe
 
     private void initList() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ParkFuzzySearchAdapter adapter = new ParkFuzzySearchAdapter(presenter);
+        ParkingFuzzySearchAdapter adapter = new ParkingFuzzySearchAdapter(presenter);
         presenter.setAdapter(adapter);
         binding.recyclerView.setAdapter(adapter);
 

@@ -1,4 +1,4 @@
-package com.a1573595.parkingdemo.parkInfo;
+package com.a1573595.parkingdemo.parkingInfo;
 
 import android.os.Bundle;
 import android.view.animation.Animation;
@@ -8,22 +8,22 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.a1573595.parkingdemo.BaseActivity;
 import com.a1573595.parkingdemo.R;
-import com.a1573595.parkingdemo.databinding.ActivityParkInfoBinding;
+import com.a1573595.parkingdemo.databinding.ActivityParkingInfoBinding;
 import com.a1573595.parkingdemo.model.data.Love;
-import com.a1573595.parkingdemo.model.data.Park;
+import com.a1573595.parkingdemo.model.data.Parking;
 
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 
-public class ParkInfoActivity extends BaseActivity implements ParkInfoContract.View {
-    private ParkInfoPresenter presenter;
+public class ParkingInfoActivity extends BaseActivity implements ParkingInfoContract.View {
+    private ParkingInfoPresenter presenter;
 
-    private ActivityParkInfoBinding binding;
+    private ActivityParkingInfoBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityParkInfoBinding.inflate(getLayoutInflater());
+        binding = ActivityParkingInfoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         if (getSupportActionBar() != null) {
@@ -42,30 +42,30 @@ public class ParkInfoActivity extends BaseActivity implements ParkInfoContract.V
 
     @Override
     protected void createPresenter() {
-        presenter = ViewModelProviders.of(this).get(ParkInfoPresenter.class);
+        presenter = ViewModelProviders.of(this).get(ParkingInfoPresenter.class);
         presenter.setView(this);
         presenter.setID(getIntent().getExtras().getString("id"));
     }
 
     @Override
-    public DisposableSingleObserver<Park> showParkInfo() {
-        return new DisposableSingleObserver<Park>() {
+    public DisposableSingleObserver<Parking> showParkInfo() {
+        return new DisposableSingleObserver<Parking>() {
             @Override
-            public void onSuccess(Park park) {
+            public void onSuccess(Parking parking) {
                 if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(park.name);
+                    getSupportActionBar().setTitle(parking.name);
                 }
 
-                binding.tvName.setText(park.name);
-                binding.tvAddress.setText(park.address);
-                binding.tvArea.setText(park.area);
-                binding.tvPhone.setText(park.tel);
-                binding.tvSummary.setText(park.summary);
-                binding.tvPayInfo.setText(park.payex);
-                binding.tvBus.setText(String.valueOf(park.totalbus));
-                binding.tvCar.setText(String.valueOf(park.totalcar));
-                binding.tvMoto.setText(String.valueOf(park.totalmotor));
-                binding.tvBike.setText(String.valueOf(park.totalbike));
+                binding.tvName.setText(parking.name);
+                binding.tvAddress.setText(parking.address);
+                binding.tvArea.setText(parking.area);
+                binding.tvPhone.setText(parking.tel);
+                binding.tvSummary.setText(parking.summary);
+                binding.tvPayInfo.setText(parking.payex);
+                binding.tvBus.setText(String.valueOf(parking.totalbus));
+                binding.tvCar.setText(String.valueOf(parking.totalcar));
+                binding.tvMoto.setText(String.valueOf(parking.totalmotor));
+                binding.tvBike.setText(String.valueOf(parking.totalbike));
 
                 presenter.addHistory();
 

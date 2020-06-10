@@ -1,10 +1,10 @@
-package com.a1573595.parkingdemo.parkList;
+package com.a1573595.parkingdemo.parkingList;
 
 import com.a1573595.parkingdemo.BasePresenter;
 import com.a1573595.parkingdemo.model.DataManager;
 import com.a1573595.parkingdemo.model.data.History;
 import com.a1573595.parkingdemo.model.data.Love;
-import com.a1573595.parkingdemo.model.data.Park;
+import com.a1573595.parkingdemo.model.data.Parking;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,16 +14,16 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class ParkListPresenter extends BasePresenter implements ParkListContract.Presenter {
-    private ParkListContract.View view;
+public class ParkingListPresenter extends BasePresenter implements ParkingListContract.Presenter {
+    private ParkingListContract.View view;
     private boolean isLove;
 
-    private ParkListAdapter adapter;
-    private List<Park> parkList = new ArrayList<>();
-    private Park lastDeleteItem;
+    private ParkingListAdapter adapter;
+    private List<Parking> parkingList = new ArrayList<>();
+    private Parking lastDeleteItem;
     private int lastDeletePosition;
 
-    void setView(ParkListContract.View view) {
+    void setView(ParkingListContract.View view) {
         this.view = view;
     }
 
@@ -32,7 +32,7 @@ public class ParkListPresenter extends BasePresenter implements ParkListContract
     }
 
     @Override
-    public void setAdapter(ParkListAdapter adapter) {
+    public void setAdapter(ParkingListAdapter adapter) {
         this.adapter = adapter;
     }
 
@@ -53,29 +53,29 @@ public class ParkListPresenter extends BasePresenter implements ParkListContract
 
     @Override
     public int getItemCount() {
-        return parkList.size();
+        return parkingList.size();
     }
 
     @Override
-    public Park getItem(int position) {
-        return parkList.get(position);
+    public Parking getItem(int position) {
+        return parkingList.get(position);
     }
 
     @Override
     public void onItemClick(int position) {
-        view.onItemClick(parkList.get(position).id);
+        view.onItemClick(parkingList.get(position).id);
     }
 
     @Override
     public void removeItem(int position) {
-        lastDeleteItem = parkList.get(position);
+        lastDeleteItem = parkingList.get(position);
         if (isLove) {
             lastDeletePosition = position;
         } else {
             lastDeletePosition = 0;
         }
 
-        parkList.remove(position);
+        parkingList.remove(position);
         removeParkData(lastDeleteItem.id);
 
         adapter.notifyItemRemoved(position);
@@ -83,18 +83,18 @@ public class ParkListPresenter extends BasePresenter implements ParkListContract
 
     @Override
     public void undoDelete() {
-        parkList.add(lastDeletePosition, lastDeleteItem);
+        parkingList.add(lastDeletePosition, lastDeleteItem);
         insertParkData(lastDeleteItem.id);
 
         adapter.notifyItemInserted(lastDeletePosition);
     }
 
-    private DisposableSingleObserver<Park[]> showParkList() {
-        return new DisposableSingleObserver<Park[]>() {
+    private DisposableSingleObserver<Parking[]> showParkList() {
+        return new DisposableSingleObserver<Parking[]>() {
             @Override
-            public void onSuccess(Park[] parks) {
-                parkList.clear();
-                Collections.addAll(parkList, parks);
+            public void onSuccess(Parking[] parkings) {
+                parkingList.clear();
+                Collections.addAll(parkingList, parkings);
                 adapter.notifyDataSetChanged();
             }
 

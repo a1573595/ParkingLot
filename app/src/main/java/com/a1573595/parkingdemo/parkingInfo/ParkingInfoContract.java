@@ -1,14 +1,14 @@
-package com.a1573595.parkingdemo.parkInfo;
+package com.a1573595.parkingdemo.parkingInfo;
 
 import com.a1573595.parkingdemo.model.data.Love;
-import com.a1573595.parkingdemo.model.data.Park;
+import com.a1573595.parkingdemo.model.data.Parking;
 
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 
-interface ParkInfoContract {
+interface ParkingInfoContract {
     interface View {
-        DisposableSingleObserver<Park> showParkInfo();
+        DisposableSingleObserver<Parking> showParkInfo();
 
         DisposableSingleObserver<Love> showLove();
 

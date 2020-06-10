@@ -8,7 +8,7 @@ import androidx.room.RawQuery;
 import androidx.room.Transaction;
 import androidx.sqlite.db.SupportSQLiteQuery;
 
-import com.a1573595.parkingdemo.model.data.Park;
+import com.a1573595.parkingdemo.model.data.Parking;
 
 import java.util.List;
 
@@ -18,26 +18,26 @@ import io.reactivex.Single;
 @Dao
 public interface ParkDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insert(Park item);
+    Completable insert(Parking item);
 
     @Query("SELECT * FROM Table_Parking WHERE id LIKE :id")
-    Single<Park> getByID(String id);
+    Single<Parking> getByID(String id);
 
     @Query("DELETE FROM Table_Parking WHERE id LIKE :id")
     Completable deleteByID(String id);
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Single<Long[]> insertAll(List<Park> parks);
+    Single<Long[]> insertAll(List<Parking> parkings);
 
     @Query("SELECT * FROM Table_Parking")
-    Single<Park[]> getAll();
+    Single<Parking[]> getAll();
 
     @Query("SELECT * FROM Table_Parking WHERE name LIKE '%' || :name || '%'")
-    Single<Park[]> getAllByName(String name);
+    Single<Parking[]> getAllByName(String name);
 
     @RawQuery()
-    Single<Park[]> getAllByQuery(SupportSQLiteQuery query);
+    Single<Parking[]> getAllByQuery(SupportSQLiteQuery query);
 
     @Query("DELETE FROM Table_Parking")
     Completable deleteAll();

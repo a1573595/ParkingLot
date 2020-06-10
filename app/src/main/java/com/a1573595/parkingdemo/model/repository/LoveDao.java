@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.a1573595.parkingdemo.model.data.Love;
-import com.a1573595.parkingdemo.model.data.Park;
+import com.a1573595.parkingdemo.model.data.Parking;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -20,7 +20,7 @@ public interface LoveDao {
     Single<Love> getByID(String id);
 
     @Query("SELECT * FROM Table_Love INNER JOIN Table_Parking ON Table_Love.id = Table_Parking.id")
-    Single<Park[]> getLoveList();
+    Single<Parking[]> getLoveList();
 
     @Query("DELETE FROM Table_Love WHERE id LIKE :id")
     Completable deleteByID(String id);

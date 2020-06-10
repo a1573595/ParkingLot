@@ -1,4 +1,4 @@
-package com.a1573595.parkingdemo.parkList;
+package com.a1573595.parkingdemo.parkingList;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -7,16 +7,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.a1573595.parkingdemo.R;
-import com.a1573595.parkingdemo.databinding.AdapterParkListBinding;
-import com.a1573595.parkingdemo.model.data.Park;
+import com.a1573595.parkingdemo.databinding.AdapterParkingListBinding;
+import com.a1573595.parkingdemo.model.data.Parking;
 
-public class ParkListAdapter extends RecyclerView.Adapter<ParkListAdapter.ViewHolder> {
-    private ParkListPresenter presenter;
+public class ParkingListAdapter extends RecyclerView.Adapter<ParkingListAdapter.ViewHolder> {
+    private ParkingListPresenter presenter;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        AdapterParkListBinding binding;
+        AdapterParkingListBinding binding;
 
-        ViewHolder(AdapterParkListBinding binding, ParkListPresenter presenter) {
+        ViewHolder(AdapterParkingListBinding binding, ParkingListPresenter presenter) {
             super(binding.getRoot());
 
             this.binding = binding;
@@ -29,27 +29,27 @@ public class ParkListAdapter extends RecyclerView.Adapter<ParkListAdapter.ViewHo
         }
     }
 
-    public ParkListAdapter(ParkListPresenter presenter) {
+    public ParkingListAdapter(ParkingListPresenter presenter) {
         this.presenter = presenter;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        AdapterParkListBinding binding = AdapterParkListBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        AdapterParkingListBinding binding = AdapterParkingListBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolder(binding, presenter);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Park park = presenter.getItem(position);
+        Parking parking = presenter.getItem(position);
 
-        holder.binding.tvName.setText(park.name);
-        holder.binding.tvAddress.setText(park.address);
+        holder.binding.tvName.setText(parking.name);
+        holder.binding.tvAddress.setText(parking.address);
 
         holder.binding.tvTotal.setText(
                 holder.binding.tvTotal.getContext().getString(R.string.transportation,
-                        park.totalbus, park.totalcar, park.totalmotor, park.totalbike));
+                        parking.totalbus, parking.totalcar, parking.totalmotor, parking.totalbike));
     }
 
     @Override

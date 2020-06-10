@@ -1,4 +1,4 @@
-package com.a1573595.parkingdemo.parkInfo;
+package com.a1573595.parkingdemo.parkingInfo;
 
 import com.a1573595.parkingdemo.BasePresenter;
 import com.a1573595.parkingdemo.model.DataManager;
@@ -8,11 +8,11 @@ import com.a1573595.parkingdemo.model.data.Love;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class ParkInfoPresenter extends BasePresenter implements ParkInfoContract.Presenter {
-    private ParkInfoContract.View view;
+public class ParkingInfoPresenter extends BasePresenter implements ParkingInfoContract.Presenter {
+    private ParkingInfoContract.View view;
     private String id;
 
-    void setView(ParkInfoContract.View view) {
+    void setView(ParkingInfoContract.View view) {
         this.view = view;
     }
 

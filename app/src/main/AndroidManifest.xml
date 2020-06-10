@@ -29,16 +29,16 @@
         <activity android:name=".update.UpdateActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".parkMap.ParkingMapActivity"
+            android:name=".parkingMap.ParkingMapActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
-        <activity android:name=".parkList.ParkListActivity"
+        <activity android:name=".parkingList.ParkingListActivity"
             android:theme="@style/NoActionBar"
             android:screenOrientation="portrait"/>
-        <activity android:name=".parkInfo.ParkInfoActivity"
+        <activity android:name=".parkingInfo.ParkingInfoActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".parkFuzzySearch.ParkFuzzySearchActivity"
+            android:name=".parkingFuzzySearch.ParkingFuzzySearchActivity"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:screenOrientation="portrait"/>
     </application>

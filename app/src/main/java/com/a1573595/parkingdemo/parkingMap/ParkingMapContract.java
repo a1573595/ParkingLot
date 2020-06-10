@@ -1,14 +1,14 @@
-package com.a1573595.parkingdemo.parkMap;
+package com.a1573595.parkingdemo.parkingMap;
 
-import com.a1573595.parkingdemo.model.data.Park;
+import com.a1573595.parkingdemo.model.data.Parking;
 
 import java.util.ArrayList;
 
 import io.reactivex.observers.DisposableSingleObserver;
 
-interface ParkMapContract {
+interface ParkingMapContract {
     interface View {
-        DisposableSingleObserver<Park[]> showParkMark();
+        DisposableSingleObserver<Parking[]> showParkMark();
     }
 
     interface Presenter {

@@ -16,11 +16,11 @@ import android.view.View;
 import com.a1573595.parkingdemo.BaseActivity;
 import com.a1573595.parkingdemo.databinding.ActivityMainBinding;
 import com.a1573595.parkingdemo.model.DataManager;
-import com.a1573595.parkingdemo.parkMap.ParkingMapActivity;
+import com.a1573595.parkingdemo.model.data.Parking;
+import com.a1573595.parkingdemo.parkingMap.ParkingMapActivity;
 import com.a1573595.parkingdemo.R;
-import com.a1573595.parkingdemo.model.data.Park;
-import com.a1573595.parkingdemo.parkFuzzySearch.ParkFuzzySearchActivity;
-import com.a1573595.parkingdemo.parkList.ParkListActivity;
+import com.a1573595.parkingdemo.parkingFuzzySearch.ParkingFuzzySearchActivity;
+import com.a1573595.parkingdemo.parkingList.ParkingListActivity;
 import com.a1573595.parkingdemo.update.UpdateActivity;
 
 import java.text.SimpleDateFormat;
@@ -115,12 +115,12 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     @Override
-    public DisposableSingleObserver<Park[]> showDataSetInfo() {
-        return new DisposableSingleObserver<Park[]>() {
+    public DisposableSingleObserver<Parking[]> showDataSetInfo() {
+        return new DisposableSingleObserver<Parking[]>() {
             @Override
-            public void onSuccess(Park[] parks) {
+            public void onSuccess(Parking[] parkings) {
                 String date = convertLongToTime(DataManager.getInstance().sp.readUpdateTime());
-                binding.tvDataset.setText(String.format(getString(R.string.total_data_set_created_from), parks.length, date));
+                binding.tvDataset.setText(String.format(getString(R.string.total_data_set_created_from), parkings.length, date));
 
                 setListen();
             }
@@ -145,18 +145,18 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         });
 
         binding.tvList.setOnClickListener(v -> {
-            Intent i = new Intent(MainActivity.this, ParkFuzzySearchActivity.class);
+            Intent i = new Intent(MainActivity.this, ParkingFuzzySearchActivity.class);
             startActivity(i);
         });
 
         binding.tvLove.setOnClickListener(v -> {
-            Intent i = new Intent(MainActivity.this, ParkListActivity.class);
+            Intent i = new Intent(MainActivity.this, ParkingListActivity.class);
             i.putExtra("isLove", true);
             startActivity(i);
         });
 
         binding.tvHistory.setOnClickListener(v -> {
-            Intent i = new Intent(MainActivity.this, ParkListActivity.class);
+            Intent i = new Intent(MainActivity.this, ParkingListActivity.class);
             i.putExtra("isLove", false);
             startActivity(i);
         });

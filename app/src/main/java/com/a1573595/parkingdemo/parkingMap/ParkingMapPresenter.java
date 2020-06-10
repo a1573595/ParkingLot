@@ -1,4 +1,4 @@
-package com.a1573595.parkingdemo.parkMap;
+package com.a1573595.parkingdemo.parkingMap;
 
 import com.a1573595.parkingdemo.BasePresenter;
 import com.a1573595.parkingdemo.model.DataManager;
@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class ParkMapPresenter extends BasePresenter implements ParkMapContract.Presenter {
-    private ParkMapContract.View view;
+public class ParkingMapPresenter extends BasePresenter implements ParkingMapContract.Presenter {
+    private ParkingMapContract.View view;
 
     private ArrayList<String> strings = new ArrayList<>();
 
-    void setView(ParkMapContract.View view) {
+    void setView(ParkingMapContract.View view) {
         this.view = view;
     }
 

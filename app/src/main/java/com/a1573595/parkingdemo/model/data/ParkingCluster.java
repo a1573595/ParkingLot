@@ -3,13 +3,13 @@ package com.a1573595.parkingdemo.model.data;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 
-public class ParkCluster implements ClusterItem {
+public class ParkingCluster implements ClusterItem {
     public String id, name, area;
     public int totalCar, totalMotor, totalBike, totalBus;
     private final LatLng mPosition;
 
-    public ParkCluster(LatLng position, String id, String name, String area, int totalCar,
-                       int totalMotor, int totalBike, int totalBus) {
+    public ParkingCluster(LatLng position, String id, String name, String area, int totalCar,
+                          int totalMotor, int totalBike, int totalBus) {
         mPosition = position;
         this.id = id;
         this.name = name;

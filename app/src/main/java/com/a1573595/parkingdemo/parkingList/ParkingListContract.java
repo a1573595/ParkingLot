@@ -1,20 +1,20 @@
-package com.a1573595.parkingdemo.parkList;
+package com.a1573595.parkingdemo.parkingList;
 
-import com.a1573595.parkingdemo.model.data.Park;
+import com.a1573595.parkingdemo.model.data.Parking;
 
-interface ParkListContract {
+interface ParkingListContract {
     interface View {
         void onItemClick(String id);
     }
 
     interface Presenter {
-        void setAdapter(ParkListAdapter adapter);
+        void setAdapter(ParkingListAdapter adapter);
 
         void readParksData();
 
         int getItemCount();
 
-        Park getItem(int position);
+        Parking getItem(int position);
 
         void onItemClick(int position);
 

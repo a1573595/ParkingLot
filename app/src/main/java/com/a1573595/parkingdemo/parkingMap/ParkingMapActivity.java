@@ -1,4 +1,4 @@
-package com.a1573595.parkingdemo.parkMap;
+package com.a1573595.parkingdemo.parkingMap;
 
 import android.Manifest;
 import android.content.Intent;
@@ -8,7 +8,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.provider.Settings;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
@@ -23,10 +22,10 @@ import android.widget.TextView;
 
 import com.a1573595.parkingdemo.BaseActivity;
 import com.a1573595.parkingdemo.R;
-import com.a1573595.parkingdemo.databinding.ActivityParkMapBinding;
-import com.a1573595.parkingdemo.model.data.ParkCluster;
-import com.a1573595.parkingdemo.model.data.Park;
-import com.a1573595.parkingdemo.parkInfo.ParkInfoActivity;
+import com.a1573595.parkingdemo.databinding.ActivityParkingMapBinding;
+import com.a1573595.parkingdemo.model.data.Parking;
+import com.a1573595.parkingdemo.model.data.ParkingCluster;
+import com.a1573595.parkingdemo.parkingInfo.ParkingInfoActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -44,24 +43,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import io.reactivex.SingleObserver;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 
-public class ParkingMapActivity extends BaseActivity implements ParkMapContract.View,
-        ClusterManager.OnClusterClickListener<ParkCluster>,
-        ClusterManager.OnClusterItemClickListener<ParkCluster> {
-    private ParkMapPresenter presenter;
+public class ParkingMapActivity extends BaseActivity implements ParkingMapContract.View,
+        ClusterManager.OnClusterClickListener<ParkingCluster>,
+        ClusterManager.OnClusterItemClickListener<ParkingCluster> {
+    private ParkingMapPresenter presenter;
 
     private GoogleMap mMap;
-    private ClusterManager<ParkCluster> mClusterManager;
+    private ClusterManager<ParkingCluster> mClusterManager;
     private LocationManager locationMgr;
     private LatLng mLatLng;
 
     private Geocoder geocoder;
     private List<Address> geocodeAddress;
 
-    private ActivityParkMapBinding binding;
+    private ActivityParkingMapBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +68,7 @@ public class ParkingMapActivity extends BaseActivity implements ParkMapContract.
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        binding = ActivityParkMapBinding.inflate(getLayoutInflater());
+        binding = ActivityParkingMapBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         initLocationManager();
@@ -99,19 +96,19 @@ public class ParkingMapActivity extends BaseActivity implements ParkMapContract.
 
     @Override
     protected void createPresenter() {
-        presenter = ViewModelProviders.of(this).get(ParkMapPresenter.class);
+        presenter = ViewModelProviders.of(this).get(ParkingMapPresenter.class);
         presenter.setView(this);
     }
 
     @Override
-    public DisposableSingleObserver<Park[]> showParkMark() {
-        return new DisposableSingleObserver<Park[]>() {
+    public DisposableSingleObserver<Parking[]> showParkMark() {
+        return new DisposableSingleObserver<Parking[]>() {
             @Override
-            public void onSuccess(Park[] parks) {
-                for (Park park : parks) {
-                    mClusterManager.addItem(new ParkCluster(new LatLng(park.lat, park.lng), park.id,
-                            park.name, park.area, park.totalcar, park.totalmotor, park.totalbike,
-                            park.totalbus));
+            public void onSuccess(Parking[] parkings) {
+                for (Parking parking : parkings) {
+                    mClusterManager.addItem(new ParkingCluster(new LatLng(parking.lat, parking.lng), parking.id,
+                            parking.name, parking.area, parking.totalcar, parking.totalmotor, parking.totalbike,
+                            parking.totalbus));
                 }
 
                 mClusterManager.cluster();
@@ -125,13 +122,13 @@ public class ParkingMapActivity extends BaseActivity implements ParkMapContract.
     }
 
     @Override
-    public boolean onClusterClick(Cluster<ParkCluster> cluster) {
+    public boolean onClusterClick(Cluster<ParkingCluster> cluster) {
         if (mMap.getCameraPosition().zoom == mMap.getMaxZoomLevel()) {
             showChoiceDialog(cluster);
         }
 
         LatLngBounds.Builder builder = LatLngBounds.builder();
-        for (ParkCluster item : cluster.getItems()) {
+        for (ParkingCluster item : cluster.getItems()) {
             builder.include(item.getPosition());
         }
         // Get the LatLngBounds
@@ -147,7 +144,7 @@ public class ParkingMapActivity extends BaseActivity implements ParkMapContract.
     }
 
     @Override
-    public boolean onClusterItemClick(ParkCluster item) {
+    public boolean onClusterItemClick(ParkingCluster item) {
         showDialog(item);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(item.getPosition()));
         return true;
@@ -228,13 +225,13 @@ public class ParkingMapActivity extends BaseActivity implements ParkMapContract.
         mClusterManager.setAlgorithm(algorithm);
     }
 
-    private class ParkingRender extends DefaultClusterRenderer<ParkCluster> {
+    private class ParkingRender extends DefaultClusterRenderer<ParkingCluster> {
         ParkingRender() {
             super(getApplicationContext(), mMap, mClusterManager);
         }
 
         @Override
-        protected void onBeforeClusterItemRendered(ParkCluster parkCluster, MarkerOptions markerOptions) {
+        protected void onBeforeClusterItemRendered(ParkingCluster parkingCluster, MarkerOptions markerOptions) {
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
         }
 
@@ -244,7 +241,7 @@ public class ParkingMapActivity extends BaseActivity implements ParkMapContract.
         }
     }
 
-    private void showChoiceDialog(Cluster<ParkCluster> cluster) {
+    private void showChoiceDialog(Cluster<ParkingCluster> cluster) {
         final AlertDialog choiceDialog = new AlertDialog.Builder(this).create();
         choiceDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         choiceDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -252,11 +249,11 @@ public class ParkingMapActivity extends BaseActivity implements ParkMapContract.
 
         choiceDialog.setContentView(R.layout.choice_dialog_list);
         TextView tv_title = choiceDialog.findViewById(R.id.tv_title);
-        tv_title.setText(String.format(getString(R.string.contains_several_parking), cluster.getSize()));
+        tv_title.setText(String.format(getString(R.string.include_parking), cluster.getSize()));
         ListView listView = choiceDialog.findViewById(R.id.listView);
         final ArrayList<String> list = new ArrayList<>();
-        final ArrayList<ParkCluster> station = new ArrayList<>();
-        for (ParkCluster item : cluster.getItems()) {
+        final ArrayList<ParkingCluster> station = new ArrayList<>();
+        for (ParkingCluster item : cluster.getItems()) {
             list.add(item.name);
             station.add(item);
         }
@@ -271,7 +268,7 @@ public class ParkingMapActivity extends BaseActivity implements ParkMapContract.
         });
     }
 
-    private void showDialog(final ParkCluster parkCluster) {
+    private void showDialog(final ParkingCluster parkingCluster) {
         final AlertDialog dialog = new MaterialAlertDialogBuilder(this, R.style.DialogTheme).create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -283,15 +280,15 @@ public class ParkingMapActivity extends BaseActivity implements ParkMapContract.
         TextView address = dialog.findViewById(R.id.tv_address);
         TextView total = dialog.findViewById(R.id.tv_total);
 
-        name.setText(parkCluster.name);
-        address.setText(parkCluster.area);
-        total.setText(getString(R.string.transportation, parkCluster.totalBus, parkCluster.totalCar,
-                parkCluster.totalMotor, parkCluster.totalBike));
+        name.setText(parkingCluster.name);
+        address.setText(parkingCluster.area);
+        total.setText(getString(R.string.transportation, parkingCluster.totalBus, parkingCluster.totalCar,
+                parkingCluster.totalMotor, parkingCluster.totalBike));
 
         info_layout.setOnClickListener(v -> {
-            Intent intent = new Intent(this, ParkInfoActivity.class);
+            Intent intent = new Intent(this, ParkingInfoActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putString("id", parkCluster.id);
+            bundle.putString("id", parkingCluster.id);
             intent.putExtras(bundle);
             startActivity(intent);
         });

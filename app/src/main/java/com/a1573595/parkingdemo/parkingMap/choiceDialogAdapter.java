@@ -1,4 +1,4 @@
-package com.a1573595.parkingdemo.parkMap;
+package com.a1573595.parkingdemo.parkingMap;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import com.a1573595.parkingdemo.databinding.DialogCenterLayoutBinding;
 
 public class choiceDialogAdapter extends BaseAdapter {
-    private ParkMapPresenter presenter;
+    private ParkingMapPresenter presenter;
 
     private static class ViewHolder {
         private DialogCenterLayoutBinding binding;
@@ -18,7 +18,7 @@ public class choiceDialogAdapter extends BaseAdapter {
         }
     }
 
-    choiceDialogAdapter(ParkMapPresenter presenter) {
+    choiceDialogAdapter(ParkingMapPresenter presenter) {
         super();
         this.presenter = presenter;
     }

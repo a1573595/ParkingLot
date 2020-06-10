@@ -12,7 +12,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/park_name_or_address">
+        android:hint="@string/parking_name_or_address">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ed_search"

@@ -1,10 +1,10 @@
-package com.a1573595.parkingdemo.parkFuzzySearch;
+package com.a1573595.parkingdemo.parkingFuzzySearch;
 
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import com.a1573595.parkingdemo.BasePresenter;
 import com.a1573595.parkingdemo.model.DataManager;
-import com.a1573595.parkingdemo.model.data.Park;
+import com.a1573595.parkingdemo.model.data.Parking;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,19 +14,19 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class ParkFuzzySearchPresenter extends BasePresenter implements ParkFuzzySearchContract.Presenter {
-    private ParkFuzzySearchContract.View view;
+public class ParkingFuzzySearchPresenter extends BasePresenter implements ParkingFuzzySearchContract.Presenter {
+    private ParkingFuzzySearchContract.View view;
     private int mode = 1;
 
-    private ParkFuzzySearchAdapter adapter;
-    private List<Park> parkList = new ArrayList<>();
+    private ParkingFuzzySearchAdapter adapter;
+    private List<Parking> parkingList = new ArrayList<>();
 
-    void setView(ParkFuzzySearchContract.View view) {
+    void setView(ParkingFuzzySearchContract.View view) {
         this.view = view;
     }
 
     @Override
-    public void setAdapter(ParkFuzzySearchAdapter adapter) {
+    public void setAdapter(ParkingFuzzySearchAdapter adapter) {
         this.adapter = adapter;
     }
 
@@ -61,17 +61,17 @@ public class ParkFuzzySearchPresenter extends BasePresenter implements ParkFuzzy
 
     @Override
     public int getItemCount() {
-        return parkList.size();
+        return parkingList.size();
     }
 
     @Override
-    public Park getItem(int position) {
-        return parkList.get(position);
+    public Parking getItem(int position) {
+        return parkingList.get(position);
     }
 
     @Override
     public void onItemClick(int position) {
-        view.onItemClick(parkList.get(position).id);
+        view.onItemClick(parkingList.get(position).id);
     }
 
     @Override
@@ -79,12 +79,12 @@ public class ParkFuzzySearchPresenter extends BasePresenter implements ParkFuzzy
         this.mode = mode;
     }
 
-    private DisposableSingleObserver<Park[]> showParkList() {
-        return new DisposableSingleObserver<Park[]>() {
+    private DisposableSingleObserver<Parking[]> showParkList() {
+        return new DisposableSingleObserver<Parking[]>() {
             @Override
-            public void onSuccess(Park[] parks) {
-                parkList.clear();
-                Collections.addAll(parkList, parks);
+            public void onSuccess(Parking[] parkings) {
+                parkingList.clear();
+                Collections.addAll(parkingList, parkings);
 
                 adapter.notifyDataSetChanged();
                 view.showLayoutAnimation();

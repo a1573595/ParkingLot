@@ -1,8 +1,8 @@
-package com.a1573595.parkingdemo.parkFuzzySearch;
+package com.a1573595.parkingdemo.parkingFuzzySearch;
 
-import com.a1573595.parkingdemo.model.data.Park;
+import com.a1573595.parkingdemo.model.data.Parking;
 
-interface ParkFuzzySearchContract {
+interface ParkingFuzzySearchContract {
     interface View {
         void showLayoutAnimation();
 
@@ -10,13 +10,13 @@ interface ParkFuzzySearchContract {
     }
 
     interface Presenter {
-        void setAdapter(ParkFuzzySearchAdapter adapter);
+        void setAdapter(ParkingFuzzySearchAdapter adapter);
 
         void readParksData(String search);
 
         int getItemCount();
 
-        Park getItem(int position);
+        Parking getItem(int position);
 
         void onItemClick(int position);
 
