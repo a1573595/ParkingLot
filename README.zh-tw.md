@@ -1,7 +1,7 @@
-*Read this in other languages: [English](README.md), [中文](README.zh-tw.md).*
+*其他語言版本: [English](README.md), [中文](README.zh-tw.md).*
 
 # ParkingDemo
-Taipei City Parking Lot Information Query System Demo
+台北市停車場查詢系統
 
 ### Screenshots
 <div style="dispaly:flex">
@@ -10,13 +10,13 @@ Taipei City Parking Lot Information Query System Demo
     <img src="https://user-images.githubusercontent.com/25738593/75606178-30457f80-5b25-11ea-86ae-3824349ffe87.jpg" width="32%">
 </div>
 
-### Supported Android Versions
+### 支援Android版本
 - Android 5.1 Lollipop(API level 21) or higher.
 
 ### Data resource
 臺北市資料大平臺 - [臺北市停車場資訊](https://data.taipei/#/dataset/detail?id=d5c0656b-5250-4179-a491-c94daa56ef2c)
 
-### Used libraries
+### 使用函示庫
 1. [Material](https://material.io/)
 2. [RxJava2](https://github.com/ReactiveX/RxJava)
 3. [Retrofit2](https://github.com/square/retrofit)

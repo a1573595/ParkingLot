@@ -16,7 +16,7 @@ import io.reactivex.Completable;
 import io.reactivex.Single;
 
 @Dao
-public interface ParkDao {
+public interface ParkingDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable insert(Parking item);
 

@@ -6,7 +6,7 @@ import androidx.room.Room;
 
 import com.a1573595.parkingdemo.model.repository.HistoryDao;
 import com.a1573595.parkingdemo.model.repository.LoveDao;
-import com.a1573595.parkingdemo.model.repository.ParkDao;
+import com.a1573595.parkingdemo.model.repository.ParkingDao;
 import com.a1573595.parkingdemo.model.repository.ParkDatabase;
 import com.a1573595.parkingdemo.model.repository.SharedPreference;
 
@@ -46,7 +46,7 @@ public class DataManager {
         sp.clear();
     }
 
-    public ParkDao getParkDao() {
+    public ParkingDao getParkDao() {
         return db.getParkingDao();
     }
 

@@ -5,7 +5,7 @@ import com.a1573595.parkingdemo.model.DataManager;
 import com.a1573595.parkingdemo.model.ApiService;
 import com.a1573595.parkingdemo.model.LatLngCoding;
 import com.a1573595.parkingdemo.model.data.Parking;
-import com.a1573595.parkingdemo.model.repository.ParkDao;
+import com.a1573595.parkingdemo.model.repository.ParkingDao;
 import com.a1573595.parkingdemo.model.data.TCMSV_ALLDESC;
 import com.google.gson.Gson;
 
@@ -95,7 +95,7 @@ public class MainPresenter extends BasePresenter implements MainContract.Present
     }
 
     private void deleteDataSet(List<Parking> parkingList) {
-        ParkDao dao = DataManager.getInstance().getParkDao();
+        ParkingDao dao = DataManager.getInstance().getParkDao();
 
         addDisposable(dao.deleteAll()
                 .subscribeOn(Schedulers.io())
@@ -113,7 +113,7 @@ public class MainPresenter extends BasePresenter implements MainContract.Present
     }
 
     private void writeDataSet(List<Parking> parkingList) {
-        ParkDao dao = DataManager.getInstance().getParkDao();
+        ParkingDao dao = DataManager.getInstance().getParkDao();
 
         addDisposable(dao.insertAll(parkingList)
                 .subscribeOn(Schedulers.io())
