@@ -13,6 +13,9 @@ Taipei City Parking Lot Information Query System Demo
 ### Supported Android Versions
 - Android 5.1 Lollipop(API level 21) or higher.
 
+### Prepare
+Add your [GoogleMaps](https://developers.google.com/maps/documentation/android-api/) key to strings.xml and turn on API from [Google Cloud Platform](https://console.cloud.google.com/)
+
 ### Data resource
 臺北市資料大平臺 - [臺北市停車場資訊](https://data.taipei/#/dataset/detail?id=d5c0656b-5250-4179-a491-c94daa56ef2c)
 
