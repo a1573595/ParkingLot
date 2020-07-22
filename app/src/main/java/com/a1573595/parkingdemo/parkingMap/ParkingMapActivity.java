@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -32,11 +33,12 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
-import com.google.maps.android.clustering.algo.NonHierarchicalDistanceBasedAlgorithm;
+import com.google.maps.android.clustering.algo.NonHierarchicalViewBasedAlgorithm;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 
 import java.util.ArrayList;
@@ -46,12 +48,13 @@ import java.util.Locale;
 import io.reactivex.observers.DisposableSingleObserver;
 
 public class ParkingMapActivity extends BaseActivity implements ParkingMapContract.View,
-        ClusterManager.OnClusterClickListener<ParkingCluster>,
+        GoogleMap.OnCameraIdleListener, ClusterManager.OnClusterClickListener<ParkingCluster>,
         ClusterManager.OnClusterItemClickListener<ParkingCluster> {
     private ParkingMapPresenter presenter;
 
     private GoogleMap mMap;
     private ClusterManager<ParkingCluster> mClusterManager;
+    private ParkingRender renderer;
     private LocationManager locationMgr;
     private LatLng mLatLng;
 
@@ -88,7 +91,7 @@ public class ParkingMapActivity extends BaseActivity implements ParkingMapContra
 //            if (mLatLng != null)
 //                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 15));
 //            else
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(25.0329694, 121.56541770000001), 15));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(25.0329694, 121.56541770000001), 15));
 
             mMap.setOnMapLoadedCallback(() -> presenter.readDataSet());
         });
@@ -145,6 +148,8 @@ public class ParkingMapActivity extends BaseActivity implements ParkingMapContra
 
     @Override
     public boolean onClusterItemClick(ParkingCluster item) {
+        Marker marker = renderer.getMarker(item);
+
         showDialog(item);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(item.getPosition()));
         return true;
@@ -210,8 +215,9 @@ public class ParkingMapActivity extends BaseActivity implements ParkingMapContra
 
     private void initClusterManager() {
         mClusterManager = new ClusterManager<>(this, mMap);
-        mClusterManager.setRenderer(new ParkingRender());
-        mMap.setOnCameraIdleListener(mClusterManager);
+        mClusterManager.setRenderer(renderer = new ParkingRender());
+        mMap.setOnCameraIdleListener(this);
+//        mMap.setOnCameraIdleListener(mClusterManager);
         mMap.setOnMarkerClickListener(mClusterManager);
         mMap.setOnInfoWindowClickListener(mClusterManager);
         mMap.setOnCameraMoveListener(() -> {
@@ -221,8 +227,13 @@ public class ParkingMapActivity extends BaseActivity implements ParkingMapContra
         mClusterManager.setOnClusterClickListener(this);
         mClusterManager.setOnClusterItemClickListener(this);
 
-        NonHierarchicalDistanceBasedAlgorithm algorithm = new NonHierarchicalDistanceBasedAlgorithm();
-        mClusterManager.setAlgorithm(algorithm);
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        mClusterManager.setAlgorithm(new NonHierarchicalViewBasedAlgorithm<>(dm.widthPixels, dm.heightPixels));
+    }
+
+    @Override
+    public void onCameraIdle() {
+        mClusterManager.onCameraIdle();
     }
 
     private class ParkingRender extends DefaultClusterRenderer<ParkingCluster> {
@@ -235,9 +246,14 @@ public class ParkingMapActivity extends BaseActivity implements ParkingMapContra
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
         }
 
+//        @Override
+//        protected void onBeforeClusterRendered(@NonNull Cluster<ParkingCluster> cluster, @NonNull MarkerOptions markerOptions) {
+//            super.onBeforeClusterRendered(cluster, markerOptions);
+//        }
+
         @Override
         protected boolean shouldRenderAsCluster(Cluster cluster) {
-            return cluster.getSize() > 1;
+            return cluster.getSize() > 2;
         }
     }
 
