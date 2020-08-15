@@ -40,6 +40,7 @@ import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.algo.NonHierarchicalViewBasedAlgorithm;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
+import com.google.maps.android.collections.MarkerManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,8 @@ import java.util.Locale;
 import io.reactivex.observers.DisposableSingleObserver;
 
 public class ParkingMapActivity extends BaseActivity implements ParkingMapContract.View,
-        GoogleMap.OnCameraIdleListener, ClusterManager.OnClusterClickListener<ParkingCluster>,
+        GoogleMap.OnCameraIdleListener, GoogleMap.OnMarkerClickListener,
+        ClusterManager.OnClusterClickListener<ParkingCluster>,
         ClusterManager.OnClusterItemClickListener<ParkingCluster> {
     private ParkingMapPresenter presenter;
 
@@ -125,6 +127,11 @@ public class ParkingMapActivity extends BaseActivity implements ParkingMapContra
     }
 
     @Override
+    public boolean onMarkerClick(Marker marker) {
+        return true;
+    }
+
+    @Override
     public boolean onClusterClick(Cluster<ParkingCluster> cluster) {
         if (mMap.getCameraPosition().zoom == mMap.getMaxZoomLevel()) {
             showChoiceDialog(cluster);
@@ -148,8 +155,6 @@ public class ParkingMapActivity extends BaseActivity implements ParkingMapContra
 
     @Override
     public boolean onClusterItemClick(ParkingCluster item) {
-        Marker marker = renderer.getMarker(item);
-
         showDialog(item);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(item.getPosition()));
         return true;
@@ -218,11 +223,12 @@ public class ParkingMapActivity extends BaseActivity implements ParkingMapContra
         mClusterManager.setRenderer(renderer = new ParkingRender());
         mMap.setOnCameraIdleListener(this);
 //        mMap.setOnCameraIdleListener(mClusterManager);
-        mMap.setOnMarkerClickListener(mClusterManager);
-        mMap.setOnInfoWindowClickListener(mClusterManager);
-        mMap.setOnCameraMoveListener(() -> {
-            //closeWindows();
-        });
+//        mMap.setOnMarkerClickListener(mClusterManager);
+//        mMap.setOnInfoWindowClickListener(mClusterManager);
+
+        MarkerManager.Collection markerCollection = mClusterManager.getMarkerManager().newCollection();
+        markerCollection.addMarker(new MarkerOptions().position(new LatLng(25.0329694, 121.56541770000001)));
+        markerCollection.setOnMarkerClickListener(this);
 
         mClusterManager.setOnClusterClickListener(this);
         mClusterManager.setOnClusterItemClickListener(this);

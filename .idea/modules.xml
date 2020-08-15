@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AndroidStudioProjects-ParkingDemo.iml" filepath="$PROJECT_DIR$/.idea/modules/AndroidStudioProjects-ParkingDemo.iml" group="ParkingDemo" />
-      <module fileurl="file://$PROJECT_DIR$/ParkingDemo.iml" filepath="$PROJECT_DIR$/ParkingDemo.iml" group="ParkingDemo" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ParkingDemo-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ParkingDemo-app.iml" group="ParkingDemo/app" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="ParkingDemo/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ParkingDemo.iml" filepath="$PROJECT_DIR$/.idea/modules/ParkingDemo.iml" group="ParkingDemo" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="ParkingDemo/app" />
     </modules>
   </component>
 </project>
