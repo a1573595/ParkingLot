@@ -13,13 +13,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
@@ -32,10 +35,19 @@ public class UpdatePresenter extends BasePresenter implements UpdateContract.Pre
 
     @Override
     public void downloadDataSet() {
+        HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
+        logger.level(HttpLoggingInterceptor.Level.BASIC);
+
+        OkHttpClient client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS).readTimeout(10, TimeUnit.SECONDS)
+                .addInterceptor(logger)
+                .build();
+
         Retrofit retrofit = new Retrofit.Builder()
                 //.addConverterFactory(GsonConverterFactory.create()) // 使用 Gson 解析
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl("https://tcgbusfs.blob.core.windows.net/blobtcmsv/")
+                .client(client)
                 .build();
 
         ApiService apiService = retrofit.create(ApiService.class);

@@ -16,7 +16,9 @@
         android:layout_gravity="bottom"
         android:background="#bbffffff"
         android:ellipsize="end"
-        android:maxLines="3"
+        android:maxLines="2"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
         android:text="@string/current_location_loading"
         android:textSize="14sp" />
 </FrameLayout>
