@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 
-import androidx.lifecycle.ViewModelProviders;
-
 import com.a1573595.parkingdemo.BaseActivity;
 import com.a1573595.parkingdemo.R;
 import com.a1573595.parkingdemo.databinding.ActivityParkingInfoBinding;
@@ -15,9 +13,7 @@ import com.a1573595.parkingdemo.model.data.Parking;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 
-public class ParkingInfoActivity extends BaseActivity implements ParkingInfoContract.View {
-    private ParkingInfoPresenter presenter;
-
+public class ParkingInfoActivity extends BaseActivity<ParkingInfoPresenter> implements ParkingInfoView {
     private ActivityParkingInfoBinding binding;
 
     @Override
@@ -30,6 +26,7 @@ public class ParkingInfoActivity extends BaseActivity implements ParkingInfoCont
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        presenter.setID(getIntent().getExtras().getString("id"));
         presenter.readParkData();
         presenter.readLoveData();
     }
@@ -38,13 +35,6 @@ public class ParkingInfoActivity extends BaseActivity implements ParkingInfoCont
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return super.onSupportNavigateUp();
-    }
-
-    @Override
-    protected void createPresenter() {
-        presenter = ViewModelProviders.of(this).get(ParkingInfoPresenter.class);
-        presenter.setView(this);
-        presenter.setID(getIntent().getExtras().getString("id"));
     }
 
     @Override

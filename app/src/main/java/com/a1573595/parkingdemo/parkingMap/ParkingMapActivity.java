@@ -11,7 +11,6 @@ import android.location.LocationManager;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -48,12 +47,10 @@ import java.util.Locale;
 
 import io.reactivex.observers.DisposableSingleObserver;
 
-public class ParkingMapActivity extends BaseActivity implements ParkingMapContract.View,
+public class ParkingMapActivity extends BaseActivity<ParkingMapPresenter> implements ParkingMapView,
         GoogleMap.OnCameraIdleListener, GoogleMap.OnMarkerClickListener,
         ClusterManager.OnClusterClickListener<ParkingCluster>,
         ClusterManager.OnClusterItemClickListener<ParkingCluster> {
-    private ParkingMapPresenter presenter;
-
     private GoogleMap mMap;
     private ClusterManager<ParkingCluster> mClusterManager;
     private ParkingRender renderer;
@@ -97,12 +94,6 @@ public class ParkingMapActivity extends BaseActivity implements ParkingMapContra
 
             mMap.setOnMapLoadedCallback(() -> presenter.readDataSet());
         });
-    }
-
-    @Override
-    protected void createPresenter() {
-        presenter = ViewModelProviders.of(this).get(ParkingMapPresenter.class);
-        presenter.setView(this);
     }
 
     @Override

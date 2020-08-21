@@ -5,14 +5,11 @@ import android.transition.ChangeBounds;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Toast;
 
-import androidx.lifecycle.ViewModelProviders;
-
 import com.a1573595.parkingdemo.BaseActivity;
+import com.a1573595.parkingdemo.R;
 import com.a1573595.parkingdemo.databinding.ActivityUpdateBinding;
 
-public class UpdateActivity extends BaseActivity implements UpdateContract.View {
-    private UpdatePresenter presenter;
-
+public class UpdateActivity extends BaseActivity<UpdatePresenter> implements UpdateView {
     private ActivityUpdateBinding binding;
 
     @Override
@@ -26,12 +23,6 @@ public class UpdateActivity extends BaseActivity implements UpdateContract.View 
         presenter.downloadDataSet();
     }
 
-    @Override
-    protected void createPresenter() {
-        presenter = ViewModelProviders.of(this).get(UpdatePresenter.class);
-        presenter.setView(this);
-    }
-
     private void setupWindowAnimations() {
         ChangeBounds enterTransition = new ChangeBounds();
         enterTransition.setDuration(1000);
@@ -41,6 +32,7 @@ public class UpdateActivity extends BaseActivity implements UpdateContract.View 
 
     @Override
     public void updateFinished() {
+        binding.tvDataset.setText(getString(R.string.update_finish));
         onBackPressed();
     }
 

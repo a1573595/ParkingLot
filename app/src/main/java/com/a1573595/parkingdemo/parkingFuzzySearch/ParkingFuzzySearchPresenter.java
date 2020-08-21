@@ -14,23 +14,16 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class ParkingFuzzySearchPresenter extends BasePresenter implements ParkingFuzzySearchContract.Presenter {
-    private ParkingFuzzySearchContract.View view;
+public class ParkingFuzzySearchPresenter extends BasePresenter<ParkingFuzzySearchView> {
     private int mode = 1;
 
     private ParkingFuzzySearchAdapter adapter;
     private List<Parking> parkingList = new ArrayList<>();
 
-    void setView(ParkingFuzzySearchContract.View view) {
-        this.view = view;
-    }
-
-    @Override
     public void setAdapter(ParkingFuzzySearchAdapter adapter) {
         this.adapter = adapter;
     }
 
-    @Override
     public void readParksData(String search) {
         String query = "SELECT * FROM Table_Parking WHERE ";
 
@@ -59,22 +52,18 @@ public class ParkingFuzzySearchPresenter extends BasePresenter implements Parkin
                 .subscribeWith(showParkList()));
     }
 
-    @Override
     public int getItemCount() {
         return parkingList.size();
     }
 
-    @Override
     public Parking getItem(int position) {
         return parkingList.get(position);
     }
 
-    @Override
     public void onItemClick(int position) {
         view.onItemClick(parkingList.get(position).id);
     }
 
-    @Override
     public void setMode(int mode) {
         this.mode = mode;
     }

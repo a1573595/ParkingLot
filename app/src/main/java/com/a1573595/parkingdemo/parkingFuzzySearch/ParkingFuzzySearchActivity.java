@@ -1,6 +1,5 @@
 package com.a1573595.parkingdemo.parkingFuzzySearch;
 
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
@@ -15,9 +14,7 @@ import com.a1573595.parkingdemo.R;
 import com.a1573595.parkingdemo.databinding.ActivityParkingFuzzySearchBinding;
 import com.a1573595.parkingdemo.parkingInfo.ParkingInfoActivity;
 
-public class ParkingFuzzySearchActivity extends BaseActivity implements ParkingFuzzySearchContract.View {
-    private ParkingFuzzySearchPresenter presenter;
-
+public class ParkingFuzzySearchActivity extends BaseActivity<ParkingFuzzySearchPresenter> implements ParkingFuzzySearchView {
     private ActivityParkingFuzzySearchBinding binding;
 
     @Override
@@ -36,12 +33,6 @@ public class ParkingFuzzySearchActivity extends BaseActivity implements ParkingF
         presenter.readParksData(binding.edSearch.getText().toString());
 
         setListen();
-    }
-
-    @Override
-    protected void createPresenter() {
-        presenter = ViewModelProviders.of(this).get(ParkingFuzzySearchPresenter.class);
-        presenter.setView(this);
     }
 
     @Override

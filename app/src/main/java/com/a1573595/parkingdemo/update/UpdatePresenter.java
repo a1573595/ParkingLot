@@ -26,14 +26,12 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-public class UpdatePresenter extends BasePresenter implements UpdateContract.Presenter {
-    private UpdateContract.View view;
-
-    void setView(UpdateContract.View view) {
-        this.view = view;
+public class UpdatePresenter extends BasePresenter<UpdateView> {
+    @Override
+    protected void initPresenter(UpdateView view) {
+        super.initPresenter(view);
     }
 
-    @Override
     public void downloadDataSet() {
         HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
         logger.level(HttpLoggingInterceptor.Level.BASIC);

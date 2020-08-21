@@ -8,16 +8,9 @@ import java.util.ArrayList;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class ParkingMapPresenter extends BasePresenter implements ParkingMapContract.Presenter {
-    private ParkingMapContract.View view;
-
+public class ParkingMapPresenter extends BasePresenter<ParkingMapView> {
     private ArrayList<String> strings = new ArrayList<>();
 
-    void setView(ParkingMapContract.View view) {
-        this.view = view;
-    }
-
-    @Override
     public void readDataSet() {
         addDisposable(DataManager.getInstance().getParkDao().getAll()
                 .subscribeOn(Schedulers.io())
@@ -25,18 +18,15 @@ public class ParkingMapPresenter extends BasePresenter implements ParkingMapCont
                 .subscribeWith(view.showParkMark()));
     }
 
-    @Override
     public void putItems(ArrayList<String> strings) {
         this.strings.clear();
         this.strings.addAll(strings);
     }
 
-    @Override
     public int getCount() {
         return strings.size();
     }
 
-    @Override
     public String getItem(int position) {
         return strings.get(position);
     }

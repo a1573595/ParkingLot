@@ -14,8 +14,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class ParkingListPresenter extends BasePresenter implements ParkingListContract.Presenter {
-    private ParkingListContract.View view;
+public class ParkingListPresenter extends BasePresenter<ParkingListView> {
     private boolean isLove;
 
     private ParkingListAdapter adapter;
@@ -23,20 +22,14 @@ public class ParkingListPresenter extends BasePresenter implements ParkingListCo
     private Parking lastDeleteItem;
     private int lastDeletePosition;
 
-    void setView(ParkingListContract.View view) {
-        this.view = view;
-    }
-
     public void setLove(boolean isLove) {
         this.isLove = isLove;
     }
 
-    @Override
     public void setAdapter(ParkingListAdapter adapter) {
         this.adapter = adapter;
     }
 
-    @Override
     public void readParksData() {
         if (isLove) {
             addDisposable(DataManager.getInstance().getLoveDao().getLoveList()
@@ -51,22 +44,18 @@ public class ParkingListPresenter extends BasePresenter implements ParkingListCo
         }
     }
 
-    @Override
     public int getItemCount() {
         return parkingList.size();
     }
 
-    @Override
     public Parking getItem(int position) {
         return parkingList.get(position);
     }
 
-    @Override
     public void onItemClick(int position) {
         view.onItemClick(parkingList.get(position).id);
     }
 
-    @Override
     public void removeItem(int position) {
         lastDeleteItem = parkingList.get(position);
         if (isLove) {
@@ -81,7 +70,6 @@ public class ParkingListPresenter extends BasePresenter implements ParkingListCo
         adapter.notifyItemRemoved(position);
     }
 
-    @Override
     public void undoDelete() {
         parkingList.add(lastDeletePosition, lastDeleteItem);
         insertParkData(lastDeleteItem.id);

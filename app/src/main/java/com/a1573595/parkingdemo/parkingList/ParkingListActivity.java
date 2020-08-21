@@ -1,7 +1,6 @@
 package com.a1573595.parkingdemo.parkingList;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,9 +22,7 @@ import com.a1573595.parkingdemo.databinding.ActivityParkingListBinding;
 import com.a1573595.parkingdemo.parkingInfo.ParkingInfoActivity;
 import com.google.android.material.snackbar.Snackbar;
 
-public class ParkingListActivity extends BaseActivity implements ParkingListContract.View {
-    private ParkingListPresenter presenter;
-
+public class ParkingListActivity extends BaseActivity<ParkingListPresenter> implements ParkingListView {
     private ActivityParkingListBinding binding;
 
     @Override
@@ -42,6 +39,8 @@ public class ParkingListActivity extends BaseActivity implements ParkingListCont
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        presenter.setLove(getIntent().getBooleanExtra("isLove", false));
+
         initList();
     }
 
@@ -56,13 +55,6 @@ public class ParkingListActivity extends BaseActivity implements ParkingListCont
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return super.onSupportNavigateUp();
-    }
-
-    @Override
-    protected void createPresenter() {
-        presenter = ViewModelProviders.of(this).get(ParkingListPresenter.class);
-        presenter.setView(this);
-        presenter.setLove(getIntent().getBooleanExtra("isLove", false));
     }
 
     @Override

@@ -4,14 +4,24 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
-public abstract class BaseActivity extends AppCompatActivity {
+import java.lang.reflect.ParameterizedType;
+
+public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity
+        implements BaseView {
+    protected P presenter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        createPresenter();
+        presenter = (P) ViewModelProviders.of(this).get(getTClass());
+        presenter.initPresenter(this);
     }
 
-    protected abstract void createPresenter();
+    public Class<P> getTClass() {
+        Class<P> tClass = (Class<P>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        return tClass;
+    }
 }

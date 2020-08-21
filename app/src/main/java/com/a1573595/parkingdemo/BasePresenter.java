@@ -5,8 +5,14 @@ import androidx.lifecycle.ViewModel;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
-public abstract class BasePresenter extends ViewModel {
+public abstract class BasePresenter<V extends BaseView> extends ViewModel {
+    protected V view;
+
     private CompositeDisposable disposable = new CompositeDisposable();
+
+    protected void initPresenter(V view) {
+        this.view = view;
+    }
 
     protected void addDisposable(Disposable d) {
         disposable.add(d);

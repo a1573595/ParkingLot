@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -28,9 +27,7 @@ import java.util.Date;
 
 import io.reactivex.observers.DisposableSingleObserver;
 
-public class MainActivity extends BaseActivity implements MainContract.View {
-    private MainPresenter presenter;
-
+public class MainActivity extends BaseActivity<MainPresenter> implements MainView {
     private static final int REQUEST_LOCATION = 2;
 
     private ActivityMainBinding binding;
@@ -93,12 +90,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         super.onDestroy();
 
         DataManager.getInstance().closeDatabase();
-    }
-
-    @Override
-    protected void createPresenter() {
-        presenter = ViewModelProviders.of(this).get(MainPresenter.class);
-        presenter.setView(this);
     }
 
     @Override

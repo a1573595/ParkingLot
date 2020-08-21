@@ -26,14 +26,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-public class MainPresenter extends BasePresenter implements MainContract.Presenter {
-    private MainContract.View view;
-
-    void setView(MainContract.View view) {
-        this.view = view;
-    }
-
-    @Override
+public class MainPresenter extends BasePresenter<MainView> {
     public void readDataSet() {
         long updateTime = DataManager.getInstance().sp.readUpdateTime();
         // No dataSet in database
@@ -47,7 +40,6 @@ public class MainPresenter extends BasePresenter implements MainContract.Present
         }
     }
 
-    @Override
     public void downloadDataSet() {
         HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
         logger.level(HttpLoggingInterceptor.Level.BASIC);
