@@ -10,6 +10,9 @@ import com.a1573595.parkingdemo.model.repository.ParkingDao;
 import com.a1573595.parkingdemo.model.repository.ParkDatabase;
 import com.a1573595.parkingdemo.model.repository.SharedPreference;
 
+import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SupportFactory;
+
 import static com.a1573595.parkingdemo.model.repository.DatabaseInfo.DATABASE_NAME;
 
 public class DataManager {
@@ -21,7 +24,7 @@ public class DataManager {
     private DataManager() {
     }
 
-    public static DataManager getInstance() {
+    synchronized public static DataManager getInstance() {
         if (instance == null) {
             instance = new DataManager();
         }
@@ -31,7 +34,10 @@ public class DataManager {
 
     public void initDatabase(Context context) {
         sp = new SharedPreference(context);
+
+        byte[] passphrase = SQLiteDatabase.getBytes("userEnteredPassphrase".toCharArray());
         db = Room.databaseBuilder(context, ParkDatabase.class, DATABASE_NAME)
+                .openHelperFactory(new SupportFactory(passphrase))
                 //.allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
                 .build();
