@@ -27,3 +27,4 @@
 5. [Gson](https://github.com/google/gson)
 6. [Room](https://developer.android.com/topic/libraries/architecture/room)
 7. [Lifecycle](https://developer.android.com/jetpack/androidx/releases/lifecycle)
+8. [sqlcipher](https://github.com/sqlcipher/android-database-sqlcipher)
