@@ -11,10 +11,9 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
@@ -22,6 +21,7 @@ import androidx.core.app.ActivityCompat;
 import com.a1573595.parkingdemo.BaseActivity;
 import com.a1573595.parkingdemo.R;
 import com.a1573595.parkingdemo.databinding.ActivityParkingMapBinding;
+import com.a1573595.parkingdemo.databinding.ParkingInfoWindowsLayoutBinding;
 import com.a1573595.parkingdemo.model.data.Parking;
 import com.a1573595.parkingdemo.model.data.ParkingCluster;
 import com.a1573595.parkingdemo.parkingInfo.ParkingInfoActivity;
@@ -259,7 +259,7 @@ public class ParkingMapActivity extends BaseActivity<ParkingMapPresenter> implem
 
         @Override
         protected boolean shouldRenderAsCluster(Cluster cluster) {
-            return zoomLevel < Max_Clustering_Room_Level;
+            return zoomLevel < Max_Clustering_Room_Level && super.shouldRenderAsCluster(cluster);
         }
     }
 
@@ -269,18 +269,15 @@ public class ParkingMapActivity extends BaseActivity<ParkingMapPresenter> implem
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.show();
 
-        dialog.setContentView(R.layout.parking_info_windows_layout);
-        LinearLayout info_layout = dialog.findViewById(R.id.ll_info);
-        TextView name = dialog.findViewById(R.id.tv_name);
-        TextView address = dialog.findViewById(R.id.tv_address);
-        TextView total = dialog.findViewById(R.id.tv_total);
+        ParkingInfoWindowsLayoutBinding binding = ParkingInfoWindowsLayoutBinding.inflate(LayoutInflater.from(this));
+        dialog.setContentView(binding.getRoot());
 
-        name.setText(parkingCluster.name);
-        address.setText(parkingCluster.area);
-        total.setText(getString(R.string.transportation, parkingCluster.totalBus, parkingCluster.totalCar,
+        binding.tvName.setText(parkingCluster.name);
+        binding.tvAddress.setText(parkingCluster.area);
+        binding.tvTotal.setText(getString(R.string.transportation, parkingCluster.totalBus, parkingCluster.totalCar,
                 parkingCluster.totalMotor, parkingCluster.totalBike));
 
-        info_layout.setOnClickListener(v -> {
+        binding.llInfo.setOnClickListener(v -> {
             Intent intent = new Intent(this, ParkingInfoActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("id", parkingCluster.id);
