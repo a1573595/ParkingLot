@@ -3,7 +3,6 @@
 
     <string name="app_name">ParkingDemo</string>
     <string name="transportation">Bus:%d\t\tCar:%d\t\tMoto:%d\t\tBike:%d</string>
-    <string name="include_parking">Include %d parking</string>
     <string name="Current_location">Current location:\n%s</string>
     <string name="cancel">Cancel</string>
     <string name="agree">Agree</string>

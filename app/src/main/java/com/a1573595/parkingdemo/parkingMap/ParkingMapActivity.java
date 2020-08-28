@@ -8,17 +8,16 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
-
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 
 import com.a1573595.parkingdemo.BaseActivity;
 import com.a1573595.parkingdemo.R;
@@ -41,7 +40,6 @@ import com.google.maps.android.clustering.algo.NonHierarchicalViewBasedAlgorithm
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.google.maps.android.collections.MarkerManager;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -51,16 +49,19 @@ public class ParkingMapActivity extends BaseActivity<ParkingMapPresenter> implem
         GoogleMap.OnCameraIdleListener, GoogleMap.OnMarkerClickListener,
         ClusterManager.OnClusterClickListener<ParkingCluster>,
         ClusterManager.OnClusterItemClickListener<ParkingCluster> {
+    private ActivityParkingMapBinding binding;
+
     private GoogleMap mMap;
     private ClusterManager<ParkingCluster> mClusterManager;
     private ParkingRender renderer;
     private LocationManager locationMgr;
     private LatLng mLatLng;
 
+    private static final float Max_Clustering_Room_Level = 17f;
+    private float zoomLevel = 0;
+
     private Geocoder geocoder;
     private List<Address> geocodeAddress;
-
-    private ActivityParkingMapBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +88,6 @@ public class ParkingMapActivity extends BaseActivity<ParkingMapPresenter> implem
             mMap.getUiSettings().setAllGesturesEnabled(false);
             initClusterManager();
 
-//            if (mLatLng != null)
-//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 15));
-//            else
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(25.0329694, 121.56541770000001), 15));
 
             mMap.setOnMapLoadedCallback(() -> presenter.readDataSet());
@@ -119,14 +117,17 @@ public class ParkingMapActivity extends BaseActivity<ParkingMapPresenter> implem
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        Log.d(getClass().getSimpleName(), "onMarkerClick");
+
+        marker.showInfoWindow();
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
+
         return true;
     }
 
     @Override
     public boolean onClusterClick(Cluster<ParkingCluster> cluster) {
-        if (mMap.getCameraPosition().zoom == mMap.getMaxZoomLevel()) {
-            showChoiceDialog(cluster);
-        }
+        Log.d(getClass().getSimpleName(), "onClusterClick");
 
         LatLngBounds.Builder builder = LatLngBounds.builder();
         for (ParkingCluster item : cluster.getItems()) {
@@ -146,6 +147,12 @@ public class ParkingMapActivity extends BaseActivity<ParkingMapPresenter> implem
 
     @Override
     public boolean onClusterItemClick(ParkingCluster item) {
+        Log.d(getClass().getSimpleName(), "onClusterItemClick");
+
+        // If you want, you can get cluster marker from render and call onMarkerClick
+//        Marker clickedMarker = renderer.getMarker(item);
+//        onMarkerClick(clickedMarker);
+
         showDialog(item);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(item.getPosition()));
         return true;
@@ -187,7 +194,7 @@ public class ParkingMapActivity extends BaseActivity<ParkingMapPresenter> implem
                             geocodeAddress = geocoder.getFromLocation(mLatLng.latitude, mLatLng.longitude, 1);
                             binding.tvAddress.setText(getString(R.string.Current_location, geocodeAddress.get(0).getAddressLine(0)));
                         } catch (Exception e) {
-                            e.toString();
+                            e.printStackTrace();
                         }
                     }
 
@@ -217,8 +224,9 @@ public class ParkingMapActivity extends BaseActivity<ParkingMapPresenter> implem
 //        mMap.setOnMarkerClickListener(mClusterManager);
 //        mMap.setOnInfoWindowClickListener(mClusterManager);
 
+        // Use new collection to add single marker without clustering
         MarkerManager.Collection markerCollection = mClusterManager.getMarkerManager().newCollection();
-        markerCollection.addMarker(new MarkerOptions().position(new LatLng(25.0329694, 121.56541770000001)));
+        markerCollection.addMarker(new MarkerOptions().position(new LatLng(25.0329694, 121.56541770000001)).title("Taipei city"));
         markerCollection.setOnMarkerClickListener(this);
 
         mClusterManager.setOnClusterClickListener(this);
@@ -230,6 +238,7 @@ public class ParkingMapActivity extends BaseActivity<ParkingMapPresenter> implem
 
     @Override
     public void onCameraIdle() {
+        zoomLevel = mMap.getCameraPosition().zoom;
         mClusterManager.onCameraIdle();
     }
 
@@ -250,35 +259,8 @@ public class ParkingMapActivity extends BaseActivity<ParkingMapPresenter> implem
 
         @Override
         protected boolean shouldRenderAsCluster(Cluster cluster) {
-            return cluster.getSize() > 2;
+            return zoomLevel < Max_Clustering_Room_Level;
         }
-    }
-
-    private void showChoiceDialog(Cluster<ParkingCluster> cluster) {
-        final AlertDialog choiceDialog = new AlertDialog.Builder(this).create();
-        choiceDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        choiceDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        choiceDialog.show();
-
-        choiceDialog.setContentView(R.layout.choice_dialog_list);
-        TextView tv_title = choiceDialog.findViewById(R.id.tv_title);
-        tv_title.setText(String.format(getString(R.string.include_parking), cluster.getSize()));
-        ListView listView = choiceDialog.findViewById(R.id.listView);
-        final ArrayList<String> list = new ArrayList<>();
-        final ArrayList<ParkingCluster> station = new ArrayList<>();
-        for (ParkingCluster item : cluster.getItems()) {
-            list.add(item.name);
-            station.add(item);
-        }
-        presenter.putItems(list);
-        choiceDialogAdapter adapter = new choiceDialogAdapter(presenter);
-
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener((adapterView, view, position, l) -> {
-            choiceDialog.dismiss();
-
-            showDialog(station.get(position));
-        });
     }
 
     private void showDialog(final ParkingCluster parkingCluster) {

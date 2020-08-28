@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">台北市停車場查詢系統</string>
     <string name="transportation">公車：%d\t\t轎車：%d\t\t機車：%d\t\t自行車：%d</string>
-    <string name="include_parking">包含%d個停車場</string>
     <string name="Current_location">目前位置：\n%s</string>
     <string name="cancel">取消</string>
     <string name="agree">確定</string>
