@@ -50,10 +50,10 @@ public class ParkingInfoActivity extends BaseActivity<ParkingInfoPresenter> impl
                 binding.tvAddress.setText(parking.address);
                 binding.tvArea.setText(parking.area);
                 binding.tvPhone.setText(parking.tel);
-                binding.tvSummary.setText(parking.summary);
-                binding.tvPayInfo.setText(parking.payex);
+                binding.tvInfo.setText(parking.summary);
+                binding.tvRate.setText(parking.payex);
                 binding.tvBus.setText(String.valueOf(parking.totalbus));
-                binding.tvCar.setText(String.valueOf(parking.totalcar));
+                binding.tvVehicle.setText(String.valueOf(parking.totalcar));
                 binding.tvMoto.setText(String.valueOf(parking.totalmotor));
                 binding.tvBike.setText(String.valueOf(parking.totalbike));
 

@@ -1,239 +1,244 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tool="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp">
+    android:padding="16dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_large"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="市民大道(中林段)" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+    <TextView
+        android:id="@+id/tvArea"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="@dimen/text_medium"
+        app:layout_constraintEnd_toEndOf="@+id/tvName"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
+        tools:text="中山區" />
 
-            <ImageView
-                android:id="@+id/img_love"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_margin="10dp"
-                android:adjustViewBounds="true"
-                app:srcCompat="@drawable/unlove" />
+    <ImageView
+        android:id="@+id/imgLove"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvArea"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="@+id/tvArea"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
+        app:srcCompat="@drawable/unlove" />
 
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:textColor="@android:color/holo_blue_dark"
-                android:textSize="22sp"
-                tool:text="市民大道(中林段)" />
-        </LinearLayout>
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@+id/tvArea" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+    <ImageView
+        android:id="@+id/imgBus"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider"
+        app:layout_constraintWidth_percent=".1"
+        app:srcCompat="@drawable/ic_bus" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/phone"
-                android:textSize="18sp" />
+    <TextView
+        android:id="@+id/tvBus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/imgBus"
+        app:layout_constraintStart_toStartOf="@+id/imgBus"
+        app:layout_constraintTop_toBottomOf="@+id/imgBus"
+        tools:text="0" />
 
-            <TextView
-                android:id="@+id/tv_phone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/holo_blue_dark"
-                android:textSize="18sp"
-                tool:text="2395-5514" />
-        </LinearLayout>
+    <ImageView
+        android:id="@+id/imgVehicle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="@+id/imgMoto"
+        app:layout_constraintHorizontal_bias="0.37"
+        app:layout_constraintStart_toEndOf="@+id/imgBus"
+        app:layout_constraintTop_toTopOf="@+id/imgBus"
+        app:layout_constraintWidth_percent=".1"
+        app:srcCompat="@drawable/ic_vehicle" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+    <TextView
+        android:id="@+id/tvVehicle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/imgVehicle"
+        app:layout_constraintStart_toStartOf="@+id/imgVehicle"
+        app:layout_constraintTop_toTopOf="@+id/tvBus"
+        tools:text="0" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/address"
-                android:textSize="18sp" />
+    <ImageView
+        android:id="@+id/imgMoto"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toStartOf="@+id/imgBike"
+        app:layout_constraintHorizontal_bias="0.73"
+        app:layout_constraintStart_toEndOf="@+id/imgBus"
+        app:layout_constraintTop_toTopOf="@+id/imgVehicle"
+        app:layout_constraintWidth_percent=".1"
+        app:srcCompat="@drawable/ic_motorcycle" />
 
-            <TextView
-                android:id="@+id/tv_area"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/holo_blue_dark"
-                android:textSize="18sp"
-                tool:text="中山區" />
-        </LinearLayout>
+    <TextView
+        android:id="@+id/tvMoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/imgMoto"
+        app:layout_constraintStart_toStartOf="@+id/imgMoto"
+        app:layout_constraintTop_toTopOf="@+id/tvBus"
+        tools:text="0" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
+    <ImageView
+        android:id="@+id/imgBike"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imgVehicle"
+        app:layout_constraintWidth_percent=".1"
+        app:srcCompat="@drawable/ic_bike" />
 
-            <TextView
-                android:id="@+id/tv_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/holo_blue_dark"
-                android:textSize="18sp"
-                tool:text="中山北路-林森北路(地下)" />
-        </LinearLayout>
+    <TextView
+        android:id="@+id/tvBike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/imgBike"
+        app:layout_constraintStart_toStartOf="@+id/imgBike"
+        app:layout_constraintTop_toTopOf="@+id/tvBus"
+        tools:text="0" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="5dp"
-            android:background="@android:color/black"></FrameLayout>
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@+id/tvBus"
+        tools:layout_editor_absoluteX="16dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+    <ImageView
+        android:id="@+id/imgArea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_pin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
+    <TextView
+        android:id="@+id/tvAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imgArea"
+        app:layout_constraintTop_toTopOf="@+id/imgArea"
+        tools:text="中山北路-林森北路(地下)" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bus"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:textSize="@dimen/text_large" />
+    <ImageView
+        android:id="@+id/imgPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_phone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgArea" />
 
-                <TextView
-                    android:id="@+id/tv_bus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_large"
-                    tool:text="0" />
-            </LinearLayout>
+    <TextView
+        android:id="@+id/tvPhone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imgPhone"
+        app:layout_constraintTop_toTopOf="@+id/imgPhone"
+        tools:text="2395-5514" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
+    <ImageView
+        android:id="@+id/imgMoney"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_money"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgPhone" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/car"
-                    android:textColor="@android:color/holo_blue_dark"
-                    android:textSize="@dimen/text_large" />
+    <TextView
+        android:id="@+id/tvRate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imgMoney"
+        app:layout_constraintTop_toTopOf="@+id/imgMoney"
+        tools:text="計時：20元\/時(8-18)，10元\/時(18-8)。每日(20-8)最高收費50元，全程以半小時計費。月租：全日3,600元，日間2,400元(7-19)，夜間1,200元(限週一至週五19-8，及星期六、日與行政機關放假之紀念日、民俗" />
 
-                <TextView
-                    android:id="@+id/tv_car"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_large"
-                    tool:text="0" />
-            </LinearLayout>
+    <ImageView
+        android:id="@+id/imgInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_warning"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRate" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/moto"
-                    android:textColor="@android:color/holo_green_dark"
-                    android:textSize="@dimen/text_large" />
-
-                <TextView
-                    android:id="@+id/tv_moto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_large"
-                    tool:text="65" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bike"
-                    android:textColor="@android:color/holo_orange_dark"
-                    android:textSize="@dimen/text_large" />
-
-                <TextView
-                    android:id="@+id/tv_bike"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_large"
-                    tool:text="12" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="5dp"
-            android:background="@android:color/black"></FrameLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/pay_info"
-            android:textColor="@android:color/holo_red_light"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/tv_payInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textSize="18sp"
-            tool:text="計時：20元\/時(8-18)，10元\/時(18-8)。每日(20-8)最高收費50元，全程以半小時計費。月租：全日3,600元，日間2,400元(7-19)，夜間1,200元(限週一至週五19-8，及星期六、日與行政機關放假之紀念日、民俗" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/other"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/tv_summary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textSize="18sp"
-            tool:text="立體式小型車496格(含身心障礙停車位10格)。" />
-    </LinearLayout>
-</ScrollView>
+    <TextView
+        android:id="@+id/tvInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imgInfo"
+        app:layout_constraintTop_toTopOf="@+id/imgInfo"
+        tools:text="立體式小型車496格(含身心障礙停車位10格)。" />
+</androidx.constraintlayout.widget.ConstraintLayout>
