@@ -91,8 +91,8 @@ public class ParkingInfoActivity extends BaseActivity<ParkingInfoPresenter> impl
 
                 ScaleAnimation scaleAnimation = new ScaleAnimation(
                         1.0f, 1.2f, 1.0f, 1.2f,
-                        Animation.RELATIVE_TO_SELF, 1f,
-                        Animation.RELATIVE_TO_SELF, 1f);
+                        Animation.RELATIVE_TO_SELF, .5f,
+                        Animation.RELATIVE_TO_SELF, .5f);
                 scaleAnimation.setDuration(300);
 
                 binding.imgLove.startAnimation(scaleAnimation);

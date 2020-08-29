@@ -3,13 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/tvName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@android:color/black"
@@ -45,10 +47,12 @@
 
     <View
         android:id="@+id/divider"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginTop="16dp"
         android:background="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="@+id/tvName"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
         app:layout_constraintTop_toBottomOf="@+id/tvArea" />
 
     <ImageView
@@ -57,7 +61,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         app:layout_constraintDimensionRatio="w,1:1"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
         app:layout_constraintTop_toBottomOf="@+id/divider"
         app:layout_constraintWidth_percent=".1"
         app:srcCompat="@drawable/ic_bus" />
@@ -128,7 +132,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintDimensionRatio="w,1:1"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tvName"
         app:layout_constraintTop_toTopOf="@+id/imgVehicle"
         app:layout_constraintWidth_percent=".1"
         app:srcCompat="@drawable/ic_bike" />
@@ -147,12 +151,13 @@
 
     <View
         android:id="@+id/divider2"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginTop="8dp"
         android:background="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@+id/tvBus"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintEnd_toEndOf="@+id/tvName"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvBus" />
 
     <ImageView
         android:id="@+id/imgArea"
@@ -160,7 +165,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_pin"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
         app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
     <TextView
@@ -172,7 +177,7 @@
         android:singleLine="true"
         android:textColor="@android:color/black"
         android:textSize="@dimen/text_small"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tvName"
         app:layout_constraintStart_toEndOf="@+id/imgArea"
         app:layout_constraintTop_toTopOf="@+id/imgArea"
         tools:text="中山北路-林森北路(地下)" />
@@ -183,7 +188,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_phone"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
         app:layout_constraintTop_toBottomOf="@+id/imgArea" />
 
     <TextView
@@ -195,7 +200,7 @@
         android:singleLine="true"
         android:textColor="@android:color/black"
         android:textSize="@dimen/text_small"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tvName"
         app:layout_constraintStart_toEndOf="@+id/imgPhone"
         app:layout_constraintTop_toTopOf="@+id/imgPhone"
         tools:text="2395-5514" />
@@ -206,7 +211,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_money"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
         app:layout_constraintTop_toBottomOf="@+id/imgPhone" />
 
     <TextView
@@ -216,7 +221,7 @@
         android:layout_marginStart="8dp"
         android:textColor="@android:color/black"
         android:textSize="@dimen/text_small"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tvName"
         app:layout_constraintStart_toEndOf="@+id/imgMoney"
         app:layout_constraintTop_toTopOf="@+id/imgMoney"
         tools:text="計時：20元\/時(8-18)，10元\/時(18-8)。每日(20-8)最高收費50元，全程以半小時計費。月租：全日3,600元，日間2,400元(7-19)，夜間1,200元(限週一至週五19-8，及星期六、日與行政機關放假之紀念日、民俗" />
@@ -227,7 +232,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_warning"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
         app:layout_constraintTop_toBottomOf="@+id/tvRate" />
 
     <TextView
@@ -237,7 +242,7 @@
         android:layout_marginStart="8dp"
         android:textColor="@android:color/black"
         android:textSize="@dimen/text_small"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tvName"
         app:layout_constraintStart_toEndOf="@+id/imgInfo"
         app:layout_constraintTop_toTopOf="@+id/imgInfo"
         tools:text="立體式小型車496格(含身心障礙停車位10格)。" />
