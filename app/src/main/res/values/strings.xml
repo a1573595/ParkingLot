@@ -27,8 +27,8 @@
     <string name="address">●Address:\t\t</string>
     <string name="pay_info">●Pay Info:\t\t</string>
     <string name="other">●Other:\t\t</string>
-    <string name="current_location_loading">Location:\nloading\u002e\u002e\u002e</string>
     <string name="parking_list">Parking List</string>
     <string name="total_data_set_created_from">Total %d data sets\nCreated from %s</string>
     <string name="update_finish">Update finish</string>
+    <string name="query_hint">Enter address</string>
 </resources>

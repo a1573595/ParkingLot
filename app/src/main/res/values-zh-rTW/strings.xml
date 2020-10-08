@@ -26,8 +26,8 @@
     <string name="address">●地址：</string>
     <string name="pay_info">●收費資訊：</string>
     <string name="other">●其他：</string>
-    <string name="current_location_loading">目前位置 :\n讀取中\u002e\u002e\u002e</string>
     <string name="parking_list">停車場列表</string>
     <string name="total_data_set_created_from">總收錄%d筆資料\n建立於%s</string>
     <string name="update_finish">更新完成</string>
+    <string name="query_hint">請輸入地址</string>
 </resources>

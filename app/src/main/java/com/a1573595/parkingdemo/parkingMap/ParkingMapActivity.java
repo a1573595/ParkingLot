@@ -3,20 +3,27 @@ package com.a1573595.parkingdemo.parkingMap;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.provider.BaseColumns;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
+import androidx.cursoradapter.widget.CursorAdapter;
+import androidx.cursoradapter.widget.SimpleCursorAdapter;
 
 import com.a1573595.parkingdemo.BaseActivity;
 import com.a1573595.parkingdemo.R;
@@ -27,7 +34,7 @@ import com.a1573595.parkingdemo.model.data.ParkingCluster;
 import com.a1573595.parkingdemo.parkingInfo.ParkingInfoActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -50,17 +57,17 @@ public class ParkingMapActivity extends BaseActivity<ParkingMapPresenter> implem
         ClusterManager.OnClusterClickListener<ParkingCluster>,
         ClusterManager.OnClusterItemClickListener<ParkingCluster> {
     private ActivityParkingMapBinding binding;
+    private SupportMapFragment mapFragment;
 
     private GoogleMap mMap;
     private ClusterManager<ParkingCluster> mClusterManager;
-    private ParkingRender renderer;
-    private LocationManager locationMgr;
-    private LatLng mLatLng;
+    private MarkerManager.Collection normalMarkerManager;
 
     private static final float Max_Clustering_Room_Level = 17f;
     private float zoomLevel = 0;
 
     private Geocoder geocoder;
+    private Handler searchHandler = new Handler(Looper.getMainLooper());
     private List<Address> geocodeAddress;
 
     @Override
@@ -74,22 +81,18 @@ public class ParkingMapActivity extends BaseActivity<ParkingMapPresenter> implem
         binding = ActivityParkingMapBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        initLocationManager();
-
-        MapFragment map = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-        map.getMapAsync(googleMap -> {
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(googleMap -> {
             mMap = googleMap;
 
-            if (ActivityCompat.checkSelfPermission(ParkingMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(ParkingMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                finish();
-            }
-            mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setAllGesturesEnabled(false);
+            mMap.setOnCameraIdleListener(this);
+
+            initLocationBtn();
             initClusterManager();
+            initSearchView();
 
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(25.0329694, 121.56541770000001), 15));
-
             mMap.setOnMapLoadedCallback(() -> presenter.readDataSet());
         });
     }
@@ -158,109 +161,107 @@ public class ParkingMapActivity extends BaseActivity<ParkingMapPresenter> implem
         return true;
     }
 
-    private void initLocationManager() {
-        locationMgr = (LocationManager) getSystemService(LOCATION_SERVICE);
-//        if (!locationMgr.isProviderEnabled(LocationManager.GPS_PROVIDER)
-//                || !locationMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-//
-//            new MaterialAlertDialogBuilder(this, R.style.DialogTheme)
-//                    .setTitle(R.string.note)
-//                    .setMessage(R.string.please_open_gps)
-//                    .setCancelable(false)
-//                    .setPositiveButton(R.string.agree, (dialogInterface, i) ->
-//                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)))
-//                    .setNegativeButton(R.string.cancel, (dialogInterface, i) ->
-//                            dialogInterface.dismiss())
-//                    .show();
-//        }
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            finish();
-        }
-
-        geocoder = new Geocoder(this, Locale.getDefault());
-
-        locationMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0,
-                new LocationListener() {
-                    @Override
-                    public void onLocationChanged(Location location) {
-                        if (isFinishing() || isDestroyed()) {
-                            locationMgr.removeUpdates(this);
-                        } else {
-                            mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-                        }
-
-                        try {
-                            geocodeAddress = geocoder.getFromLocation(mLatLng.latitude, mLatLng.longitude, 1);
-                            binding.tvAddress.setText(getString(R.string.Current_location, geocodeAddress.get(0).getAddressLine(0)));
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onStatusChanged(String provider, int status, Bundle extras) {
-                    }
-
-                    @Override
-                    public void onProviderEnabled(String provider) {
-                    }
-
-                    @Override
-                    public void onProviderDisabled(String provider) {
-                    }
-                });
-
-        Location location = locationMgr.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        if (location != null)
-            mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-    }
-
-    private void initClusterManager() {
-        mClusterManager = new ClusterManager<>(this, mMap);
-        mClusterManager.setRenderer(renderer = new ParkingRender());
-        mMap.setOnCameraIdleListener(this);
-//        mMap.setOnCameraIdleListener(mClusterManager);
-//        mMap.setOnMarkerClickListener(mClusterManager);
-//        mMap.setOnInfoWindowClickListener(mClusterManager);
-
-        // Use new collection to add single marker without clustering
-        MarkerManager.Collection markerCollection = mClusterManager.getMarkerManager().newCollection();
-        markerCollection.addMarker(new MarkerOptions().position(new LatLng(25.0329694, 121.56541770000001)).title("Taipei city"));
-        markerCollection.setOnMarkerClickListener(this);
-
-        mClusterManager.setOnClusterClickListener(this);
-        mClusterManager.setOnClusterItemClickListener(this);
-
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-        mClusterManager.setAlgorithm(new NonHierarchicalViewBasedAlgorithm<>(dm.widthPixels, dm.heightPixels));
-    }
-
     @Override
     public void onCameraIdle() {
         zoomLevel = mMap.getCameraPosition().zoom;
         mClusterManager.onCameraIdle();
     }
 
-    private class ParkingRender extends DefaultClusterRenderer<ParkingCluster> {
-        ParkingRender() {
-            super(getApplicationContext(), mMap, mClusterManager);
+    private void initLocationBtn() {
+        if (ActivityCompat.checkSelfPermission(ParkingMapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(ParkingMapActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            finish();
         }
 
-        @Override
-        protected void onBeforeClusterItemRendered(ParkingCluster parkingCluster, MarkerOptions markerOptions) {
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
-        }
+        mMap.setMyLocationEnabled(true);
 
-//        @Override
-//        protected void onBeforeClusterRendered(@NonNull Cluster<ParkingCluster> cluster, @NonNull MarkerOptions markerOptions) {
-//            super.onBeforeClusterRendered(cluster, markerOptions);
-//        }
+        View locationButton = ((View) mapFragment.getView().findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+        RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
+        // position on right bottom
+        int pixel = (int) getResources().getDisplayMetrics().density;
 
-        @Override
-        protected boolean shouldRenderAsCluster(Cluster cluster) {
-            return zoomLevel < Max_Clustering_Room_Level && super.shouldRenderAsCluster(cluster);
-        }
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+        rlp.setMargins(0, pixel * 80, pixel * 48, 0);
+    }
+
+    private void initClusterManager() {
+        mClusterManager = new ClusterManager<>(this, mMap);
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        mClusterManager.setAlgorithm(new NonHierarchicalViewBasedAlgorithm<>(dm.widthPixels, dm.heightPixels));
+        mClusterManager.setRenderer(new ParkingRender());
+        mClusterManager.setOnClusterClickListener(this);
+        mClusterManager.setOnClusterItemClickListener(this);
+
+        // Use new collection to add single marker without clustering
+        normalMarkerManager = mClusterManager.getMarkerManager().newCollection();
+        normalMarkerManager.setOnMarkerClickListener(this);
+    }
+
+    private void initSearchView() {
+        geocoder = new Geocoder(this, Locale.getDefault());
+
+        final String[] from = new String[]{"address", "lat", "lng"};
+        final int[] to = new int[]{android.R.id.text1};
+        SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1,
+                null, from, to, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        binding.searchView.setSuggestionsAdapter(simpleCursorAdapter);
+        // SearchView whole clickable
+        binding.searchView.setOnClickListener(v -> binding.searchView.setIconified(false));
+
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // delay when user typing
+                searchHandler.removeCallbacksAndMessages(null);
+                searchHandler.postDelayed(() -> {
+                    try {
+                        geocodeAddress = geocoder.getFromLocationName(binding.searchView.getQuery().toString(), 5);
+
+                        final MatrixCursor c = new MatrixCursor(new String[]{BaseColumns._ID, "address", "lat", "lng"});
+                        for (int i = 0; i < geocodeAddress.size(); i++) {
+                            c.addRow(new Object[]{i, geocodeAddress.get(i).getAddressLine(0),
+                                    geocodeAddress.get(i).getLatitude(), geocodeAddress.get(i).getLongitude()});
+                        }
+                        simpleCursorAdapter.changeCursor(c);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }, 750);
+
+                return false;
+            }
+        });
+
+        binding.searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+            @Override
+            public boolean onSuggestionSelect(int position) {
+                return false;
+            }
+
+            @Override
+            public boolean onSuggestionClick(int position) {
+                Cursor cursor = (Cursor) simpleCursorAdapter.getItem(position);
+                String address = cursor.getString(cursor.getColumnIndex("address"));
+                double lat = cursor.getDouble(cursor.getColumnIndex("lat"));
+                double lng = cursor.getDouble(cursor.getColumnIndex("lng"));
+
+                normalMarkerManager.clear();
+                Marker marker = normalMarkerManager.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(address));
+                marker.showInfoWindow();
+
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 15));
+
+                return false;
+            }
+        });
+
+        binding.searchView.setQueryHint(getString(R.string.query_hint));
+        binding.searchView.setVisibility(View.VISIBLE);
     }
 
     private void showDialog(final ParkingCluster parkingCluster) {
@@ -284,5 +285,21 @@ public class ParkingMapActivity extends BaseActivity<ParkingMapPresenter> implem
             intent.putExtras(bundle);
             startActivity(intent);
         });
+    }
+
+    private class ParkingRender extends DefaultClusterRenderer<ParkingCluster> {
+        ParkingRender() {
+            super(getApplicationContext(), mMap, mClusterManager);
+        }
+
+        @Override
+        protected void onBeforeClusterItemRendered(ParkingCluster parkingCluster, MarkerOptions markerOptions) {
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
+        }
+
+        @Override
+        protected boolean shouldRenderAsCluster(Cluster cluster) {
+            return zoomLevel < Max_Clustering_Room_Level && super.shouldRenderAsCluster(cluster);
+        }
     }
 }
