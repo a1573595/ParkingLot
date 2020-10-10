@@ -1,7 +1,7 @@
 *Read this in other languages: [English](README.md), [中文](README.zh-tw.md).*
 
 # ParkingDemo
-Taipei City Parking Lot Information Query System Demo
+Taipei City Parking Lot Information Query System Demo.
 
 ### Screenshots
 <div style="dispaly:flex">
@@ -20,10 +20,10 @@ Taipei City Parking Lot Information Query System Demo
 - Android 5.1 Lollipop(API level 21) or higher.
 
 ### Prepare
-Add your [GoogleMaps](https://developers.google.com/maps/documentation/android-api/) key to strings.xml and turn on API from [Google Cloud Platform](https://console.cloud.google.com/)
+Add your [GoogleMaps](https://developers.google.com/maps/documentation/android-api/) key to strings.xml and turn on API from [Google Cloud Platform](https://console.cloud.google.com/).
 
 ### Data resource
-臺北市資料大平臺 - [臺北市停車場資訊](https://data.taipei/#/dataset/detail?id=d5c0656b-5250-4179-a491-c94daa56ef2c)
+臺北市資料大平臺 - [臺北市停車場資訊](https://data.taipei/#/dataset/detail?id=d5c0656b-5250-4179-a491-c94daa56ef2c).
 
 ### Used libraries
 1. [Gson](https://github.com/google/gson)
@@ -31,8 +31,9 @@ Add your [GoogleMaps](https://developers.google.com/maps/documentation/android-a
 3. [Maps](https://developers.google.com/maps/documentation/android-sdk/map?hl=zh-tw)
 4. [Maps-utils](https://github.com/googlemaps/android-maps-utils)
 5. [Material](https://material.io/)
-6. [Retrofit2](https://github.com/square/retrofit)
-7. [Room](https://developer.android.com/topic/libraries/architecture/room)
-8. [RxJava2](https://github.com/ReactiveX/RxJava)
-9. [Sqlcipher](https://github.com/sqlcipher/android-database-sqlcipher)
-10. [ViewBinding](https://developer.android.com/topic/libraries/view-binding)
+6. [OkHttp3](https://github.com/square/okhttp)
+7. [Retrofit2](https://github.com/square/retrofit)
+8. [Room](https://developer.android.com/topic/libraries/architecture/room)
+9. [RxJava2](https://github.com/ReactiveX/RxJava)
+10. [Sqlcipher](https://github.com/sqlcipher/android-database-sqlcipher)
+11. [ViewBinding](https://developer.android.com/topic/libraries/view-binding)
