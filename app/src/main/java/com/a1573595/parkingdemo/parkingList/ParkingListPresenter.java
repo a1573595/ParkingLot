@@ -6,6 +6,8 @@ import com.a1573595.parkingdemo.model.data.History;
 import com.a1573595.parkingdemo.model.data.Love;
 import com.a1573595.parkingdemo.model.data.Parking;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,7 +20,7 @@ public class ParkingListPresenter extends BasePresenter<ParkingListView> {
     private boolean isLove;
 
     private ParkingListAdapter adapter;
-    private List<Parking> parkingList = new ArrayList<>();
+    private final List<Parking> parkingList = new ArrayList<>();
     private Parking lastDeleteItem;
     private int lastDeletePosition;
 
@@ -80,14 +82,14 @@ public class ParkingListPresenter extends BasePresenter<ParkingListView> {
     private DisposableSingleObserver<Parking[]> showParkList() {
         return new DisposableSingleObserver<Parking[]>() {
             @Override
-            public void onSuccess(Parking[] parkings) {
+            public void onSuccess(@NotNull Parking[] parkings) {
                 parkingList.clear();
                 Collections.addAll(parkingList, parkings);
                 adapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onError(Throwable e) {
+            public void onError(@NotNull Throwable e) {
             }
         };
     }

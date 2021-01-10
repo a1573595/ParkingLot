@@ -11,7 +11,7 @@ import com.a1573595.parkingdemo.databinding.AdapterParkingListBinding;
 import com.a1573595.parkingdemo.model.data.Parking;
 
 public class ParkingListAdapter extends RecyclerView.Adapter<ParkingListAdapter.ViewHolder> {
-    private ParkingListPresenter presenter;
+    private final ParkingListPresenter presenter;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         AdapterParkingListBinding binding;

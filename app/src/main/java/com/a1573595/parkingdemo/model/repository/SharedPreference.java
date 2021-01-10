@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class SharedPreference {
-    private SharedPreferences sp;
+    private final SharedPreferences sp;
 
     private static final String updateTime = "updateTime";
 

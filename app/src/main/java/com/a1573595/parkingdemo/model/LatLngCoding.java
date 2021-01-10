@@ -25,13 +25,13 @@ public class LatLngCoding {
 
         if (Type == 1) {
             String[] Answer = Cal_TWD97_To_lonlat(XValue, YValue).split(",");
-            int LonDValue = Integer.valueOf(Answer[0]);
-            int LonMValue = (int) ((Double.valueOf(Answer[0]) - LonDValue) * 60);
-            int LonSValue = (int) ((((Double.valueOf(Answer[0]) - LonDValue) * 60) - LonMValue) * 60);
+            int LonDValue = Integer.parseInt(Answer[0]);
+            int LonMValue = (int) ((Double.parseDouble(Answer[0]) - LonDValue) * 60);
+            int LonSValue = (int) ((((Double.parseDouble(Answer[0]) - LonDValue) * 60) - LonMValue) * 60);
 
-            int LatDValue = Integer.valueOf(Answer[1]);
-            int LatMValue = (int) ((Double.valueOf(Answer[1]) - LatDValue) * 60);
-            int LatSValue = (int) ((((Double.valueOf(Answer[1]) - LatDValue) * 60) - LatMValue) * 60);
+            int LatDValue = Integer.parseInt(Answer[1]);
+            int LatMValue = (int) ((Double.parseDouble(Answer[1]) - LatDValue) * 60);
+            int LatSValue = (int) ((((Double.parseDouble(Answer[1]) - LatDValue) * 60) - LatMValue) * 60);
 
             lonlat = LonDValue + "度" + LonMValue + "分" + LonSValue + "秒," + LatDValue + "度" + LatMValue + "分" + LatSValue + "秒,";
         } else if (Type == 2) {
@@ -123,7 +123,6 @@ public class LatLngCoding {
         lon = (lon * 180) / Math.PI; //經
 
 
-        String lonlat = lat + "," + lon;
-        return lonlat;
+        return lat + "," + lon;
     }
 }

@@ -8,9 +8,12 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.a1573595.parkingdemo.BaseActivity;
 import com.a1573595.parkingdemo.databinding.ActivityMainBinding;
@@ -22,8 +25,11 @@ import com.a1573595.parkingdemo.parkingFuzzySearch.ParkingFuzzySearchActivity;
 import com.a1573595.parkingdemo.parkingList.ParkingListActivity;
 import com.a1573595.parkingdemo.update.UpdateActivity;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import io.reactivex.observers.DisposableSingleObserver;
 
@@ -31,6 +37,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     private static final int REQUEST_LOCATION = 2;
 
     private ActivityMainBinding binding;
+
+    private final Handler backHandler = new Handler(Looper.getMainLooper());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +58,14 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_LOCATION:
-                if (grantResults.length > 0 &&
-                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    presenter.readDataSet();
-                } else {    //使用者拒絕權限
-                    finish();
-                }
+    public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
+        if (requestCode == REQUEST_LOCATION) {
+            if (grantResults.length > 0 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                presenter.readDataSet();
+            } else {    //使用者拒絕權限
+                finish();
+            }
         }
     }
 
@@ -93,6 +100,18 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     }
 
     @Override
+    public void onBackPressed() {
+        if (backHandler.hasMessages(0)) {
+            finish();
+        } else {
+            Toast.makeText(this, getString(R.string.press_again_to_exit), Toast.LENGTH_SHORT).show();
+            backHandler.removeCallbacksAndMessages(null);
+            backHandler.postDelayed(() -> {
+            }, 2000);
+        }
+    }
+
+    @Override
     public void transitionToUpdate() {
         Pair<View, String> p1 = Pair.create(binding.imageView, "imageView");
         Pair<View, String> p2 = Pair.create(binding.textView, "textView");
@@ -109,7 +128,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     public DisposableSingleObserver<Parking[]> showDataSetInfo() {
         return new DisposableSingleObserver<Parking[]>() {
             @Override
-            public void onSuccess(Parking[] parkings) {
+            public void onSuccess(@NotNull Parking[] parkings) {
                 String date = convertLongToTime(DataManager.getInstance().sp.readUpdateTime());
                 binding.tvDataset.setText(String.format(getString(R.string.total_data_set_created_from), parkings.length, date));
 
@@ -125,7 +144,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     private String convertLongToTime(long time) {
         Date date = new Date(time);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());
         return format.format(date);
     }
 

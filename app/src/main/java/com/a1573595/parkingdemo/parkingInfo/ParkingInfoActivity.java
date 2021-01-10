@@ -10,6 +10,8 @@ import com.a1573595.parkingdemo.databinding.ActivityParkingInfoBinding;
 import com.a1573595.parkingdemo.model.data.Love;
 import com.a1573595.parkingdemo.model.data.Parking;
 
+import org.jetbrains.annotations.NotNull;
+
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 
@@ -41,7 +43,7 @@ public class ParkingInfoActivity extends BaseActivity<ParkingInfoPresenter> impl
     public DisposableSingleObserver<Parking> showParkInfo() {
         return new DisposableSingleObserver<Parking>() {
             @Override
-            public void onSuccess(Parking parking) {
+            public void onSuccess(@NotNull Parking parking) {
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(parking.name);
                 }
@@ -63,7 +65,7 @@ public class ParkingInfoActivity extends BaseActivity<ParkingInfoPresenter> impl
             }
 
             @Override
-            public void onError(Throwable e) {
+            public void onError(@NotNull Throwable e) {
             }
         };
     }
@@ -72,12 +74,12 @@ public class ParkingInfoActivity extends BaseActivity<ParkingInfoPresenter> impl
     public DisposableSingleObserver<Love> showLove() {
         return new DisposableSingleObserver<Love>() {
             @Override
-            public void onSuccess(Love love) {
+            public void onSuccess(@NotNull Love love) {
                 binding.imgLove.setImageResource(R.drawable.love);
             }
 
             @Override
-            public void onError(Throwable e) {
+            public void onError(@NotNull Throwable e) {
             }
         };
     }
@@ -99,19 +101,13 @@ public class ParkingInfoActivity extends BaseActivity<ParkingInfoPresenter> impl
             }
 
             @Override
-            public void onError(Throwable e) {
+            public void onError(@NotNull Throwable e) {
             }
         };
     }
 
     private void setListen() {
-        binding.imgLove.setOnClickListener(view -> {
-            if (binding.imgLove.getDrawable().getConstantState().equals(
-                    getResources().getDrawable(R.drawable.love).getConstantState())) {
-                presenter.writeLove(false);
-            } else {
-                presenter.writeLove(true);
-            }
-        });
+        binding.imgLove.setOnClickListener(view -> presenter.writeLove(!binding.imgLove.getDrawable().getConstantState().equals(
+                getDrawable(R.drawable.love).getConstantState())));
     }
 }

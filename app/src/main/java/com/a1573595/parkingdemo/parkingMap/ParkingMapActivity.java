@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
@@ -47,6 +49,8 @@ import com.google.maps.android.clustering.algo.NonHierarchicalViewBasedAlgorithm
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.google.maps.android.collections.MarkerManager;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -67,7 +71,7 @@ public class ParkingMapActivity extends BaseActivity<ParkingMapPresenter> implem
     private float zoomLevel = 0;
 
     private Geocoder geocoder;
-    private Handler searchHandler = new Handler(Looper.getMainLooper());
+    private final Handler searchHandler = new Handler(Looper.getMainLooper());
     private List<Address> geocodeAddress;
 
     @Override
@@ -75,8 +79,15 @@ public class ParkingMapActivity extends BaseActivity<ParkingMapPresenter> implem
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            getWindow().getInsetsController().hide(WindowInsets.Type.statusBars());
+        } else {
+            getWindow().setFlags(
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN
+            );
+        }
 
         binding = ActivityParkingMapBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -101,7 +112,7 @@ public class ParkingMapActivity extends BaseActivity<ParkingMapPresenter> implem
     public DisposableSingleObserver<Parking[]> showParkMark() {
         return new DisposableSingleObserver<Parking[]>() {
             @Override
-            public void onSuccess(Parking[] parkings) {
+            public void onSuccess(@NotNull Parking[] parkings) {
                 for (Parking parking : parkings) {
                     mClusterManager.addItem(new ParkingCluster(new LatLng(parking.lat, parking.lng), parking.id,
                             parking.name, parking.area, parking.totalcar, parking.totalmotor, parking.totalbike,
@@ -113,7 +124,7 @@ public class ParkingMapActivity extends BaseActivity<ParkingMapPresenter> implem
             }
 
             @Override
-            public void onError(Throwable e) {
+            public void onError(@NotNull Throwable e) {
             }
         };
     }
@@ -293,12 +304,12 @@ public class ParkingMapActivity extends BaseActivity<ParkingMapPresenter> implem
         }
 
         @Override
-        protected void onBeforeClusterItemRendered(ParkingCluster parkingCluster, MarkerOptions markerOptions) {
+        protected void onBeforeClusterItemRendered(@NotNull ParkingCluster parkingCluster, MarkerOptions markerOptions) {
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
         }
 
         @Override
-        protected boolean shouldRenderAsCluster(Cluster cluster) {
+        protected boolean shouldRenderAsCluster(@NotNull Cluster<ParkingCluster> cluster) {
             return zoomLevel < Max_Clustering_Room_Level && super.shouldRenderAsCluster(cluster);
         }
     }

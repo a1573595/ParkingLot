@@ -6,6 +6,8 @@ import androidx.room.PrimaryKey;
 
 import com.a1573595.parkingdemo.model.repository.DatabaseInfo;
 
+import org.jetbrains.annotations.NotNull;
+
 @Entity(tableName = DatabaseInfo.Table_PARKING)
 public class Parking {
     @PrimaryKey
@@ -28,7 +30,7 @@ public class Parking {
     public double lat;
     public double lng;
 
-    public Parking(String id, String area, String name, String summary, String address, String tel,
+    public Parking(@NotNull String id, String area, String name, String summary, String address, String tel,
                    String payex, int totalcar, int totalmotor, int totalbike, int totalbus, double lat,
                    double lng) {
         this.id = id;

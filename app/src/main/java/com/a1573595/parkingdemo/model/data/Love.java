@@ -6,13 +6,15 @@ import androidx.room.PrimaryKey;
 
 import com.a1573595.parkingdemo.model.repository.DatabaseInfo;
 
+import org.jetbrains.annotations.NotNull;
+
 @Entity(tableName = DatabaseInfo.Table_LOVE)
 public class Love {
     @PrimaryKey
     @NonNull
     public String id;
 
-    public Love(String id) {
+    public Love(@NotNull String id) {
         this.id = id;
     }
 }

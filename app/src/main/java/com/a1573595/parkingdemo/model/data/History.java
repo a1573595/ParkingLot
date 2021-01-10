@@ -6,6 +6,8 @@ import androidx.room.PrimaryKey;
 
 import com.a1573595.parkingdemo.model.repository.DatabaseInfo;
 
+import org.jetbrains.annotations.NotNull;
+
 @Entity(tableName = DatabaseInfo.Table_HISTORY)
 public class History {
     @PrimaryKey
@@ -13,7 +15,7 @@ public class History {
     public String id;
     public long hashTag = System.currentTimeMillis();
 
-    public History(String id) {
+    public History(@NotNull String id) {
         this.id = id;
     }
 }

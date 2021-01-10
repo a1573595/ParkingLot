@@ -3,6 +3,8 @@ package com.a1573595.parkingdemo.model.data;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 
+import org.jetbrains.annotations.NotNull;
+
 public class ParkingCluster implements ClusterItem {
     public String id, name, area;
     public int totalCar, totalMotor, totalBike, totalBus;
@@ -20,6 +22,7 @@ public class ParkingCluster implements ClusterItem {
         this.totalBus = totalBus;
     }
 
+    @NotNull
     @Override
     public LatLng getPosition() {
         return mPosition;

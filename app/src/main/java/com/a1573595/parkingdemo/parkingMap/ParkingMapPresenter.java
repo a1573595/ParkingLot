@@ -9,7 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class ParkingMapPresenter extends BasePresenter<ParkingMapView> {
-    private ArrayList<String> strings = new ArrayList<>();
+    private final ArrayList<String> strings = new ArrayList<>();
 
     public void readDataSet() {
         addDisposable(DataManager.getInstance().getParkDao().getAll()

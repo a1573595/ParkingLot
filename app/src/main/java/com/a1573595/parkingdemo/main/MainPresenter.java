@@ -9,6 +9,8 @@ import com.a1573595.parkingdemo.model.repository.ParkingDao;
 import com.a1573595.parkingdemo.model.data.TCMSV_ALLDESC;
 import com.google.gson.Gson;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -62,7 +64,7 @@ public class MainPresenter extends BasePresenter<MainView> {
                 .observeOn(Schedulers.io())
                 .subscribeWith(new DisposableSingleObserver<ResponseBody>() {
                     @Override
-                    public void onSuccess(ResponseBody responseBody) {
+                    public void onSuccess(@NotNull ResponseBody responseBody) {
                         try {
                             InputStream inputStream = responseBody.byteStream();
                             GZIPInputStream unGzip = new GZIPInputStream(inputStream);
@@ -93,7 +95,7 @@ public class MainPresenter extends BasePresenter<MainView> {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(@NotNull Throwable e) {
                     }
                 }));
     }
@@ -111,7 +113,7 @@ public class MainPresenter extends BasePresenter<MainView> {
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(@NotNull Throwable e) {
                     }
                 }));
     }
@@ -124,13 +126,13 @@ public class MainPresenter extends BasePresenter<MainView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<Long[]>() {
                     @Override
-                    public void onSuccess(Long[] longs) {
+                    public void onSuccess(@NotNull Long[] longs) {
                         DataManager.getInstance().sp.setUpdateTime(System.currentTimeMillis());
                         readDataSet();
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(@NotNull Throwable e) {
                     }
                 }));
     }

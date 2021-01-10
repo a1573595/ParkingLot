@@ -6,6 +6,8 @@ import com.a1573595.parkingdemo.BasePresenter;
 import com.a1573595.parkingdemo.model.DataManager;
 import com.a1573595.parkingdemo.model.data.Parking;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,7 +20,7 @@ public class ParkingFuzzySearchPresenter extends BasePresenter<ParkingFuzzySearc
     private int mode = 1;
 
     private ParkingFuzzySearchAdapter adapter;
-    private List<Parking> parkingList = new ArrayList<>();
+    private final List<Parking> parkingList = new ArrayList<>();
 
     public void setAdapter(ParkingFuzzySearchAdapter adapter) {
         this.adapter = adapter;
@@ -43,7 +45,7 @@ public class ParkingFuzzySearchPresenter extends BasePresenter<ParkingFuzzySearc
         }
 
         if (search.length() > 0) {
-            query += String.format(" AND (name LIKE \'%%%s%%\' OR address LIKE \'%%%s%%\')", search, search);
+            query += String.format(" AND (name LIKE '%%%s%%' OR address LIKE '%%%s%%')", search, search);
         }
 
         addDisposable(DataManager.getInstance().getParkDao().getAllByQuery(new SimpleSQLiteQuery(query))
@@ -71,7 +73,7 @@ public class ParkingFuzzySearchPresenter extends BasePresenter<ParkingFuzzySearc
     private DisposableSingleObserver<Parking[]> showParkList() {
         return new DisposableSingleObserver<Parking[]>() {
             @Override
-            public void onSuccess(Parking[] parkings) {
+            public void onSuccess(@NotNull Parking[] parkings) {
                 parkingList.clear();
                 Collections.addAll(parkingList, parkings);
 
@@ -80,7 +82,7 @@ public class ParkingFuzzySearchPresenter extends BasePresenter<ParkingFuzzySearc
             }
 
             @Override
-            public void onError(Throwable e) {
+            public void onError(@NotNull Throwable e) {
             }
         };
     }

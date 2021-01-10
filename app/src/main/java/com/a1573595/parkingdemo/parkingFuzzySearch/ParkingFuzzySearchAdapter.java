@@ -11,7 +11,7 @@ import com.a1573595.parkingdemo.databinding.AdapterParkingListBinding;
 import com.a1573595.parkingdemo.model.data.Parking;
 
 public class ParkingFuzzySearchAdapter extends RecyclerView.Adapter<ParkingFuzzySearchAdapter.ViewHolder> {
-    private ParkingFuzzySearchPresenter presenter;
+    private final ParkingFuzzySearchPresenter presenter;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         AdapterParkingListBinding binding;

@@ -22,6 +22,8 @@ import com.a1573595.parkingdemo.databinding.ActivityParkingListBinding;
 import com.a1573595.parkingdemo.parkingInfo.ParkingInfoActivity;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.jetbrains.annotations.NotNull;
+
 public class ParkingListActivity extends BaseActivity<ParkingListPresenter> implements ParkingListView {
     private ActivityParkingListBinding binding;
 
@@ -82,11 +84,11 @@ public class ParkingListActivity extends BaseActivity<ParkingListPresenter> impl
         itemTouchHelper.attachToRecyclerView(binding.recyclerView);
     }
 
-    private ItemTouchHelper.Callback callback = new ItemTouchHelper.SimpleCallback(
+    private final ItemTouchHelper.Callback callback = new ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP | ItemTouchHelper.DOWN,
             ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
         @Override
-        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        public int getMovementFlags(@NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder) {
             int dragFlags = 0;
             int swipeFlags = ItemTouchHelper.LEFT;
 
@@ -129,8 +131,8 @@ public class ParkingListActivity extends BaseActivity<ParkingListPresenter> impl
         }
 
         @Override
-        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
-                              RecyclerView.ViewHolder target) {
+        public boolean onMove(@NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder,
+                              @NotNull RecyclerView.ViewHolder target) {
             return false;
         }
 
@@ -142,9 +144,7 @@ public class ParkingListActivity extends BaseActivity<ParkingListPresenter> impl
 
             Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), R.string.delete, Snackbar.LENGTH_LONG);
 
-            snackbar.setAction(R.string.recover, view -> {
-                presenter.undoDelete();
-            });
+            snackbar.setAction(R.string.recover, view -> presenter.undoDelete());
             snackbar.show();
         }
     };
