@@ -1,5 +1,5 @@
 <resources>
-    <string name="map_key">YOUR_API_KEY</string>
+    <string name="map_key" translatable="false">YOUR_API_KEY</string>
 
     <string name="app_name">ParkingDemo</string>
     <string name="transportation">Bus:%d\t\tCar:%d\t\tMoto:%d\t\tBike:%d</string>

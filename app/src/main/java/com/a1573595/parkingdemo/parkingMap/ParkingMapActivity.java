@@ -191,8 +191,14 @@ public class ParkingMapActivity extends BaseActivity<ParkingMapPresenter> implem
         // position on right bottom
         int pixel = (int) getResources().getDisplayMetrics().density;
 
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-        rlp.setMargins(0, pixel * 80, pixel * 48, 0);
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.LEFT_OF);
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        rlp.setMargins(0, 0, pixel * 48, pixel * 32);
+
+        mMap.setOnMyLocationButtonClickListener(() -> {
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(25.0329694, 121.56541770000001), 15));
+            return true;
+        });
     }
 
     private void initClusterManager() {

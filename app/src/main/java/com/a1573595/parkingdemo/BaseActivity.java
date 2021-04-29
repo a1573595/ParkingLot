@@ -16,7 +16,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        presenter = (P) ViewModelProviders.of(this).get(getTClass());
+        presenter = ViewModelProviders.of(this).get(getTClass());
         presenter.initPresenter(this);
     }
 
