@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.lang.reflect.ParameterizedType;
 
@@ -16,7 +16,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        presenter = ViewModelProviders.of(this).get(getTClass());
+        presenter = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(getTClass());
         presenter.initPresenter(this);
     }
 

@@ -7,7 +7,7 @@ import com.a1573595.parkingdemo.model.data.History;
 import com.a1573595.parkingdemo.model.data.Love;
 import com.a1573595.parkingdemo.model.data.Parking;
 
-@Database(entities = {Parking.class, Love.class, History.class}, version = DatabaseInfo.DB_Version)
+@Database(entities = {Parking.class, Love.class, History.class}, version = DatabaseInfo.DB_Version, exportSchema = false)
 public abstract class ParkDatabase extends RoomDatabase {
     public abstract ParkingDao getParkingDao();
 
