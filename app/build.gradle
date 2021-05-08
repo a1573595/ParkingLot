@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 30
-    flavorDimensions "versionCode"
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId 'com.a1573595.parkingdemo'
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
                 'proguard-gson.pro', 'proguard-rules.pro', 'proguard-sqlite.pro',
