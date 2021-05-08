@@ -9,4 +9,8 @@ public interface MainView extends BaseView {
     void transitionToUpdate();
 
     DisposableSingleObserver<Parking[]> showDataSetInfo();
+
+    void showDownloadFailed();
+
+    void showDataConversionFailed();
 }

@@ -142,6 +142,16 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         };
     }
 
+    @Override
+    public void showDownloadFailed() {
+        binding.tvDataset.setText(R.string.download_failed);
+    }
+
+    @Override
+    public void showDataConversionFailed() {
+        binding.tvDataset.setText(R.string.download_failed);
+    }
+
     private String convertLongToTime(long time) {
         Date date = new Date(time);
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());

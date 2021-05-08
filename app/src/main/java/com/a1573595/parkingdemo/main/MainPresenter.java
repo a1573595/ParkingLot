@@ -91,11 +91,13 @@ public class MainPresenter extends BasePresenter<MainView> {
 
                             deleteDataSet(parkingList);
                         } catch (Exception ignored) {
+                            view.showDataConversionFailed();
                         }
                     }
 
                     @Override
                     public void onError(@NotNull Throwable e) {
+                        view.showDownloadFailed();
                     }
                 }));
     }

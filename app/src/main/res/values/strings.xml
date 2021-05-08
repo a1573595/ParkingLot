@@ -32,4 +32,6 @@
     <string name="update_finish">Update finish</string>
     <string name="query_hint">Enter address</string>
     <string name="press_again_to_exit">Press again to exit</string>
+    <string name="download_failed">download failed.</string>
+    <string name="data_conversion_failed">Data conversion failed.</string>
 </resources>

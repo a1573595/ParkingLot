@@ -31,4 +31,6 @@
     <string name="update_finish">更新完成</string>
     <string name="query_hint">請輸入地址</string>
     <string name="press_again_to_exit">再按一次退出</string>
+    <string name="download_failed">下載失敗</string>
+    <string name="data_conversion_failed">資料轉換失敗</string>
 </resources>
