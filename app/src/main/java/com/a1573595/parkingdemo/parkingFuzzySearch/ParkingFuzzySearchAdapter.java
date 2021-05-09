@@ -22,7 +22,7 @@ public class ParkingFuzzySearchAdapter extends RecyclerView.Adapter<ParkingFuzzy
             this.binding = binding;
 
             binding.root.setOnClickListener(v -> {
-                final int position = getAdapterPosition();
+                final int position = getAbsoluteAdapterPosition();
 
                 presenter.onItemClick(position);
             });

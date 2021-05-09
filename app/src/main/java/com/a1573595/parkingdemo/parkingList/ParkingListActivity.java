@@ -138,7 +138,7 @@ public class ParkingListActivity extends BaseActivity<ParkingListPresenter> impl
 
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            int position = viewHolder.getAdapterPosition();
+            int position = viewHolder.getAbsoluteAdapterPosition();
 
             presenter.removeItem(position);
 

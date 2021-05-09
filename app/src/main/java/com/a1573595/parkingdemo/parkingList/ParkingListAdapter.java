@@ -22,7 +22,7 @@ public class ParkingListAdapter extends RecyclerView.Adapter<ParkingListAdapter.
             this.binding = binding;
 
             binding.root.setOnClickListener(v -> {
-                final int position = getAdapterPosition();
+                final int position = getAbsoluteAdapterPosition();
 
                 presenter.onItemClick(position);
             });
