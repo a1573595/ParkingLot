@@ -3,6 +3,8 @@
 # ParkingDemo
 Taipei City Parking Lot Information Query System Demo.
 
+<a href='https://play.google.com/store/apps/details?id=com.a1573595.parkingdemo'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="100px"/></a>
+
 ### Screenshots
 <div style="dispaly:flex">
     <img src="https://user-images.githubusercontent.com/25738593/95580058-462b0380-0a69-11eb-9d7c-38960197a5fc.jpg" width="32%">
