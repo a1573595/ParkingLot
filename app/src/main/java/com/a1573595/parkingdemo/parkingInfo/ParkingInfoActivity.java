@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 
+import androidx.appcompat.content.res.AppCompatResources;
+
 import com.a1573595.parkingdemo.BaseActivity;
 import com.a1573595.parkingdemo.R;
 import com.a1573595.parkingdemo.databinding.ActivityParkingInfoBinding;
@@ -108,6 +110,6 @@ public class ParkingInfoActivity extends BaseActivity<ParkingInfoPresenter> impl
 
     private void setListen() {
         binding.imgLove.setOnClickListener(view -> presenter.writeLove(!binding.imgLove.getDrawable().getConstantState().equals(
-                getDrawable(R.drawable.love).getConstantState())));
+                AppCompatResources.getDrawable(this, R.drawable.love).getConstantState())));
     }
 }

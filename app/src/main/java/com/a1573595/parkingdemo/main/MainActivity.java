@@ -3,6 +3,7 @@ package com.a1573595.parkingdemo.main;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
@@ -59,6 +60,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
         if (requestCode == REQUEST_LOCATION) {
             if (grantResults.length > 0 &&
                     grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -113,12 +116,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     public void transitionToUpdate() {
-        Pair<View, String> p1 = Pair.create(binding.imageView, "imageView");
-        Pair<View, String> p2 = Pair.create(binding.textView, "textView");
-        Pair<View, String> p3 = Pair.create(binding.tvDataset, "tv_dataset");
+        Pair<View, String>[] pairs = new Pair[3];
+        pairs[0] = Pair.create(binding.imageView, "imageView");
+        pairs[1] = Pair.create(binding.textView, "textView");
+        pairs[2] = Pair.create(binding.tvDataset, "tv_dataset");
 
         ActivityOptionsCompat options = ActivityOptionsCompat.
-                makeSceneTransitionAnimation(MainActivity.this, p1, p2, p3);
+                makeSceneTransitionAnimation(MainActivity.this, pairs);
 
         Intent intent = new Intent(this, UpdateActivity.class);
         startActivity(intent, options.toBundle());
@@ -136,7 +140,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
             }
 
             @Override
-            public void onError(Throwable e) {
+            public void onError(@NonNull Throwable e) {
                 binding.tvDataset.setText(e.toString());
             }
         };

@@ -1,6 +1,7 @@
 package com.a1573595.parkingdemo.parkingList;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -99,7 +100,7 @@ public class ParkingListActivity extends BaseActivity<ParkingListPresenter> impl
         public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
 
-            Drawable icon = getDrawable(R.drawable.delete);
+            Drawable icon = AppCompatResources.getDrawable(ParkingListActivity.this, R.drawable.delete);
             icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
             Drawable background = new ColorDrawable(getResources().getColor(android.R.color.holo_red_light));
 
