@@ -1,37 +1,29 @@
 <resources>
-    <string name="map_key" translatable="false">YOUR_API_KEY</string>
+    <string name="app_name" translatable="false">ParkingLotDemo</string>
 
-    <string name="app_name">ParkingDemo</string>
-    <string name="transportation">Bus:%d\t\tCar:%d\t\tMoto:%d\t\tBike:%d</string>
-    <string name="Current_location">Current location:\n%s</string>
-    <string name="cancel">Cancel</string>
-    <string name="agree">Agree</string>
-    <string name="please_open_gps">Please open GPS</string>
-    <string name="note">Note</string>
-    <string name="favorite_list">Favorite List</string>
-    <string name="history_list">History List</string>
-    <string name="recover">Recover</string>
-    <string name="delete">Delete</string>
-    <string name="downloading">Downloading\u002e\u002e\u002e</string>
-    <string name="processing">Processing\u002e\u002e\u002e</string>
     <string name="map_mode">Map mode</string>
     <string name="list_mode">List mode</string>
-    <string name="favorite">Favorite</string>
-    <string name="history">History</string>
+    <string name="favorite_mode">Favorite mode</string>
+    <string name="history_mode">History mode</string>
+
+    <string name="downloading">Downloading\u002e\u002e\u002e</string>
+    <string name="processing">Processing\u002e\u002e\u002e</string>
+
+    <string name="total_of_data_set">Total of %d data sets</string>
+    <string name="download_at">download at: %s</string>
+
+    <string name="transportation">Bus:%d\t\tCar:%d\t\tMoto:%d\t\tBike:%d</string>
+
     <string name="bus">Bus</string>
     <string name="car">Car</string>
     <string name="moto">Moto</string>
     <string name="bike">Bike</string>
-    <string name="parking_name_or_address">Parking name or address</string>
-    <string name="phone">●Phone:\t\t</string>
-    <string name="address">●Address:\t\t</string>
-    <string name="pay_info">●Pay Info:\t\t</string>
-    <string name="other">●Other:\t\t</string>
-    <string name="parking_list">Parking List</string>
-    <string name="total_data_set_created_from">Total %d data sets\nCreated from %s</string>
-    <string name="update_finish">Update finish</string>
-    <string name="query_hint">Enter address</string>
+    <string name="parking_lot_name_or_address">Parking name or address</string>
+
+    <string name="recover">Recover</string>
+    <string name="delete">Delete</string>
+
     <string name="press_again_to_exit">Press again to exit</string>
-    <string name="download_failed">download failed.</string>
-    <string name="data_conversion_failed">Data conversion failed.</string>
+
+    <string name="query_hint">Enter address</string>
 </resources>
