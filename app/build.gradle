@@ -11,8 +11,8 @@ android {
         applicationId "com.a1573595.parkingdemo"
         minSdk 21
         targetSdk 34
-        versionCode 4
-        versionName "1.1.0"
+        versionCode 5
+        versionName "1.2.0"
         ndkVersion "23.1.7779620"
 
         proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
