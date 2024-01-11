@@ -13,15 +13,11 @@ class ParkingCluster(
     var totalBike: Int,
     var totalBus: Int
 ) : ClusterItem {
-    override fun getPosition(): LatLng {
-        return mPosition
-    }
+    override fun getPosition(): LatLng = mPosition
 
-    override fun getTitle(): String? {
-        return null
-    }
+    override fun getTitle(): String? = null
 
-    override fun getSnippet(): String? {
-        return null
-    }
+    override fun getSnippet(): String? = null
+
+    override fun getZIndex(): Float? = null
 }

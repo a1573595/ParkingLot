@@ -1,6 +1,5 @@
 package com.a1573595.parkinglotdemo.database
 
-import androidx.annotation.NonNull
 import androidx.recyclerview.widget.DiffUtil
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -8,7 +7,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = TABLE_PARKING_LOT)
 data class ParkingLot(
     @PrimaryKey
-    @NonNull
     val id: String,
     var area: String?,
     var name: String?,

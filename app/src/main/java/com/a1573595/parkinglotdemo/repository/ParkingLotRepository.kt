@@ -21,8 +21,8 @@ class ParkingLotRepository {
 
     fun downloadDataSet(): Single<List<Long>> =
         NetWorkService.instance.api.downloadFileWithDynamicUrlSync("TCMSV_alldesc.gz")
-            .map {
-                val inputStream = it.byteStream()
+            .map { body ->
+                val inputStream = body.byteStream()
                 val unGzip = GZIPInputStream(inputStream)
 
                 val buffer = ByteArray(256)

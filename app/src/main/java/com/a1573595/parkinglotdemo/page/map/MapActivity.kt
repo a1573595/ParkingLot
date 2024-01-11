@@ -212,6 +212,7 @@ class MapActivity : BaseActivity(), OnMapReadyCallback,
                     try {
                         geocodeAddress =
                             geocoder.getFromLocationName(binding.searchView.query.toString(), 5)
+                                ?: emptyList()
                         val c = MatrixCursor(
                             arrayOf(
                                 BaseColumns._ID,

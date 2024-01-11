@@ -75,8 +75,8 @@ class LatLngCoding {
     }
 
     //給WGS84經緯度弧度轉成TWD97坐標
-    fun lonLatToWED97(RadianLon: Double, RadianLat: Double): String {
-        return calLonLatToTWD97(RadianLon, RadianLat)
+    fun lonLatToWED97(radianLon: Double, radianLat: Double): String {
+        return calLonLatToTWD97(radianLon, radianLat)
     }
 
     //給TWD97坐標 轉成 WGS84 度分秒字串  (type1傳度分秒   2傳弧度)
