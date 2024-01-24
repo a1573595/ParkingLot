@@ -67,23 +67,23 @@ class LatLngCoding {
         }
     }
 
-    //給WGS84經緯度度分秒轉成TWD97坐標
+    // 給WGS84經緯度度分秒轉成TWD97坐標
     fun lonLatToTWD97(lonD: Int, lonM: Int, lonS: Int, latD: Int, latM: Int, latS: Int): String {
         val radianLon = lonD.toDouble() + lonM.toDouble() / 60 + lonS.toDouble() / 3600
         val radianLat = latD.toDouble() + latM.toDouble() / 60 + latS.toDouble() / 3600
         return calLonLatToTWD97(radianLon, radianLat)
     }
 
-    //給WGS84經緯度弧度轉成TWD97坐標
+    // 給WGS84經緯度弧度轉成TWD97坐標
     fun lonLatToWED97(radianLon: Double, radianLat: Double): String {
         return calLonLatToTWD97(radianLon, radianLat)
     }
 
-    //給TWD97坐標 轉成 WGS84 度分秒字串  (type1傳度分秒   2傳弧度)
-    fun twd97ToLonLat(XValue: Double, YValue: Double, Type: Int): String {
+    // 給TWD97坐標 轉成 WGS84 度分秒字串  (type1傳度分秒   2傳弧度)
+    fun twd97ToLonLat(x: Double, y: Double, type: Int): String {
         var lonLat = ""
-        if (Type == 1) {
-            val answer = calTWD97ToLonLat(XValue, YValue).split(",".toRegex()).toTypedArray()
+        if (type == 1) {
+            val answer = calTWD97ToLonLat(x, y).split(",".toRegex()).toTypedArray()
             val lonDValue = answer[0].toInt()
             val lonMValue = ((answer[0].toDouble() - lonDValue) * 60).toInt()
             val lonSValue = (((answer[0].toDouble() - lonDValue) * 60 - lonMValue) * 60).toInt()
@@ -92,8 +92,8 @@ class LatLngCoding {
             val latSValue = (((answer[1].toDouble() - latDValue) * 60 - latMValue) * 60).toInt()
             lonLat =
                 lonDValue.toString() + "度" + lonMValue + "分" + lonSValue + "秒," + latDValue + "度" + latMValue + "分" + latSValue + "秒,"
-        } else if (Type == 2) {
-            lonLat = calTWD97ToLonLat(XValue, YValue)
+        } else if (type == 2) {
+            lonLat = calTWD97ToLonLat(x, y)
         }
         return lonLat
     }

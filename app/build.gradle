@@ -1,7 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
+//    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
 }
 
 android {
@@ -80,7 +81,7 @@ dependencies {
     implementation 'androidx.datastore:datastore-preferences-rxjava3:1.0.0'
 
     implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    ksp "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-rxjava3:$room_version"
     implementation 'net.zetetic:android-database-sqlcipher:4.5.4'
     implementation "androidx.sqlite:sqlite-ktx:2.4.0"

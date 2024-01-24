@@ -7,12 +7,8 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import java.util.concurrent.TimeUnit
 
-class NetWorkService private constructor() {
-    companion object {
-        val instance: NetWorkService by lazy { NetWorkService() }
-    }
-
-    var api: API
+object NetWorkService {
+    val apiInterface: ApiInterface
 
     init {
         val logger = HttpLoggingInterceptor()
@@ -32,6 +28,6 @@ class NetWorkService private constructor() {
             .client(client)
             .build()
 
-        api = retrofit.create(API::class.java)
+        apiInterface = retrofit.create(ApiInterface::class.java)
     }
 }

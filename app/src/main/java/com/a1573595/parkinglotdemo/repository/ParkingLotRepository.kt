@@ -16,11 +16,11 @@ import java.util.zip.GZIPInputStream
 
 class ParkingLotRepository {
     fun getUpdateTime(): Flowable<Long> =
-        ParkingLotDataStore.instance.data().map { it[UPDATE_TIME]!! }
+        ParkingLotDataStore.ds.data().map { it[UPDATE_TIME]!! }
             .subscribeOn(Schedulers.io())
 
     fun downloadDataSet(): Single<List<Long>> =
-        NetWorkService.instance.api.downloadFileWithDynamicUrlSync("TCMSV_alldesc.gz")
+        NetWorkService.apiInterface.downloadFileWithDynamicUrlSync("TCMSV_alldesc.gz")
             .map { body ->
                 val inputStream = body.byteStream()
                 val unGzip = GZIPInputStream(inputStream)
@@ -54,7 +54,7 @@ class ParkingLotRepository {
             .flatMap { deleteDataSet().toSingle { it } }
             .flatMap { writeDataSet(it) }
             .doOnSuccess {
-                ParkingLotDataStore.instance.updateDataAsync { prefsIn ->
+                ParkingLotDataStore.ds.updateDataAsync { prefsIn ->
                     val mutablePreferences: MutablePreferences =
                         prefsIn.toMutablePreferences()
                     mutablePreferences[UPDATE_TIME] = System.currentTimeMillis()

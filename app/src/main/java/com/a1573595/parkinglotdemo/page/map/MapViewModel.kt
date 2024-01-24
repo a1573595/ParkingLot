@@ -21,8 +21,8 @@ class MapViewModel : BaseViewModel {
     val dataSetEvent: MutableLiveData<Event<List<ParkingLot>>> = MutableLiveData()
 
     fun loadDataSet() {
-        addDisposable(repository.getParkingLots().subscribe { it ->
-            dataSetEvent.postValue(Event(it))
+        addDisposable(repository.getParkingLots().subscribe { list ->
+            dataSetEvent.postValue(Event(list))
         })
     }
 }

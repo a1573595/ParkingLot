@@ -7,7 +7,8 @@ import androidx.room.RoomDatabase
 import net.sqlcipher.database.SupportFactory
 
 private const val DB_NAME = "PK.db"
-internal const val DB_VERSION = 1
+private const val DB_VERSION = 1
+
 const val TABLE_PARKING_LOT = "Table_Parking_Lot"
 const val TABLE_FAVORITE = "Table_Favorite"
 const val TABLE_HISTORY = "Table_History"

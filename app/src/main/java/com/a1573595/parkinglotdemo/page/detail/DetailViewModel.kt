@@ -35,8 +35,8 @@ class DetailViewModel : BaseViewModel {
         }))
 
         addDisposable(repository.getParkingLot(this.id)
-            .subscribe { it ->
-                parkingLotEvent.postValue(Event(it))
+            .subscribe { list ->
+                parkingLotEvent.postValue(Event(list))
             }
         )
     }

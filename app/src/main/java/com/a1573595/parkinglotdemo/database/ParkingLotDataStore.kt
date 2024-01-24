@@ -10,12 +10,13 @@ private const val DS_NAME = "settings"
 
 val UPDATE_TIME = longPreferencesKey("update_time")
 
-class ParkingLotDataStore {
-    companion object {
-        lateinit var instance: RxDataStore<Preferences>
+object ParkingLotDataStore {
+    private lateinit var _ds: RxDataStore<Preferences>
 
-        fun build(context: Context) {
-            instance = RxPreferenceDataStoreBuilder(context, DS_NAME).build()
-        }
+    val ds: RxDataStore<Preferences>
+        get() = _ds
+
+    fun build(context: Context) {
+        _ds = RxPreferenceDataStoreBuilder(context, DS_NAME).build()
     }
 }

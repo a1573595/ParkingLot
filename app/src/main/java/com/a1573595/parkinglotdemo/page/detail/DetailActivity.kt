@@ -41,7 +41,7 @@ class DetailActivity : BaseActivity() {
     }
 
     private fun subscriptViewModel() {
-        viewModel.parkingLotEvent.observe(this, {
+        viewModel.parkingLotEvent.observe(this) {
             val parkingLot = it.peekContent()
             supportActionBar?.title = parkingLot.name
 
@@ -59,7 +59,7 @@ class DetailActivity : BaseActivity() {
             binding.imgFavorite.setOnClickListener {
                 viewModel.addFavorite(parkingLot.id)
             }
-        })
+        }
 
         viewModel.isFavoriteEvent.observeForever {
             binding.imgFavorite.setImageResource(if (it.peekContent()) R.drawable.ic_favorite else R.drawable.ic_unfavorite)
@@ -77,9 +77,7 @@ class DetailActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-            }
+            android.R.id.home -> onBackPressedDispatcher.onBackPressed()
         }
         return super.onOptionsItemSelected(item)
     }

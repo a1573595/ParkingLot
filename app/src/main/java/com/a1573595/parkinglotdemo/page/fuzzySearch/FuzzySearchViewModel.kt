@@ -53,8 +53,8 @@ class FuzzySearchViewModel : BaseViewModel {
             )
         }
 
-        addDisposable(repository.searchParkingLots(query).subscribe { it ->
-            dataSetEvent.postValue(Event(it))
+        addDisposable(repository.searchParkingLots(query).subscribe { list ->
+            dataSetEvent.postValue(Event(list))
         })
     }
 }

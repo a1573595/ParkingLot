@@ -18,7 +18,7 @@ class MainApplication : Application() {
 
         ParkingLotDataStore.build(this)
 
-        ParkingLotDataStore.instance.updateDataAsync {
+        ParkingLotDataStore.ds.updateDataAsync {
             val mutablePreferences = it.toMutablePreferences()
             val password = it[stringPreferencesKey("DatabaseKey")] ?: UUID.randomUUID().toString()
             mutablePreferences[stringPreferencesKey("DatabaseKey")] = password

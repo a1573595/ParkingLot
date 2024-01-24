@@ -37,8 +37,8 @@ class FuzzySearchActivity : BaseActivity() {
             viewModel.setKeyword(binding.edSearch.text.toString())
         }
 
-        binding.groupTransportation.setOnCheckedChangeListener { _, checkedId ->
-            val mode = when (checkedId) {
+        binding.groupTransportation.setOnCheckedStateChangeListener { _, checkedIds ->
+            val mode = when (checkedIds.firstOrNull()) {
                 R.id.chip_bus -> 0
                 R.id.chip_car -> 1
                 R.id.chip_moto -> 2
@@ -54,19 +54,17 @@ class FuzzySearchActivity : BaseActivity() {
     }
 
     private fun subscriptViewModel() {
-        viewModel.dataSetEvent.observe(this, {
+        viewModel.dataSetEvent.observe(this) {
             adapter.submitList(it.peekContent())
             binding.recyclerView.postDelayed({
                 binding.recyclerView.layoutManager?.scrollToPosition(0)
             }, 200)
-        })
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-            }
+            android.R.id.home -> onBackPressedDispatcher.onBackPressed()
         }
         return super.onOptionsItemSelected(item)
     }

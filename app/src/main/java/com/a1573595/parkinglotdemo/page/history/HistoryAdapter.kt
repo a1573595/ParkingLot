@@ -24,8 +24,6 @@ internal class HistoryAdapter : ListAdapter<ParkingLot, HistoryAdapter.Holder>(
         fun bind(parkingLot: ParkingLot) {
             binding.tvName.text = parkingLot.name
             binding.tvAddress.text = parkingLot.address
-            binding.tvTotal.text = parkingLot.address
-
             binding.tvTotal.text = binding.tvTotal.context.getString(
                 R.string.transportation,
                 parkingLot.totalbus,

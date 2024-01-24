@@ -35,7 +35,7 @@ class HistoryModel : BaseViewModel {
             repository.getHistory()
         }
 
-        addDisposable(completable.subscribe { it -> dataSetEvent.postValue(Event(it)) })
+        addDisposable(completable.subscribe { list -> dataSetEvent.postValue(Event(list)) })
     }
 
     fun delete(position: Int) {

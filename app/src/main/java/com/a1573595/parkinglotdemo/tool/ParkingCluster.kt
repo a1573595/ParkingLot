@@ -5,13 +5,13 @@ import com.google.maps.android.clustering.ClusterItem
 
 class ParkingCluster(
     private val mPosition: LatLng,
-    var id: String,
-    var name: String?,
-    var area: String?,
-    var totalCar: Int,
-    var totalMotor: Int,
-    var totalBike: Int,
-    var totalBus: Int
+    val id: String,
+    val name: String?,
+    val area: String?,
+    val totalCar: Int,
+    val totalMotor: Int,
+    val totalBike: Int,
+    val totalBus: Int
 ) : ClusterItem {
     override fun getPosition(): LatLng = mPosition
 

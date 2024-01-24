@@ -6,6 +6,7 @@ import android.database.Cursor
 import android.database.MatrixCursor
 import android.location.Address
 import android.location.Geocoder
+import android.location.Geocoder.GeocodeListener
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -59,6 +60,8 @@ class MapActivity : BaseActivity(), OnMapReadyCallback,
 
     private lateinit var binding: ActivityMapBinding
 
+    private lateinit var simpleCursorAdapter: SimpleCursorAdapter
+
     private lateinit var mMap: GoogleMap
     private lateinit var mClusterManager: ClusterManager<ParkingCluster>
     private lateinit var normalMarkerManager: MarkerManager.Collection
@@ -67,7 +70,6 @@ class MapActivity : BaseActivity(), OnMapReadyCallback,
 
     private lateinit var geocoder: Geocoder
     private val searchHandler = Handler(Looper.getMainLooper())
-    private var geocodeAddress: List<Address> = emptyList()
 
     private inner class ParkingRender :
         DefaultClusterRenderer<ParkingCluster>(applicationContext, mMap, mClusterManager) {
@@ -101,20 +103,20 @@ class MapActivity : BaseActivity(), OnMapReadyCallback,
     }
 
     private fun subscriptViewModel() {
-        viewModel.dataSetEvent.observe(this, {
-            it.peekContent().forEach {
+        viewModel.dataSetEvent.observe(this) {
+            it.peekContent().forEach { parkingLot ->
                 mClusterManager.addItem(
                     ParkingCluster(
-                        LatLng(it.lat, it.lng), it.id,
-                        it.name, it.area, it.totalcar,
-                        it.totalmotor, it.totalbike, it.totalbus
+                        LatLng(parkingLot.lat, parkingLot.lng), parkingLot.id,
+                        parkingLot.name, parkingLot.area, parkingLot.totalcar,
+                        parkingLot.totalmotor, parkingLot.totalbike, parkingLot.totalbus
                     )
                 )
             }
 
             mClusterManager.cluster()
             mMap.uiSettings.setAllGesturesEnabled(true)
-        })
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -192,7 +194,7 @@ class MapActivity : BaseActivity(), OnMapReadyCallback,
 
         val from = arrayOf("address", "lat", "lng")
         val to = intArrayOf(android.R.id.text1)
-        val simpleCursorAdapter = SimpleCursorAdapter(
+        simpleCursorAdapter = SimpleCursorAdapter(
             this, android.R.layout.simple_list_item_1,
             null, from, to, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER
         )
@@ -210,28 +212,25 @@ class MapActivity : BaseActivity(), OnMapReadyCallback,
                 searchHandler.removeCallbacksAndMessages(null)
                 searchHandler.postDelayed({
                     try {
-                        geocodeAddress =
-                            geocoder.getFromLocationName(binding.searchView.query.toString(), 5)
-                                ?: emptyList()
-                        val c = MatrixCursor(
-                            arrayOf(
-                                BaseColumns._ID,
-                                "address",
-                                "lat",
-                                "lng"
-                            )
-                        )
-                        for (i in geocodeAddress.indices) {
-                            c.addRow(
-                                arrayOf(
-                                    i,
-                                    geocodeAddress[i].getAddressLine(0),
-                                    geocodeAddress[i].latitude,
-                                    geocodeAddress[i].longitude
-                                )
-                            )
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            geocoder.getFromLocationName(
+                                binding.searchView.query.toString(),
+                                5,
+                                object : GeocodeListener {
+                                    override fun onGeocode(list: MutableList<Address>) {
+                                        handleAddress(list)
+                                    }
+
+                                    override fun onError(errorMessage: String?) {
+                                        handleAddress(emptyList())
+                                    }
+                                })
+                        } else {
+                            val geocodeAddress =
+                                geocoder.getFromLocationName(binding.searchView.query.toString(), 5)
+                                    ?: emptyList()
+                            handleAddress(geocodeAddress)
                         }
-                        simpleCursorAdapter.changeCursor(c)
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -281,5 +280,27 @@ class MapActivity : BaseActivity(), OnMapReadyCallback,
         MaterialAlertDialogBuilder(this)
             .setView(binding.root)
             .show()
+    }
+
+    private fun handleAddress(geocodeAddress: List<Address>) {
+        val c = MatrixCursor(
+            arrayOf(
+                BaseColumns._ID,
+                "address",
+                "lat",
+                "lng"
+            )
+        )
+        for (i in geocodeAddress.indices) {
+            c.addRow(
+                arrayOf(
+                    i,
+                    geocodeAddress[i].getAddressLine(0),
+                    geocodeAddress[i].latitude,
+                    geocodeAddress[i].longitude,
+                )
+            )
+        }
+        simpleCursorAdapter.changeCursor(c)
     }
 }

@@ -19,6 +19,7 @@
         <activity
             android:name=".page.main.MainActivity"
             android:exported="true"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar">
             <intent-filter>
@@ -29,16 +30,20 @@
         </activity>
         <activity
             android:name=".page.map.MapActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".page.fuzzySearch.FuzzySearchActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".page.history.HistoryActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".page.detail.DetailActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
     </application>
 </manifest>

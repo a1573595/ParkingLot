@@ -74,9 +74,9 @@ class HistoryActivity : BaseActivity() {
     }
 
     private fun subscriptViewModel() {
-        viewModel.dataSetEvent.observe(this, {
+        viewModel.dataSetEvent.observe(this) {
             adapter.submitList(it.peekContent())
-        })
+        }
     }
 
     override fun onResume() {
@@ -87,9 +87,7 @@ class HistoryActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-            }
+            android.R.id.home -> onBackPressedDispatcher.onBackPressed()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -126,14 +124,14 @@ class HistoryActivity : BaseActivity() {
 
             val itemView = viewHolder.itemView
 
-            val rectf: RectF
+            val rectF: RectF
 
             val multiple = 1f
             val iconMargin = (itemView.height - icon.intrinsicHeight) / 2
             val iconTop = itemView.top + (iconMargin * multiple).toInt()
             val iconBottom = iconTop + (icon.intrinsicHeight / multiple).toInt()
             if (dX > 0) {   // left
-                rectf = RectF(
+                rectF = RectF(
                     itemView.left.toFloat(),
                     itemView.top.toFloat(),
                     itemView.left + dX,
@@ -144,7 +142,7 @@ class HistoryActivity : BaseActivity() {
                 val iconRight = iconLeft + (icon.intrinsicWidth / multiple).toInt()
                 icon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
             } else {    // right
-                rectf = RectF(
+                rectF = RectF(
                     itemView.right + dX,
                     itemView.top.toFloat(),
                     itemView.right.toFloat(),
@@ -156,7 +154,7 @@ class HistoryActivity : BaseActivity() {
                 icon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
             }
 
-            c.drawRect(rectf, backgroundPaint)
+            c.drawRect(rectF, backgroundPaint)
             icon.draw(c)
 //            c.drawText(
 //                "Delete",
