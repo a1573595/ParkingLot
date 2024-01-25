@@ -2,11 +2,14 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ParkingDemo.ParkingLotDemo.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ParkingDemo.ParkingLotDemo.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ParkingDemo.ParkingLotDemo.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ParkingDemo.ParkingLotDemo.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ParkingDemo.ParkingLotDemo.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ParkingDemo.ParkingLotDemo.app.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ParkingLotDemo.iml" filepath="$PROJECT_DIR$/.idea/modules/ParkingLotDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ParkingLotDemo.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ParkingLotDemo.app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ParkingLotDemo.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ParkingLotDemo.app.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ParkingLotDemo.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ParkingLotDemo.app.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ParkingLotDemo.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ParkingLotDemo.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.ParkingLotDemo.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.ParkingLotDemo.app.main.iml" />
     </modules>
   </component>
 </project>

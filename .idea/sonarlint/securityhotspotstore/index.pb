@@ -17,8 +17,6 @@ r
 Bapp/src/main/java/com/a1573595/parkinglotdemo/tool/LatLngCoding.kt,4/0/40c2bd6bf7d50ad3c4b53a0dd1e285839175cc13
 P
  app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e
-h
-8app/src/main/java/com/a1573595/parkinglotdemo/api/API.kt,2/f/2f1774dd181454f0b42ca4e3b8cfbadc044b9904
 s
 Capp/src/main/java/com/a1573595/parkinglotdemo/api/NetWorkService.kt,4/d/4defee78dcd1043a4e16ba9432cab37cffb7715d
 r

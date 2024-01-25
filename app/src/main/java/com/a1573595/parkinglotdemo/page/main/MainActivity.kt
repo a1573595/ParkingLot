@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.activity.viewModels
 import com.a1573595.parkinglotdemo.BaseActivity
 import com.a1573595.parkinglotdemo.R
@@ -64,18 +65,16 @@ class MainActivity : BaseActivity() {
     }
 
     private fun registerOnBackPress() {
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (backHandler.hasMessages(0)) {
-                    finish()
-                } else {
-                    Toast.makeText(this@MainActivity, getString(R.string.press_again_to_exit), Toast.LENGTH_SHORT)
-                        .show()
-                    backHandler.removeCallbacksAndMessages(null)
-                    backHandler.postDelayed({}, 2000)
-                }
+        onBackPressedDispatcher.addCallback {
+            if (backHandler.hasMessages(0)) {
+                finish()
+            } else {
+                Toast.makeText(this@MainActivity, getString(R.string.press_again_to_exit), Toast.LENGTH_SHORT)
+                    .show()
+                backHandler.removeCallbacksAndMessages(null)
+                backHandler.postDelayed({}, 2000)
             }
-        })
+        }
     }
 
     private fun setListen() {

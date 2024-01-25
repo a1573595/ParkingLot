@@ -19,8 +19,6 @@ t
 Dapp/src/main/java/com/a1573595/parkinglotdemo/tool/ParkingCluster.kt,c/f/cf35a80814dbdbce8f5fd8eac47120a086a9c08c
 r
 Bapp/src/main/java/com/a1573595/parkinglotdemo/tool/LatLngCoding.kt,4/0/40c2bd6bf7d50ad3c4b53a0dd1e285839175cc13
-h
-8app/src/main/java/com/a1573595/parkinglotdemo/api/API.kt,2/f/2f1774dd181454f0b42ca4e3b8cfbadc044b9904
 s
 Capp/src/main/java/com/a1573595/parkinglotdemo/api/NetWorkService.kt,4/d/4defee78dcd1043a4e16ba9432cab37cffb7715d
 r
