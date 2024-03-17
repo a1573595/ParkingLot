@@ -23,10 +23,13 @@ class MainViewModel : BaseViewModel {
     val dataSetEvent: MutableLiveData<Event<List<ParkingLot>>> = MutableLiveData()
 
     fun loadDataSet() {
-        addDisposable(repository.getUpdateTime()
-            .subscribe {
-                getParkingLots(it)
-            }
+        addDisposable(
+            repository.getUpdateTime()
+                .subscribe({
+                    getParkingLots(it)
+                }, {
+                    updateDataSet()
+                })
         )
     }
 
