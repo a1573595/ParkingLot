@@ -1,29 +1,20 @@
 <resources>
-    <string name="app_name" translatable="false">ParkingLotDemo</string>
-
-    <string name="map_mode">Map mode</string>
-    <string name="list_mode">List mode</string>
-    <string name="favorite_mode">Favorite mode</string>
-    <string name="history_mode">History mode</string>
-
-    <string name="downloading">Downloading\u002e\u002e\u002e</string>
-    <string name="processing">Processing\u002e\u002e\u002e</string>
-
-    <string name="total_of_data_set">Total of %d data sets</string>
-    <string name="download_at">download at: %s</string>
-
-    <string name="transportation">Bus:%d\t\tCar:%d\t\tMoto:%d\t\tBike:%d</string>
-
+    <string name="app_name">ParkingLot</string>
+    <string name="press_again_to_exit">Press again to exit</string>
+    <string name="parking_lot">ParkingLot</string>
+    <string name="no_more">No More</string>
+    <string name="favorite">Favorite</string>
+    <string name="history">History</string>
+    <string name="search">Search</string>
+    <string name="map">Map</string>
+    <string name="total_of_parking_lots_download_at">Total of %1$s parking lots,\n download at: %2$s.</string>
+    <string name="keyword">Keyword</string>
     <string name="bus">Bus</string>
     <string name="car">Car</string>
-    <string name="moto">Moto</string>
+    <string name="motor">Motor</string>
     <string name="bike">Bike</string>
-    <string name="parking_lot_name_or_address">Parking name or address</string>
-
-    <string name="recover">Recover</string>
-    <string name="delete">Delete</string>
-
-    <string name="press_again_to_exit">Press again to exit</string>
-
-    <string name="query_hint">Enter address</string>
+    <string name="bus_number">Bus: %1$s</string>
+    <string name="car_number">Car: %1$s</string>
+    <string name="motor_number">Motor: %1$s</string>
+    <string name="bike_number">Bike: %1$s</string>
 </resources>

@@ -1,20 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DesignSurface">
-    <option name="filePathToZoomLevelMap">
-      <map>
-        <entry key="..\:/Android/ParkingDemo/app/src/main/res/layout/activity_main.xml" value="0.264" />
-        <entry key="..\:/Android/ParkingDemo/app/src/main/res/layout/activity_parking_fuzzy_search.xml" value="0.1743659420289855" />
-        <entry key="..\:/Android/ParkingDemo/app/src/main/res/layout/activity_parking_info.xml" value="0.264" />
-        <entry key="..\:/Android/ParkingDemo/app/src/main/res/layout/activity_parking_list.xml" value="0.24114583333333334" />
-        <entry key="..\:/Android/ParkingDemo/app/src/main/res/layout/activity_parking_map.xml" value="0.1743659420289855" />
-        <entry key="..\:/Android/ParkingDemo/app/src/main/res/layout/adapter_parking_list.xml" value="0.24114583333333334" />
-        <entry key="..\:/Android/ParkingDemo/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.24270833333333333" />
-        <entry key="..\:/Android/ParkingDemo/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.24270833333333333" />
-        <entry key="..\:/Android/ParkingLotDemo/app/src/main/res/layout/activity_history.xml" value="0.24114583333333334" />
-        <entry key="..\:/Android/ParkingLotDemo/app/src/main/res/layout/activity_main.xml" value="0.24114583333333334" />
-      </map>
-    </option>
-  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
