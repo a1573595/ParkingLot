@@ -19,17 +19,6 @@ import javax.inject.Singleton
 object NetworkModule {
     @Provides
     @Singleton
-    fun provideOkHttpClient(
-        interceptor: HttpLoggingInterceptor,
-        @ApplicationContext context: Context
-    ): OkHttpClient {
-        return OkHttpClient.Builder()
-            .addInterceptor(interceptor)
-            .build()
-    }
-
-    @Provides
-    @Singleton
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
             level = if (BuildConfig.DEBUG) {
@@ -42,7 +31,19 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun providesParkingLotApi(client: OkHttpClient): ParkingLotApi = Retrofit.Builder()
+    fun provideOkHttpClient(
+        interceptor: HttpLoggingInterceptor,
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(interceptor)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun providesParkingLotApi(
+        client: OkHttpClient,
+    ): ParkingLotApi = Retrofit.Builder()
         .client(client)
         .baseUrl(Constants.BASE_URL)
         .build()

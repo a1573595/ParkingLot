@@ -93,6 +93,11 @@ dependencies {
     ksp(libs.room.compiler)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging)
+    implementation(libs.sqlcipher.android)
+    implementation(libs.androidx.sqlite.ktx)
+
+    // Security Crypto
+    implementation(libs.androidx.security.crypto.ktx)
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)

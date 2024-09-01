@@ -33,6 +33,7 @@ Data Taipei - [臺北市停車場資訊](https://data.taipei/dataset/detail?id=d
     * [Navigation](https://developer.android.com/jetpack/androidx/releases/navigation)
     * [Paging3](https://developer.android.com/jetpack/androidx/releases/paging)
     * [Room](https://developer.android.com/jetpack/androidx/releases/room)
+    * [Security](https://developer.android.com/jetpack/androidx/releases/security)
     * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
 * [Android Maps Compose](https://github.com/googlemaps/android-maps-compose)
 * [Coroutines](https://developer.android.com/kotlin/coroutines)
@@ -42,3 +43,4 @@ Data Taipei - [臺北市停車場資訊](https://data.taipei/dataset/detail?id=d
 * [Material](https://m2.material.io/develop/android)
 * [Retrofit2](https://square.github.io/retrofit/)
 * [Secrets Gradle](https://developers.google.com/maps/documentation/places/android-sdk/secrets-gradle-plugin?hl=zh-tw)
+* [Sqlcipher](https://github.com/sqlcipher/sqlcipher-android)
