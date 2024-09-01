@@ -190,7 +190,7 @@ fun TextFieldSearchBar(
             .padding(horizontal = Dimens.dp16)
             .border(
                 width = Dimens.dp1,
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.onBackground,
                 shape = MaterialTheme.shapes.medium,
             ),
         shape = MaterialTheme.shapes.medium,

@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.a1573595.parkingdemo.R
+import com.a1573595.parkingdemo.domain.model.ParkingLot
 import com.a1573595.parkingdemo.ui.component.NavigationAppBar
 import com.a1573595.parkingdemo.ui.screen.map.bean.ParkingLotCluster
 import com.google.android.gms.maps.model.CameraPosition
@@ -30,22 +31,12 @@ import com.google.maps.android.compose.clustering.Clustering
 import com.google.maps.android.compose.clustering.rememberClusterManager
 import com.google.maps.android.compose.rememberCameraPositionState
 
-@OptIn(MapsComposeExperimentalApi::class)
 @Composable
 fun MapScreen(
     onBackClick: () -> Unit,
     onParkingLotItemClick: (String) -> Unit,
     viewModel: MapViewModel = hiltViewModel(),
 ) {
-    val uiSettings by remember { mutableStateOf(MapUiSettings()) }
-    val cameraPositionState = rememberCameraPositionState {
-        val taipeiLatLng = LatLng(
-            25.0329694,
-            121.56541770000001
-        )
-        position = CameraPosition.fromLatLngZoom(taipeiLatLng, 15f)
-    }
-
     Scaffold(
         topBar = {
             NavigationAppBar(
@@ -59,51 +50,71 @@ fun MapScreen(
                 .fillMaxSize()
                 .padding(innerPadding),
         ) {
-            GoogleMap(
-                modifier = Modifier
-                    .fillMaxSize(),
-                uiSettings = uiSettings,
-                cameraPositionState = cameraPositionState,
-            ) {
-                val configuration = LocalConfiguration.current
-                val screenHeight = configuration.screenHeightDp.dp
-                val screenWidth = configuration.screenWidthDp.dp
-                val clusterManager = rememberClusterManager<ParkingLotCluster>()
+            val parkingLotList =
+                viewModel.parkingLotClusterListFlow.collectAsState(initial = emptyList())
 
-                val parkingLotList = viewModel.parkingLotClusterListFlow.collectAsState(initial = emptyList())
-
-                SideEffect {
-                    clusterManager?.setAlgorithm(
-                        NonHierarchicalViewBasedAlgorithm(
-                            screenWidth.value.toInt(),
-                            screenHeight.value.toInt(),
-                        )
-                    )
-
-                    clusterManager?.setOnClusterClickListener {
-                        val zoom = cameraPositionState.position.zoom
-                        cameraPositionState.position = CameraPosition.fromLatLngZoom(it.position, zoom + 1)
-                        false
-                    }
-
-                    clusterManager?.setOnClusterItemInfoWindowClickListener {
-                        onParkingLotItemClick(it.id)
-                    }
-                }
-
-                val items = remember { mutableStateListOf<ParkingLotCluster>() }
-                LaunchedEffect(parkingLotList.value) {
-                    items.addAll(parkingLotList.value)
-                }
-
-                if (clusterManager != null) {
-                    Clustering(
-                        items = items,
-                        clusterManager = clusterManager,
-                    )
-                }
-            }
+            Map(
+                parkingLotList = parkingLotList.value,
+                onParkingLotItemClick = onParkingLotItemClick
+            )
         }
     }
 }
 
+@OptIn(MapsComposeExperimentalApi::class)
+@Composable
+fun Map(
+    parkingLotList: List<ParkingLotCluster>,
+    onParkingLotItemClick: (String) -> Unit,
+) {
+    val uiSettings by remember { mutableStateOf(MapUiSettings()) }
+    val cameraPositionState = rememberCameraPositionState {
+        val taipeiLatLng = LatLng(
+            25.0329694,
+            121.56541770000001
+        )
+        position = CameraPosition.fromLatLngZoom(taipeiLatLng, 15f)
+    }
+
+    GoogleMap(
+        modifier = Modifier.fillMaxSize(),
+        uiSettings = uiSettings,
+        cameraPositionState = cameraPositionState,
+    ) {
+        val configuration = LocalConfiguration.current
+        val screenHeight = configuration.screenHeightDp.dp
+        val screenWidth = configuration.screenWidthDp.dp
+        val clusterManager = rememberClusterManager<ParkingLotCluster>()
+
+        SideEffect {
+            clusterManager?.setAlgorithm(
+                NonHierarchicalViewBasedAlgorithm(
+                    screenWidth.value.toInt(),
+                    screenHeight.value.toInt(),
+                )
+            )
+
+            clusterManager?.setOnClusterClickListener {
+                val zoom = cameraPositionState.position.zoom
+                cameraPositionState.position = CameraPosition.fromLatLngZoom(it.position, zoom + 1)
+                false
+            }
+
+            clusterManager?.setOnClusterItemInfoWindowClickListener {
+                onParkingLotItemClick(it.id)
+            }
+        }
+
+        val items = remember { mutableStateListOf<ParkingLotCluster>() }
+        LaunchedEffect(parkingLotList) {
+            items.addAll(parkingLotList)
+        }
+
+        if (clusterManager != null) {
+            Clustering(
+                items = items,
+                clusterManager = clusterManager,
+            )
+        }
+    }
+}
